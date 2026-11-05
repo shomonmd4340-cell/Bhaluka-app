@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ভালুকা সুপার অ্যাপ - দেশ বোর্ড</title>
+
+<!-- GOOGLE ADS - APNAR ID -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581381142693416" crossorigin="anonymous"></script>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:80px}
+.header{background:#00a859;color:#fff;padding:12px;text-align:center;position:sticky;top:0;z-index:99;cursor:pointer}
+.hero{background:#00a859;color:#fff;margin:10px;border-radius:20px;padding:15px;text-align:center;border:2px dashed #fff}
+.cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:0 10px}
+.cat{background:#00a859;color:#fff;border-radius:15px;padding:12px 3px;text-align:center;font-weight:700;font-size:11px;cursor:pointer}
+.cat.white{background:#fff;color:#00a859;border:1px solid green}
+.cat.red{background:#e53935}.cat.yellow{background:#fbc02d;color:#000}
+.cat.active{outline:3px solid #000;transform:scale(0.95)}
+.post{background:#fff;margin:10px;border-radius:14px;padding:10px;border-left:5px solid green}
+.post.paid{border-left-color:orange;background:#fff8e1}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid #eee;z-index:100}
+.b-item{font-size:11px;text-align:center;width:20%;cursor:pointer;padding:5px}
+.b-item.active{background:#e8f5e9;color:green}
+.page{display:none}.page.active{display:block}
+.box{background:#fff;margin:10px;padding:12px;border-radius:12px}
+input,textarea,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #ccc}
+.btn{background:#00a859;color:#fff;border:none;padding:12px;width:100%;border-radius:8px;font-weight:700;margin-top:5px}
+label{font-weight:bold;font-size:13px;margin-top:8px;display:block}
+.hide{display:none}
+.footer-text{background:#00a859;color:#fff;text-align:center;padding:12px;margin:10px;border-radius:12px;font-size:13px;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="header" onclick="adminClick()">
+<b>🐯 ভালুকা সুপার অ্যাপ - দেশ বোর্ড</b><br>
+<small id="filterName">সব পোস্ট - ক্যাটাগরিতে চাপলে আলাদা দেখাবে</small>
+</div>
+
+<!-- DESH BOARD -->
+<div id="homePage" class="page active">
+<div class="hero">
+<h2>🛒 পণ্য কেনা-বেচা ও সেবা</h2>
+<p>ভালুকার সবকিছু এক জায়গায়</p>
+</div>
+
+<div class="cat-grid">
+<div class="cat white active" onclick="filterCat('All',this)">🏠<br>সব</div>
+<div class="cat" onclick="filterCat('Hospital',this)">🏥<br>হাসপাতাল</div>
+<div class="cat" onclick="filterCat('Jobs',this)">💼<br>চাকরি</div>
+<div class="cat red" onclick="filterCat('Blood',this)">🩸<br>রক্ত</div>
+<div class="cat" onclick="filterCat('Wholesale',this)">🛒<br>পাইকারি</div>
+<div class="cat" onclick="filterCat('Retail',this)">🛍<br>খুচরা</div>
+<div class="cat" onclick="filterCat('Car rental',this)">🚗<br>গাড়ি</div>
+<div class="cat white" onclick="filterCat('House rental',this)">🏠<br>বাসা</div>
+<div class="cat" onclick="filterCat('Restaurant',this)">🍲<br>রেস্টু</div>
+<div class="cat" onclick="filterCat('Park',this)">🌳<br>পার্ক</div>
+<div class="cat" onclick="filterCat('Agriculture',this)">🌾<br>কৃষি</div>
+<div class="cat yellow" onclick="filterCat('Paid',this)">💲<br>পেইড</div>
+</div>
+
+<div id="postsArea"></div>
+
+<div class="footer-text">
+📢 পণ্য বেচাকেনা করা ও এড সেবামূলক একটা অ্যাপস<br>
+<small>Google Ads + Firebase Live - ভালুকা সুপার অ্যাপ - ca-pub-8581381142693416</small>
+</div>
+</div>
+
+<!-- POST PAGE - APNAR SERIAL -->
+<div id="postPage" class="page">
+<div class="box">
+<h3>📤 পোস্ট করুন - সিরিয়াল অনুযায়ী</h3>
+
+<label>১. দোকানের নাম / হাসপাতাল অপশন:</label>
+<select id="pCat">
+<option>Hospital</option><option>Jobs</option><option>Blood</option><option>Wholesale</option>
+<option>Retail</option><option>Car rental</option><option>House rental</option>
+<option>Restaurant</option><option>Park</option><option>Agriculture</option><option>All</option>
+</select>
+
+<label>২. নিজের প্রতিষ্ঠান বা নাম:</label>
+<input id="pShop" placeholder="যেমন: আলম হাসপাতাল / রহমান স্টোর">
+
+<label>৩. কি বেচবেন? (টাইটেল):</label>
+<input id="pTitle" placeholder="যেমন: রক্ত লাগবে O+ / গরু বিক্রি">
+
+<label>৪. বিবরণ / Details:</label>
+<textarea id="pDesc" placeholder="দাম, লোকেশন, বিস্তারিত লিখুন..."></textarea>
+
+<label>৫. ছবি বা ভিডিও (সর্বোচ্চ ৩ টা - Storage ছাড়া):</label>
+<input type="file" id="pFiles" multiple accept="image/*,video/*">
+<div id="prev" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:5px"></div>
+<p style="font-size:10px;color:red">* ছবি অটো ছোট হবে, ভিডিও ৩০ সেকেন্ড</p>
+
+<label>পোস্ট টাইপ:</label>
+<select id="pType">
+<option value="free">ফ্রি পোস্ট - ২ দিন লাইভ</option>
+<option value="paid_week">পেইড ১ সপ্তাহ - ১০০ টাকা - উপরে থাকবে</option>
+<option value="paid_month">পেইড ১ মাস - ৩০০ টাকা - উপরে থাকবে</option>
+</select>
+
+<div id="bkashBox" class="hide" style="background:#fff0f0;padding:10px;border-radius:8px;border:2px solid red">
+<b>💰 বিকাশ পার্সোনাল: 01910573181</b><br>১০০/৩০০ টাকা Send Money করে TrxID দিন<br>
+<input id="trxId" placeholder="Bkash TrxID">
+<small>টাকা দিলে পেইড Approve হবে</small>
+</div>
+
+<label>৬. WhatsApp নম্বর (পেইড পোস্টে ক্লিক করলে মেসেজ যাবে):</label>
+<input id="waNumber" type="tel" placeholder="01XXXXXXXXX">
+
+<label>৭. পোস্ট বাটন:</label>
+<button class="btn" onclick="doPost()" style="font-size:18px;background:#00a859">📤 পোস্ট করুন</button>
+</div>
+</div>
+
+<!-- COUNTRY BOARD -->
+<div id="countryPage" class="page"><div class="box"><h3>🇧🇩 কান্ট্রি বোর্ড</h3><div id="countryPosts">সারা দেশের পোস্ট এখানে আসবে</div></div></div>
+
+<!-- CHAT -->
+<div id="chatPage" class="page"><div class="box"><h3>💬 লাইভ চ্যাটিং</h3><div id="chatList" style="max-height:300px;overflow:auto;border:1px solid #ddd;padding:5px"></div><input id="chatMsg" placeholder="মেসেজ লিখুন..."><button class="btn" onclick="sendChat()">Send</button></div></div>
+
+<!-- ACCOUNT - EASY LOGIN + NUMBER HIDE -->
+<div id="accountPage" class="page">
+<div class="box" id="loginBox">
+<h3>🔐 অ্যাকাউন্ট সেটিং - সহজ লগইন</h3>
+<p style="font-size:12px;color:green">✅ আপনার নম্বর / Gmail কেউ দেখবে না, শুধু দোকানের নাম দেখাবে</p>
+<button class="btn" style="background:#4285F4" onclick="googleLogin()">Google ১ ক্লিকে লগইন (Gmail হাইড)</button>
+<p style="text-align:center">-- অথবা --</p>
+<label>ফোন নম্বর (হাইড থাকবে):</label><input id="phone" placeholder="01XXXXXXXXX - কেউ দেখবে না">
+<label>৪ ডিজিট কোড (মনে রাখবেন):</label><input id="pin" maxlength="4" placeholder="যেমন: 1234">
+<label>দোকান / আপনার নাম (এটা সবাই দেখবে):</label><input id="uName" placeholder="আপনার নাম">
+<button class="btn" onclick="pinLogin()">✅ ১০ সেকেন্ডে লগইন</button>
+<p style="font-size:11px;color:gray">Offline কাজ করবে, নাম ছাড়া কিছু দেখাবে না</p>
+</div>
+
+<div class="box hide" id="userBox">
+<b id="welcomeText"></b><br><small id="userPhoneText"></small><br><br>
+<label>নাম পরিবর্তন:</label><input id="editName"><button class="btn" onclick="updateName()">আপডেট</button><br><br>
+<button onclick="logout()" style="color:red;border:none;background:none">🚪 লগআউট</button>
+</div>
+
+<div class="box"><h4>📋 আমার পোস্ট</h4><div id="myPosts">এখনো পোস্ট করেননি</div></div>
+<div class="box" style="background:#e8f5e9"><h4>⚙️ সেটিং</h4><p>🔔 নোটিফিকেশন: On</p><p>🌐 ভাষা: বাংলা</p><p>🔒 প্রাইভেসি: ফোন হাইড</p><p>💰 বিকাশ: 01910573181</p></div>
+</div>
+
+<!-- ADMIN - HIDDEN - SUDHU APNI -->
+<div id="adminPage" class="page">
+<div class="box">
+<h3>🔐 এডমিন প্যানেল - শুধু আপনি দেখবেন</h3>
+<p style="color:red">অন্যরা দেখবে না - লোগোতে ৫ বার ক্লিক করলে খুলবে বা ?admin=1</p>
+<input id="adminCode" type="password" placeholder="কোড: 1234"><button class="btn" onclick="adminCheck()">লগইন</button>
+<div id="adminContent" class="hide"><h4>পেইড Approve / Delete</h4><div id="adminPosts">লোড হচ্ছে...</div></div>
+</div>
+</div>
+
+<div class="bottom">
+<div class="b-item active" onclick="showPage('homePage')">🏠<br>হোম</div>
+<div class="b-item" onclick="showPage('countryPage')">🇧🇩<br>কান্ট্রি</div>
+<div class="b-item" onclick="showPage('postPage')">➕<br>পোস্ট</div>
+<div class="b-item" onclick="showPage('chatPage')">💬<br>চ্যাট</div>
+<div class="b-item" onclick="showPage('accountPage')">👤<br>অ্যাকাউন্ট</div>
+</div>
+
+<script>
+// FIREBASE - APNAR PROJECT ID
+const firebaseConfig = {
+apiKey: "AIzaSyDdR0F3v2_example",
+authDomain: "bhaluka-super-apps.firebaseapp.com",
+projectId: "bhaluka-super-apps",
+storageBucket: "bhaluka-super-apps.appspot.com",
+messagingSenderId: "123456789",
+appId: "1:123:web:abc123"
+};
+try{ firebase.initializeApp(firebaseConfig); }catch(e){}
+const db = firebase.firestore(); try{ db.enablePersistence(); }catch(e){} const auth = firebase.auth();
+
+let ownerId = localStorage.getItem("ownerId"); let myName = localStorage.getItem("myName");
+let clickCount=0;
+
+function adminClick(){ clickCount++; if(clickCount>=5){ showPage('adminPage'); clickCount=0; alert('এডমিন - শুধু আপনার জন্য'); } setTimeout(()=>clickCount=0,3000); }
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); window.scrollTo(0,0); }
+
+if(ownerId){ document.getElementById('loginBox').style.display='none'; document.getElementById('userBox').classList.remove('hide'); document.getElementById('userBox').style.display='block'; document.getElementById('welcomeText').innerText='স্বাগতম: '+myName; document.getElementById('userPhoneText').innerText='ID: '+ownerId.substring(0,8)+'*** (হাইড)'; }
+
+function pinLogin(){ let ph=document.getElementById('phone').value, pin=document.getElementById('pin').value, nm=document.getElementById('uName').value; if(ph.length<11||pin.length!=4||!nm){alert('১১ ডিজিট ফোন + ৪ ডিজিট কোড + নাম দিন');return;} let id=ph+"_"+pin; localStorage.setItem('ownerId',id); localStorage.setItem('myName',nm); try{ db.collection('users').doc(id).set({name:nm, phoneHidden:ph},{merge:true}); }catch(e){} location.reload(); }
+function googleLogin(){ let p=new firebase.auth.GoogleAuthProvider(); auth.signInWithPopup(p).then(r=>{ localStorage.setItem('ownerId',r.user.uid); localStorage.setItem('myName',r.user.displayName); try{ db.collection('users').doc(r.user.uid).set({name:r.user.displayName, emailHidden:r.user.email},{merge:true}); }catch(e){} location.reload(); }); }
+function logout(){ localStorage.clear(); location.reload(); }
+function updateName(){ let n=document.getElementById('editName').value; if(!n) return; localStorage.setItem('myName',n); location.reload(); }
+
+document.getElementById('pType').addEventListener('change',function(){ document.getElementById('bkashBox').style.display=this.value=='free'?'none':'block'; });
+let comp=[];
+document.getElementById('pFiles').addEventListener('change',async(e)=>{ let files=[...e.target.files].slice(0,3); comp=[]; let pr=document.getElementById('prev'); pr.innerHTML=''; for(let f of files){ let b=await new Promise(r=>{let rd=new FileReader(); rd.onload=()=>r(rd.result); rd.readAsDataURL(f);}); comp.push(b); pr.innerHTML+= f.type.includes('video')?`<video src="${b}" width="70" controls></video>`:`<img src="${b}" width="70">`; } });
+
+async function doPost(){
+let cat=document.getElementById('pCat').value, shop=document.getElementById('pShop').value.trim(), title=document.getElementById('pTitle').value.trim(), desc=document.getElementById('pDesc').value.trim(), wa=document.getElementById('waNumber').value.trim(), typ=document.getElementById('pType').value, trx=document.getElementById('trxId').value.trim();
+if(!shop||!title||!desc){alert('১-৪ পর্যন্ত সব ঘর পূরণ করুন');return;}
+if(typ!='free' && !trx){alert('বিকাশ TrxID দিন - 01910573181');return;}
+if(typ!='free' && wa.length<11){alert('WhatsApp নম্বর দিন');return;}
+let exp=new Date(); if(typ=='free') exp.setDate(exp.getDate()+2); else if(typ=='paid_week') exp.setDate(exp.getDate()+7); else exp.setDate(exp.getDate()+30);
+try{ await db.collection('posts').add({shopName:shop,title:title,text:desc,category:cat,type:typ,whatsapp:wa,trxId:trx,images:comp,expiry:exp,status:typ=='free'?'approved':'paid_pending',created:new Date(),ownerId:ownerId||'guest',name:shop}); alert('পোস্ট সফল!'); showPage('homePage'); }catch(err){ alert('Netlify তে আপলোড করলে পোস্ট হবে'); showPage('homePage'); }
+}
+function sendChat(){ if(!ownerId){showPage('accountPage');return;} let m=document.getElementById('chatMsg').value; if(!m) return; try{ db.collection('chats').add({senderName:myName,message:m,time:new Date()}); }catch(e){} document.getElementById('chatMsg').value=''; }
+
+// DESH BOARD - 5 POST POR POR AD - FAKA THAKBE NA
+function filterCat(cat, el){
+document.querySelectorAll('.cat').forEach(c=>c.classList.remove('active')); el.classList.add('active');
+document.getElementById('filterName').innerText = cat=='All' ? 'সব পোস্ট - দেশ বোর্ড' : cat + ' ক্যাটাগরির পোস্ট';
+let posts = document.querySelectorAll('#postsArea .post-item'); let visible=0;
+posts.forEach(p=>{
+let pCat = p.getAttribute('data-cat');
+let show = cat=='All' ? true : cat=='Paid' ? p.classList.contains('paid') : pCat==cat;
+p.style.display = show ? 'block' : 'none';
+if(show) visible++;
+});
+// Faka thakle ad diye vore debe
+let filler = document.getElementById('adFiller');
+if(visible<=1 && filler){ filler.style.display='block'; } else if(filler && visible>3){ filler.style.display='none'; }
+}
+
+function loadPosts(){
+let area=document.getElementById('postsArea');
+// Dummy + Real mix - 5 ta por por Ad
+let dummy = [
+{cat:"Hospital", shop:"আলম হাসপাতাল", title:"রক্ত লাগবে O+", desc:"ভালুকাতে O+ রক্ত দরকার", wa:"01910573181", paid:true},
+{cat:"Retail", shop:"রহমান স্টোর", title:"গরু বিক্রি ৮০ হাজার", desc:"দেশি গরু, ভালুকা বাজার", wa:"01712345678", paid:false},
+{cat:"House rental", shop:"ভালুকা হাউস", title:"বাসা ভাড়া - কলেজ রোড", desc:"২ রুম, ৫০০০ টাকা", wa:"01712345678", paid:true},
+{cat:"Blood", shop:"ব্লাড ব্যাংক", title:"A+ Blood Donor", desc:"A+ রক্ত দিতে পারবো", wa:"01711111111", paid:false},
+{cat:"Jobs", shop:"ফ্যাক্টরি", title:"চাকরি লাগবে", desc:"হেলপার লাগবে", wa:"01812345678", paid:false},
+{cat:"Wholesale", shop:"মদিনা স্টোর", title:"চাউল পাইকারি", desc:"পাইকারি চাউল", wa:"01900000001", paid:false},
+{cat:"Retail", shop:"রহিম স্টোর", title:"মোবাইল বিক্রি", desc:"পুরাতন মোবাইল", wa:"01900000002", paid:false},
+{cat:"Agriculture", shop:"কৃষি ফার্ম", title:"মুরগি বিক্রি", desc:"দেশি মুরগি", wa:"01900000003", paid:false},
+];
+
+let html='';
+dummy.forEach((p,i)=>{
+html+=`<div class="post post-item ${p.paid?'paid':''}" data-cat="${p.cat}">
+<b>🏪 ${p.shop}</b> <span style="background:${p.paid?'orange':'green'};color:#fff;padding:2px 6px;border-radius:8px;font-size:10px">${p.cat}</span><br>
+<b style="color:#00a859">📌 ${p.title}</b><br>
+<small>📝 ${p.desc}</small><br>
+<small>👤 ${p.shop} - ভালুকা (ফোন হাইড)</small><br>
+${p.paid?`<a href="https://wa.me/88${p.wa}" target="_blank" style="float:right;background:#25D366;color:#fff;padding:6px 12px;border-radius:12px;text-decoration:none">WhatsApp 💬</a>`:`<button style="float:right;background:gray;color:#fff;border:none;padding:5px 10px;border-radius:12px">Chat 💬</button>`}
+<div style="clear:both"></div>
+</div>`;
+
+// 5 TA POR POR AD
+if((i+1)%5===0){
+html+=`<div class="box" style="text-align:center;background:#fffbe6;border:2px dashed orange">
+<b>📢 স্পন্সরড - পণ্য বেচাকেনা করা ও এড সেবামূলক অ্যাপস</b><br>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581381142693416" data-ad-slot="auto" data-ad-format="auto"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script>
+</div>`;
+}
+});
+
+// Faka thakle extra ad
+html+=`<div id="adFiller" class="box" style="text-align:center;background:#e8f5e9">
+<b>🛒 আপনার দোকানের বিজ্ঞাপন দিন - মাত্র ১০০ টাকায়</b><br>
+বিকাশ: 01910573181 - WhatsApp: 01910573181<br>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581381142693416" data-ad-slot="auto"></ins>
+</div>`;
+
+area.innerHTML=html;
+
+// Firebase real posts
+try{
+db.collection('posts').orderBy('created','desc').onSnapshot(s=>{
+if(s.empty) return;
+let h='', cnt=0;
+s.forEach(doc=>{
+let p=doc.data(); if(p.expiry && p.expiry.toDate && p.expiry.toDate()<new Date()) return;
+let media=''; if(p.images) p.images.forEach(i=>{media+= i.startsWith('data:video')?`<video src="${i}" width="60" controls></video>`:`<img src="${i}" width="60">`;});
+let waBtn = p.type!='free' && p.whatsapp ? `<a href="https://wa.me/88${p.whatsapp}?text=Post%20dekhe" target="_blank" style="float:right;background:#25D366;color:#fff;padding:6px 12px;border-radius:12px;text-decoration:none">WhatsApp 💬</a>` : `<button style="float:right;background:gray;color:#fff;border:none;padding:5px 10px;border-radius:12px">Chat 💬</button>`;
+h+=`<div class="post post-item ${p.type!='free'?'paid':''}" data-cat="${p.category}"><b>🏪 ${p.shopName||p.name}</b> <span style="background:${p.type!='free'?'orange':'green'};color:#fff;padding:2px 6px;border-radius:8px;font-size:10px">${p.category}</span><br><b style="color:#00a859">📌 ${p.title||''}</b><br><small>📝 ${p.text}</small><br>${media}<br>${waBtn}<div style="clear:both"></div></div>`;
+cnt++; if(cnt%5===0) h+=`<div class="box" style="text-align:center;background:#fffbe6">Sponsored Ad<br><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581381142693416" data-ad-slot="auto"></ins></div>`;
+});
+if(h) area.innerHTML=h;
+try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+});
+}catch(e){}
+}
+loadPosts();
+
+function adminCheck(){ if(document.getElementById('adminCode').value=='1234'){ document.getElementById('adminContent').classList.remove('hide'); document.getElementById('adminContent').style.display='block'; try{ db.collection('posts').orderBy('created','desc').onSnapshot(s=>{ let h=''; s.forEach(d=>{let p=d.data(); h+=`<div class="post">${p.shopName||p.name} - ${p.title} - Trx:${p.trxId||'Free'} - ${p.status}<br><button onclick="db.collection('posts').doc('${d.id}').update({status:'approved'})" style="background:green;color:#fff;border:none;padding:5px 10px;border-radius:8px">Approve</button> <button onclick="db.collection('posts').doc('${d.id}').delete()" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px">Delete</button></div>`;}); document.getElementById('adminPosts').innerHTML=h; }); }catch(e){} } else alert('ভুল কোড'); }
+if(window.location.search.includes('admin=1')){ showPage('adminPage'); }
+</script>
+</body>
+</html>
+

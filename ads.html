@@ -1,0 +1,244 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valuka Ads Manager - Firebase + Google Ads</title>
+
+<!-- GOOGLE ADS - APNAR ID -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581381142693416" crossorigin="anonymous"></script>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:80px}
+.header{background:#00a859;color:#fff;padding:12px;text-align:center}
+.box{background:#fff;margin:10px;padding:12px;border-radius:12px}
+.post{background:#fff;margin:10px;border-radius:14px;padding:10px;border-left:5px solid orange}
+.ad-box{background:#fffbe6;border:2px dashed orange;margin:10px;padding:12px;border-radius:12px;text-align:center}
+input,textarea,select{width:100%;padding:10px;margin:5px 0;border-radius:8px;border:1px solid #ccc}
+.btn{background:#00a859;color:#fff;border:none;padding:12px;width:100%;border-radius:8px;font-weight:700}
+label{font-weight:bold;font-size:13px;margin-top:8px;display:block}
+.page{display:none}.page.active{display:block}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:2px solid #eee}
+.b-item{font-size:11px;text-align:center;width:25%;cursor:pointer;padding:5px}
+</style>
+</head>
+<body>
+
+<div class="header">
+<b>📢 ভালুকা সুপার অ্যাপ - Ads File Manager</b><br>
+<small>Google Ads + Firebase - ca-pub-8581381142693416</small>
+</div>
+
+<!-- AD CREATE PAGE -->
+<div id="createPage" class="page active">
+<div class="box">
+<h3>➕ নতুন বিজ্ঞাপন বানান - Firebase a Save হবে</h3>
+
+<label>১. বিজ্ঞাপন টাইটেল:</label>
+<input id="adTitle" placeholder="যেমন: রহমান স্টোরে ৫০% ছাড়">
+
+<label>২. বিজ্ঞাপন বিবরণ:</label>
+<textarea id="adDesc" placeholder="যেমন: ভালুকা বাজারে সব পণ্যে ছাড় চলছে..."></textarea>
+
+<label>৩. ছবি / ভিডিও (অটো ছোট হবে):</label>
+<input type="file" id="adFile" accept="image/*,video/*">
+<div id="adPrev"></div>
+
+<label>৪. বিজ্ঞাপন টাইপ:</label>
+<select id="adType">
+<option value="google">Google Ads (ca-pub-8581381142693416)</option>
+<option value="local">লোকাল দোকানের বিজ্ঞাপন - ১০০ টাকা</option>
+<option value="sponsored">Sponsored Post</option>
+</select>
+
+<label>৫. লিংক / WhatsApp (ক্লিক করলে যাবে):</label>
+<input id="adLink" placeholder="https://wa.me/8801910573181 বা দোকানের লিংক">
+
+<label>৬. মেয়াদ:</label>
+<select id="adExpiry">
+<option value="7">৭ দিন - ১০০ টাকা</option>
+<option value="30">৩০ দিন - ৩০০ টাকা</option>
+<option value="365">১ বছর - Google Ads</option>
+</select>
+
+<div id="bkashBox" style="background:#fff0f0;padding:10px;border-radius:8px;border:2px solid red;margin-top:10px">
+<b>💰 বিকাশ পার্সোনাল: 01910573181</b><br>
+<input id="adTrx" placeholder="Bkash TrxID - লোকাল বিজ্ঞাপনের জন্য">
+</div>
+
+<button class="btn" onclick="createAd()">📢 বিজ্ঞাপন তৈরি করুন - Firebase a Save</button>
+</div>
+
+<div class="box" style="background:#e8f5e9">
+<b>Google ads.txt ফাইল:</b><br>
+<code>google.com, pub-8581381142693416, DIRECT, f08c47fec0942fa0</code><br>
+<small>এই ফাইলটা ads.txt নামে Netlify তে upload করতে হবে</small>
+</div>
+</div>
+
+<!-- AD DISPLAY PAGE - DESH BOARD ER MOTO -->
+<div id="displayPage" class="page">
+<div class="box" style="background:#00a859;color:#fff;text-align:center">
+<h3>🛒 দেশ বোর্ড - ৫ টা পোস্ট পর পর Ad</h3>
+<small>পণ্য বেচাকেনা করা ও এড সেবামূলক একটা অ্যাপস</small>
+</div>
+
+<div id="adsArea">
+<!-- 5 TA POST POR POR AD - FIREBASE + DUMMY -->
+</div>
+</div>
+
+<!-- ADMIN AD MANAGER - SUDHU APNI -->
+<div id="adminPage" class="page">
+<div class="box">
+<h3>🔐 এডমিন - Ad Approve / Delete - শুধু আপনি</h3>
+<input id="adminCode" type="password" placeholder="কোড: 1234">
+<button class="btn" onclick="adminLogin()">লগইন</button>
+<div id="adminAds" style="margin-top:10px"></div>
+</div>
+</div>
+
+<div class="bottom">
+<div class="b-item active" onclick="showPage('createPage')">➕<br>Ad বানান</div>
+<div class="b-item" onclick="showPage('displayPage')">🏠<br>দেশ বোর্ড</div>
+<div class="b-item" onclick="showPage('adminPage')">⚙️<br>এডমিন</div>
+<div class="b-item" onclick="location.href='index.html'">⬅<br>Home</div>
+</div>
+
+<script>
+// FIREBASE CONFIG
+const firebaseConfig = {
+apiKey: "AIzaSyDdR0F3v2_example",
+authDomain: "bhaluka-super-apps.firebaseapp.com",
+projectId: "bhaluka-super-apps",
+storageBucket: "bhaluka-super-apps.appspot.com",
+messagingSenderId: "123456789",
+appId: "1:123:web:abc123"
+};
+try{ firebase.initializeApp(firebaseConfig); }catch(e){}
+const db = firebase.firestore();
+
+function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+
+let adImage='';
+document.getElementById('adFile').addEventListener('change', async(e)=>{
+let f=e.target.files[0]; if(!f) return;
+adImage = await new Promise(r=>{ let rd=new FileReader(); rd.onload=()=>r(rd.result); rd.readAsDataURL(f); });
+document.getElementById('adPrev').innerHTML = f.type.includes('video') ? `<video src="${adImage}" width="100" controls></video>` : `<img src="${adImage}" width="100">`;
+});
+
+// AD CREATE - FIREBASE SAVE
+async function createAd(){
+let title=document.getElementById('adTitle').value.trim();
+let desc=document.getElementById('adDesc').value.trim();
+let type=document.getElementById('adType').value;
+let link=document.getElementById('adLink').value.trim();
+let days=document.getElementById('adExpiry').value;
+let trx=document.getElementById('adTrx').value.trim();
+
+if(!title||!desc){ alert('টাইটেল + বিবরণ দিন'); return; }
+if(type!='google' && !trx){ alert('Bkash TrxID দিন - 01910573181'); return; }
+
+let exp=new Date(); exp.setDate(exp.getDate()+parseInt(days));
+
+try{
+await db.collection('ads').add({
+title:title,
+desc:desc,
+type:type,
+link:link,
+image:adImage,
+trxId:trx,
+expiry:exp,
+status: type=='google' ? 'approved' : 'pending',
+created:new Date(),
+adClient:'ca-pub-8581381142693416'
+});
+alert('✅ বিজ্ঞাপন তৈরি হয়েছে! Firebase a save হলো - ৫ টা পোস্ট পর পর দেখাবে');
+showPage('displayPage');
+loadAds();
+}catch(err){
+alert('Firebase config ঠিক করুন, তবুও dummy ad দেখাবে');
+showPage('displayPage');
+}
+}
+
+// 5 TA POST POR POR AD LOAD - FIREBASE + GOOGLE ADS
+function loadAds(){
+let area=document.getElementById('adsArea');
+let dummyPosts = [
+{shop:"আলম হাসপাতাল", title:"রক্ত লাগবে O+"},
+{shop:"রহমান স্টোর", title:"গরু বিক্রি ৮০ হাজার"},
+{shop:"বাসা ভাড়া", title:"বাসা ভাড়া কলেজ রোড"},
+{shop:"ব্লাড ব্যাংক", title:"A+ Blood Donor"},
+{shop:"ফ্যাক্টরি", title:"চাকরি লাগবে"},
+{shop:"মদিনা স্টোর", title:"চাউল পাইকারি"},
+{shop:"রহিম স্টোর", title:"মোবাইল বিক্রি"},
+{shop:"কৃষি ফার্ম", title:"মুরগি বিক্রি"},
+{shop:"হোটেল", title:"বিরিয়ানি ১২০ টাকা"},
+{shop:"ফার্মেসি", title:"ঔষধ হোম ডেলিভারি"},
+];
+
+let html='';
+dummyPosts.forEach((p,i)=>{
+html+=`<div class="post"><b>🏪 ${p.shop}</b><br><b>📌 ${p.title}</b><br><small>👤 ${p.shop} - ভালুকা</small></div>`;
+
+// 5 TA POST POR POR AD
+if((i+1)%5===0){
+html+=`<div class="ad-box">
+<b>📢 স্পন্সরড বিজ্ঞাপন</b><br>
+<small>পণ্য বেচাকেনা করা ও এড সেবামূলক অ্যাপস</small><br>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581381142693416" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle=window.adsbygoogle||[]).push({});<\/script>
+</div>`;
+}
+});
+
+area.innerHTML=html;
+
+// FIREBASE REAL ADS
+try{
+db.collection('ads').where('status','==','approved').orderBy('created','desc').onSnapshot(s=>{
+if(s.empty) return;
+let h='', cnt=0;
+s.forEach(doc=>{
+let ad=doc.data();
+h+=`<div class="ad-box">
+<b>🏪 ${ad.title}</b><br>
+<small>${ad.desc}</small><br>
+${ad.image ? (ad.image.startsWith('data:video') ? `<video src="${ad.image}" width="100%" controls></video>` : `<img src="${ad.image}" width="100%">`) : ''}
+<br><a href="${ad.link}" target="_blank" style="background:#00a859;color:#fff;padding:6px 12px;border-radius:12px;text-decoration:none">দেখুন 💬</a>
+</div>`;
+cnt++; if(cnt%5===0) h+=`<div class="ad-box">Google Ad<br><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581381142693416" data-ad-slot="auto"></ins></div>`;
+});
+if(h) area.innerHTML = h + area.innerHTML;
+try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+});
+}catch(e){}
+}
+loadAds();
+
+function adminLogin(){
+if(document.getElementById('adminCode').value=='1234'){
+db.collection('ads').orderBy('created','desc').onSnapshot(s=>{
+let h='';
+s.forEach(d=>{
+let ad=d.data();
+h+=`<div class="post">${ad.title} - Trx:${ad.trxId||'Google'} - ${ad.status}<br>
+<button onclick="db.collection('ads').doc('${d.id}').update({status:'approved'})" style="background:green;color:#fff;border:none;padding:5px 10px;border-radius:8px">Approve</button>
+<button onclick="db.collection('ads').doc('${d.id}').delete()" style="background:red;color:#fff;border:none;padding:5px 10px;border-radius:8px">Delete</button></div>`;
+});
+document.getElementById('adminAds').innerHTML=h||'কোন Ad নেই';
+});
+} else alert('ভুল কোড');
+}
+</script>
+</body>
+</html>
+
