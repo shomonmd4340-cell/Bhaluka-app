@@ -3,400 +3,148 @@
 <html lang="bn">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bhaluka Super Apps</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ভালুকার সুপার অ্যাপস - পণ্য বিক্রি, ছবি বিক্রি, গাড়ি, হাসপাতাল | Bhaluka Super App</title>
+<meta name="description" content="ভালুকা সুপার অ্যাপস - ভালুকায় পণ্য বিক্রি, ছবি বিক্রি, গাড়ি, হাসপাতাল, স্কুল, রেস্টুরেন্ট, হোলসেল বাজার, রক্ত, চাকরি। Free Post 2 Din, Paid 200 Taka Soptaho, 500 Taka Mas, Cobi 100 Taka">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581301141695930" crossorigin="anonymous"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Hind Siliguri,system-ui,sans-serif}
-body{background:#eef2f0;padding-bottom:80px}
-.top{background:#00a651;color:#fff;text-align:center;padding:14px 10px 18px;border-radius:0 0 22px 22px;border:2px dashed #fff}
-.top h1{font-size:22px}.top p{font-size:13px;line-height:1.5;font-weight:600}
-.liveBar{background:#111;color:#fff;margin:10px 12px;padding:8px 12px;border-radius:20px;display:flex;justify-content:space-between;font-size:13px;font-weight:700}
-.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:10px 12px}
-.cat{background:#00a651;color:#fff;border:none;border-radius:14px;padding:13px 2px;font-size:14px;font-weight:700;cursor:pointer}
-.cat.active{background:#fff;color:#00a651;border:2.5px solid #111}
-.cat.red{background:#e11d48}.cat.yellow{background:#fbbf24;color:#111}
-.cat span{font-size:20px;display:block}
-.tabs{display:flex;gap:8px;padding:0 12px}
-.tab{flex:1;padding:10px;border-radius:20px;border:1px solid #ddd;background:#fff;font-weight:700;cursor:pointer}
-.tab.active{background:#00a651;color:#fff}
-.wrap{max-width:620px;margin:0 auto}
-.card{background:#fff;border-radius:14px;padding:14px;margin:12px;box-shadow:0 2px 8px rgba(0,0,0,.06);border-left:5px solid #00a651}
-input,textarea,select{width:100%;padding:13px;border:1px solid #ddd;border-radius:12px;margin-bottom:12px;font-size:16px}
-.btn{background:#00a651;color:#fff;border:none;padding:13px;border-radius:12px;width:100%;font-weight:700;font-size:18px;cursor:pointer}
-.btn2{background:#00a651;color:#fff;border:none;padding:8px 14px;border-radius:8px;font-weight:700;cursor:pointer}
-.btnRed{background:#e11d48;color:#fff;border:none;padding:10px 14px;border-radius:10px;font-weight:800;cursor:pointer;width:100%;margin-top:8px}
-.badge{display:inline-block;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:700}
-.free{background:#dcfce7;color:#166534}.paid{background:#fef3c7;color:#92400e}.pending{background:#fee2e2;color:#991b1b}
-.post-img{width:100%;border-radius:10px;margin:8px 0;max-height:320px;object-fit:cover}
-.small{font-size:12px;color:#64748b}.flex{display:flex;gap:8px;align-items:center;justify-content:space-between}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:8px 0;border-top:1px solid #eee;z-index:30}
-.bottom div{text-align:center;font-size:14px;font-weight:700;cursor:pointer}.bottom div.active{color:#00a651}.bottom span{font-size:24px;display:block}
-.page{display:none}.page.active{display:block}
-.adBox{background:#fff;border:2px solid #00a651;border-radius:12px;margin:12px;padding:10px;text-align:center;min-height:110px}
-.bkashBox{background:#fce7f3;border:2px dashed #db2777;padding:14px;border-radius:12px;margin-bottom:10px;text-align:center}
-.hidden{display:none!important}
-.postWrap{background:#fff;border-radius:16px;padding:16px;margin:12px;border-left:6px solid #00a651}
-.postWrap h2{text-align:center;font-size:24px;margin-bottom:16px}
-.postWrap label{font-weight:800;font-size:17px;display:block;margin-bottom:6px}
-.accWrap{background:#fff;border-radius:16px;padding:16px;margin:12px;border-left:6px solid #00a651}
-.accWrap h2{text-align:center;font-size:24px;margin-bottom:16px}
-.btnLogin{background:#00a651;color:#fff;border:none;padding:14px;border-radius:12px;width:100%;font-size:20px;font-weight:800;cursor:pointer}
-.btnGoogle{background:#fff;color:#111;border:1px solid #ddd;padding:14px;border-radius:12px;width:100%;font-size:18px;font-weight:800;cursor:pointer}
-.btnLogout{background:#ff2d2d;color:#fff;border:none;padding:14px;border-radius:12px;width:100%;font-size:20px;font-weight:800;cursor:pointer}
-.chatFloat{background:#00a651;color:#fff;padding:10px 18px;border-radius:25px;font-weight:800;float:right;margin:10px 12px;cursor:pointer}
-.adminRow{background:#f1f5f9;padding:10px;border-radius:10px;margin-bottom:8px;border-left:4px solid #e11d48}
-.loginNeed{background:#fffbeb;border:2px solid #f59e0b;padding:12px;border-radius:12px;margin-bottom:12px}
-.friendRow{display:flex;gap:10px;align-items:center;background:#f8fafc;padding:10px;border-radius:12px;margin-bottom:8px;cursor:pointer;border:1px solid #eee}
-.friendRow.active{border:2px solid #00a651;background:#dcfce7}
-.avatar{width:44px;height:44px;background:#00a651;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;flex-shrink:0}
-.chatBubble{background:#fff;padding:8px 12px;border-radius:12px;margin-bottom:8px;max-width:85%}
-.chatBubble.me{background:#dcfce7;margin-left:auto;text-align:right}
-.chatImg{width:100%;max-width:200px;border-radius:10px;margin-top:6px}
-.myPhoneBar{background:#dcfce7;border:2px solid #00a651;margin:10px 12px;padding:10px;border-radius:12px;text-align:center;font-weight:700}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Hind Siliguri,Arial}
+body{background:#f1f5f9;padding-bottom:85px}
+.header{background:#00A651;color:#fff;padding:14px 10px 18px;text-align:center;border-bottom:3px dashed #fff;border-radius:0 0 18px 18px}
+.header h1{font-size:24px}.header p{font-size:15px;font-weight:bold;margin-top:4px}
+.livebar{background:#111;color:#fff;margin:10px;border-radius:25px;padding:10px 14px;display:flex;justify-content:space-between;font-weight:bold;font-size:15px}
+.live-dot{width:16px;height:16px;background:red;border-radius:50%;display:inline-block;animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.welcome{background:#e6f9ed;border:2px solid #00A651;padding:12px;margin:0 10px;border-radius:12px;text-align:center;font-weight:bold;font-size:17px}
+.noti{background:#fff3cd;border:1px solid #facc15;padding:10px;margin:10px;border-radius:12px;font-size:13px;display:none}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 10px}
+.cat{background:#00A651;color:#fff;border-radius:14px;padding:14px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:15px;min-height:78px;display:flex;flex-direction:column;justify-content:center}
+.cat span{font-size:26px}.cat.active{background:#fff;color:#00A651;border:3px solid #111}.cat.red{background:#E11D48}.cat.yellow{background:#FACC15;color:#000}
+.card{background:#fff;padding:12px;border-radius:12px;margin:10px;box-shadow:0 1px 4px #ddd}
+input,select,textarea{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
+.btn{background:#00A651;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer}
+.btn2{background:#00A651;color:#fff;border:none;padding:9px;border-radius:10px;cursor:pointer}
+.badge{background:#dcfce7;padding:3px 8px;border-radius:20px;font-size:11px}
+.small{font-size:12px;color:#666}.post-img{width:100%;border-radius:10px;margin-top:8px}.post-video{width:100%;border-radius:10px;margin-top:8px}
+.flex{display:flex;gap:8px}.topbar{display:flex;justify-content:space-between}
+.tab{display:none}.tab.active{display:block}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:flex;z-index:99;padding:6px 0}
+.bottom button{flex:1;border:none;background:none;font-size:12px;font-weight:bold;cursor:pointer;color:#333;position:relative}
+.bottom button.active{color:#00A651}.bottom button .ic{font-size:26px;display:block}
+.noti-dot{position:absolute;top:2px;right:18px;background:red;color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center}
+.photo-card{border:2px solid #FACC15;background:#fffbeb}.thumb{width:32%;border-radius:8px;margin-top:6px}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="header"><h1>🇧🇩 Bhaluka Super Apps</h1><p>Everything about Valuka in one place<br>Ponno Becha-Kena O Seba Mulok Live Cholbe</p><div style="margin-top:10px;font-weight:bold">📱 Admin WhatsApp: 01760904340</div></div>
+<div class="livebar"><span><span class="live-dot"></span> LIVE - <span id="onlineCount">3</span> jon online</span><span><span id="viewCount">128</span> jon dekhche</span></div>
+<div class="welcome" id="welcomeBox">👋 Welcome Guest</div>
+<div class="noti" id="notiBox">🔔 <span id="notiText"></span> <button onclick="document.getElementById('notiBox').style.display='none'" style="float:right;border:none;background:none;font-weight:bold">X</button></div>
 
-<!-- HOME - EKANE BKASH NAI, SUDHU WHATSAPP + LIVE + GOOGLE AD -->
-<div id="page-home" class="page active">
-  <div class="top"><h1>🇧🇩 Bhaluka Super Apps</h1><p>Everything about Valuka in one place<br>Ponno Becha-Kena O Seba Mulok Live Cholbe<br><br>📱 Admin WhatsApp: <b>01760904340</b></p></div>
-  <div class="liveBar"><span>🔴 LIVE - <span id="onlineCount">0</span> jon online</span><span id="liveCount">128 jon dekhche</span></div>
-  <div class="myPhoneBar" id="myPhoneBar" style="display:none">👋 Welcome <span id="myPhoneName"></span> | 📱 Tomar Number: <span id="myPhoneNum"></span> | ✅ 1 Bar Login Hoise, Abar Lagbe Na</div>
-  <div class="myPhoneBar" id="noLoginBar">👋 Login koro - 1 Bar korlei hobe, bar bar lagbe na. <button class="btn2" onclick="goAccount()">Login</button></div>
-  <div class="cats" id="cats"></div>
-  <div class="tabs"><button class="tab active" onclick="setTab('all',this)">🆓 Free Post</button><button class="tab" onclick="setTab('paid',this)">💰 Paid Post</button><button class="tab" onclick="setTab('board',this)">🇧🇩 Desh Board</button></div>
-  <div class="adBox"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><div id="ad1"><b>🛍️ Bhaluka Bazar - Google Ad</b><br><span class="small">Sponsored - Google AdSense</span></div></div>
-  <div id="list"></div>
-  <button class="btn" style="width:92%;margin:0 4%;background:#fff;color:#111;border:1px solid #ddd" onclick="loadPosts(false)">⬇️ Aro Post Dekhun</button>
-  <div class="adBox"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><b>📱 Bhaluka Super Apps</b><br><span class="small">Google Ad</span></div>
-  <div class="chatFloat" onclick="goChat()">Chat 💬 (1)</div><div style="clear:both"></div>
+<!-- HOME -->
+<div id="homeTab" class="tab active">
+<div class="grid">
+<div class="cat active" onclick="setCat('',this)"><span>🏠</span>All</div>
+<div class="cat" onclick="setCat('🏥 হাসপাতাল',this)"><span>🏥</span>Hospital</div>
+<div class="cat" onclick="setCat('💼 চাকরি',this)"><span>💼</span>Jobs</div>
+<div class="cat red" onclick="setCat('🩸 রক্ত',this)"><span>🩸</span>Blood</div>
+<div class="cat" onclick="setCat('🛍️ হোলসেল বাজার',this)"><span>🛒</span>Wholesale</div>
+<div class="cat" onclick="setCat('🛒 পণ্য বিক্রি',this)"><span>🛍️</span>Retail</div>
+<div class="cat" onclick="setCat('🚗 গাড়ি',this)"><span>🚗</span>Car</div>
+<div class="cat" onclick="setCat('🏠 বাড়ি ভাড়া',this)"><span>🏠</span>Home</div>
+<div class="cat" onclick="setCat('🍽️ রেস্টুরেন্ট',this)"><span>🍲</span>Restaurant</div>
+<div class="cat" onclick="setCat('🅿️ পার্ক',this)"><span>🌳</span>Park</div>
+<div class="cat" onclick="setCat('🌾 ধান',this)"><span>🌾</span>Agriculture</div>
+<div class="cat yellow" onclick="setCat('📢 বাজার অ্যাড',this)"><span>$</span>Paid</div>
+</div>
+<div class="card"><input id="search" placeholder="🔍 খুঁজুন - ভালুকা গাড়ি, হাসপাতাল, ছবি বিক্রি..." oninput="loadPosts(true)"><p class="small">Google e asbe: ভালুকা হাসপাতাল, ভালুকা গাড়ি, ভালুকা ছবি বিক্রি, ভালুকা বাজার অ্যাড</p></div>
+<div class="card" style="border:2px solid #00A651"><h3>🇧🇩 Desh Board - Country Board</h3><p class="small">Net na thakleo ager notice thakbe - Hariye jabe na</p><div id="boardList"></div><input id="bTitle" placeholder="Notice - ভালুকায় আগামীকাল বাজার বন্ধ"><textarea id="bDesc" placeholder="Details Bangla te likhun..."></textarea><button class="btn" onclick="addBoard()">✅ Notice Din</button></div>
+<div class="card" style="text-align:center"><p style="font-size:11px;color:#888">📢 বিজ্ঞাপন</p><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#fef9c3;padding:8px;border-radius:10px;margin-top:5px"><b>📢 Dokaner Add Din - Hajar Hajar Manush Dekhbe</b><br><span style="font-size:12px">Free 2 Din | 1 Soptaho 200 Taka | 1 Mas 500 Taka | Cobi 100 Taka | bKash: 01910573181</span></div></div>
+<div id="postList"></div>
+<button class="btn" style="margin:10px;width:calc(100% - 20px)" onclick="loadMorePosts()">⬇️ Aro Post Dekhun - Hajar Hajar Post</button>
+<div class="card" style="text-align:center"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#e6f9ed;padding:8px;border-radius:10px;margin-top:5px"><b>🌿 ভালুকার সুপার অ্যাপস</b><br><span style="font-size:12px">WhatsApp: 01910573181 | bKash: 01910573181</span></div></div>
 </div>
 
-<!-- DESH BOARD - BKASH NAI -->
-<div id="page-board2" class="page">
-  <div style="background:#00a651;color:#fff;text-align:center;padding:14px;border-radius:0 0 20px 20px"><h2>🇧🇩 Desh Board</h2><p>📱 Admin WhatsApp: 01760904340</p></div>
-  <div class="card"><label><b>Jela / Desh:</b></label>
-  <select id="district" onchange="loadBoard()"><option value="">Sob Desh / Jela</option><option>Bangladesh - Mymensingh - Bhaluka</option><option>Bangladesh - Dhaka</option><option>Bangladesh - Chattogram</option><option>Bangladesh - Khulna</option><option>Bangladesh - Sylhet</option></select>
-  <div id="boardList"></div></div>
+<!-- COBI -->
+<div id="cobiTab" class="tab">
+<div class="card photo-card"><h3>📷 Cobi Bazar - Alada System</h3><p class="small">Free Cobi 2 Din | Paid Cobi 100 Taka / Mas</p><input id="cTitle" placeholder="Cobir Nam - ভালুকার ধান ক্ষেত"><input id="cPrice" type="number" placeholder="Cobir Dam - 100"><select id="cPackage" onchange="showCobiBkash()"><option value="free">🆓 Cobi Free - 0 Taka - 2 Din</option><option value="paid100">📷 Cobi Paid - 100 Taka / Mas</option></select><div id="cobiBkashBox" style="display:none;background:#FDE8F0;padding:10px;border-radius:10px"><p style="color:#E2136E;font-weight:bold">💸 Cobi Paid - bKash: 01910573181</p><input id="cTrx" placeholder="bKash TrxID Din"><button onclick="copyBkashNum()" style="background:#E2136E;color:#fff;border:none;padding:8px;border-radius:8px;width:100%">📋 bKash Copy</button></div><p class="small">📷 Cobi - 3 ta porjonto</p><input type="file" id="cImg1" accept="image/*"><input type="file" id="cImg2" accept="image/*"><input type="file" id="cImg3" accept="image/*"><button class="btn" style="background:#eab308;color:#000" onclick="sellPhoto()">📷 Cobi Bikrir Jonno Din</button></div>
+<div class="card" style="text-align:center"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#fef9c3;padding:8px;border-radius:10px;margin-top:5px"><b>📷 Tomar Cobi Ekhane Add Dite Paro - 100 Taka / Mas</b></div></div>
+<div id="photoList"></div>
 </div>
 
-<!-- POST - BKASH SUDHU PAID E -->
-<div id="page-post" class="page">
-  <div class="postWrap">
-    <h2>➕ New post</h2>
-    <p style="text-align:center;color:#00a651;font-weight:700;margin-bottom:12px">🆓 Free Post - Kono Login Lagbe Na</p>
-    <label>1. Your name *</label><input id="pName" placeholder="For example: Rahim Uddin">
-    <label>2. What product/service? *</label><input id="title" placeholder="For example: Desi chicken">
-    <label>3. Shop / Organization Name *</label><input id="shopName" placeholder="For example: Rahim Store">
-    <label>4. Category</label><select id="catSelect"><option>Hospital</option><option>Jobs</option><option>Blood</option><option>Wholesale</option><option>Retail</option><option>Car</option><option>Home</option><option>Restaurant</option><option>Park</option><option>Agriculture</option><option>School</option></select>
-    <label>5. Description *</label><textarea id="desc" rows="4" placeholder="Price, location..."></textarea>
-    <button class="btn" style="background:#7c3aed;margin-bottom:12px" onclick="aiFix()">✨ AI Diye Sajao</button>
-    <label>6. Tomar WhatsApp number *</label><input id="pWhats" placeholder="Tomar WhatsApp number">
-    <label>🇧🇩 Desh Board / Location:</label><select id="postBoard"><option>Bangladesh - Mymensingh - Bhaluka</option><option>Bangladesh - Dhaka</option><option>Bangladesh - Chattogram</option><option>Bangladesh - Khulna</option><option>Bangladesh - Sylhet</option></select>
-    <label>📸 Pic / 🎥 Video:</label><input type="file" id="mediaFile" accept="image/*,video/*" onchange="previewMedia(this)"><div id="preview"></div><input id="photo" placeholder="Othoba Pic/Video Link">
-    <label>Post er Dhoron:</label><select id="plan" onchange="planChange()"><option value="free">🆓 FREE - 2 Din (0 Tk) - Kono Login Lagbe Na</option><option value="paid7">💰 PAID 100 Tk - 7 Din</option><option value="paid30">⭐ PAID 300 Tk - 30 Din</option></select>
-    <!-- *** BKASH SUDHU EKHANE - PAID SELECT KORLEI ASBE, ONNO KOTHAO NA *** -->
-    <div id="payBox" style="display:none">
-      <div class="bkashBox"><b style="color:#db2777;font-size:20px">💗 bKash - Paid Post - Sudhu Ekhane</b><br><b style="font-size:28px">01910573181</b><br><span class="small">Ei number e Send Money korun. Onno kothao bKash dekhabe na.</span><br><br><input id="trx" placeholder="TrxID likhun"></div>
-      <div class="loginNeed"><b>🔒 Paid er jonno 1 Bar Login Koro - Nijer Number + 4 PIN</b><br><br><input id="paidNum" placeholder="Tomar Nijer Phone Number"><input id="paidPin" placeholder="4 Digit PIN" maxlength="4" inputmode="numeric"><button class="btn" onclick="paidLogin()">🔓 1 Bar Login</button><p class="small" style="text-align:center;margin-top:8px" id="paidLoginMsg"></p></div>
-    </div>
-    <button class="btn" onclick="doPost()">✅ Post Korun - Sobai Live Dekhbe</button>
-  </div>
-  <div class="chatFloat" onclick="goChat()">Chat 💬 (1)</div><div style="clear:both"></div>
+<!-- POST -->
+<div id="postTab" class="tab">
+<div class="card"><h3>➕ Notun Post - Free / Paid</h3><p class="small">Free - 0 Taka - 2 Din | Paid - 200 Taka Soptaho, 500 Taka Mas - Sobar Upore<br>Post Hariye Jabe Na - Phone + Firebase 2 Jaygay Save</p><input id="pTitle" placeholder="Title Bangla te - ভালুকার দেশি মুরগি বিক্রি"><textarea id="pDesc" placeholder="Bistarito Bangla te likhun - Google e asbe..."></textarea><input id="pPrice" type="number" placeholder="Dam - ৳"><select id="pCat"><option>🛒 পণ্য বিক্রি</option><option>🏥 হাসপাতাল</option><option>💼 চাকরি</option><option>🩸 রক্ত</option><option>🛍️ হোলসেল বাজার</option><option>🚗 গাড়ি</option><option>🍽️ রেস্টুরেন্ট</option><option>🅿️ পার্ক</option><option>🌾 ধান</option><option>📢 বাজার অ্যাড</option><option>🏡 জমি-বাড়ি</option><option>❤️ অন্যান্য</option></select><input id="pPhone" placeholder="Mobile - 01XXXXXXXXX"><p class="small">🖼️ Pic 3 ta | 🎥 Video 2 Minute | Login 8MB, Free 3MB</p><input type="file" id="pImg1" accept="image/*"><input type="file" id="pImg2" accept="image/*"><input type="file" id="pImg3" accept="image/*"><input type="file" id="pVideo" accept="video/*"><p class="small" id="videoInfo"></p><div style="background:#fffbeb;padding:10px;border-radius:12px;border:1px solid #facc15"><h3>📢 Bazar Add</h3><select id="pPackage" onchange="showBkash()"><option value="free">🆓 Free Post - 0 Taka - 2 Din</option><option value="week">📢 Paid - 1 Soptaho - 200 Taka</option><option value="month">👑 Paid - 1 Mas - 500 Taka</option></select><div id="bkashBox" style="display:none;background:#FDE8F0;padding:10px;border-radius:10px;margin-top:8px"><p style="color:#E2136E;font-weight:bold">💸 Paid Post - bKash: 01910573181</p><input id="pTrx" placeholder="bKash TrxID Din"><button onclick="copyBkashNum()" style="background:#E2136E;color:#fff;border:none;padding:8px;border-radius:8px;width:100%">📋 bKash Copy - 01910573181</button></div></div><button class="btn" id="postBtn" onclick="doPost()">✅ Post Korun</button></div>
+<div class="card"><h4>📦 Amar Draft - Post Hariye Gele Ekhane Thakbe</h4><div id="draftList"></div></div>
 </div>
 
-<!-- CHAT -->
-<div id="page-chat" class="page">
-  <div style="background:#00a651;color:#fff;text-align:center;padding:14px;border-radius:0 0 20px 20px"><h2>💬 Chatting</h2><p>Friend List - Message + Pic | 📱 Admin: 01760904340</p></div>
-  <div class="card"><h3>👥 Friend List - <span id="friendCount">0</span> jon</h3><br><input id="friendSearch" placeholder="🔍 Friend khujo..." oninput="loadFriends()"><div id="friendList"></div></div>
-  <div class="card" id="chatWindow" style="display:none"><h3>💬 <span id="chatWithName">Chat</span> <span style="float:right;cursor:pointer" onclick="closeChat()">✖️</span></h3><p class="small">To: <span id="chatWithPhone"></span></p><br><div id="chatList" style="max-height:320px;overflow:auto;background:#f1f5f9;padding:10px;border-radius:10px;margin-bottom:10px;min-height:120px"></div><input id="chatInput" placeholder="Message likhun..."><label><b>📸 Pic pathao:</b></label><input type="file" id="chatPic" accept="image/*" onchange="previewChatPic(this)"><div id="chatPicPreview"></div><button class="btn" onclick="sendChat()">📩 Send Message + Pic</button></div>
-  <div class="card"><h3>📩 Sob Message</h3><div id="allChats"></div></div>
+<!-- FRIENDS -->
+<div id="friendsTab" class="tab">
+<div class="card"><h3>👥 Friend List</h3><p class="small">Phone diye bondhu add koro</p><input id="fPhone" placeholder="Bondhur Phone - 01XXXXXXXXX"><input id="fName" placeholder="Bondhur Nam"><button class="btn" onclick="addFriend()">➕ Friend Add Korun</button></div>
+<div class="card"><h4>📋 Amar Friend List - <span id="friendCount">0</span> jon</h4><input placeholder="🔍 Friend Khujun..." oninput="searchFriend(this.value)"><div id="friendList"></div></div>
+<div class="card"><h4>👥 Valukar Sob Manush</h4><div id="allUsersList"></div></div>
+<div class="card"><h3>💬 Chat</h3><input id="chatMsg" placeholder="Message likhun..."><button class="btn" style="background:#25D366" onclick="sendChat()">💬 WhatsApp e Pathan - 01910573181</button><div id="chatList" style="margin-top:10px"></div></div>
 </div>
 
-<!-- ACCOUNT - SOBAR JONNO EK SYSTEM - NUMBER + 4 PIN -->
-<div id="page-account" class="page">
-  <div class="accWrap" id="loginCard">
-    <h2>অ্যাকাউন্ট - Number + 4 PIN</h2>
-    <p style="text-align:center" class="small">Tumi o 01760904340 + 4 PIN diye khulba.<br>Onnorao tader number + 4 PIN diye khulbe.<br>Ek system, sobar jonno. 1 Bar korlei hobe, bar bar na.</p><br>
-    <input id="accNum" placeholder="Tomar ফোন নম্বর - Jemon: 01760904340 / 018XX...">
-    <input id="accPin" placeholder="৪ ডিজিট কোড - Jemon: 1234" maxlength="4" inputmode="numeric">
-    <input id="accName" placeholder="আপনার নাম">
-    <button class="btnLogin" onclick="doLogin()">লগইন - 1 Bar</button><br><br>
-    <button class="btnGoogle" onclick="googleLogin()">G গুগল দিয়ে লগইন - 1 Bar</button><br><br>
-    <button class="btnLogout" onclick="doLogout()">লগআউট</button>
-  </div>
-  <div class="accWrap hidden" id="myControl"><h2>👤 <span id="myNameShow"></span></h2><p style="text-align:center"><b>📱 Tomar Number:</b> <span id="myNumShow"></span><br><span class="small">✅ Login save hoye gese - Abar lagbe na</span></p><br><div id="myList"></div><br><button class="btnLogout" onclick="doLogout()">লগআউট</button></div>
-  <!-- CONTROL - SUDHU TUMI, KINTU LOGIN SYSTEM EK -->
-  <div class="accWrap" id="adminControl" style="background:#0f172a;color:#fff;display:none">
-    <h2 style="color:#fff">👑 CONTROL SYSTEM - SUDHU TUMI</h2>
-    <p style="text-align:center;color:#ccc">WhatsApp / Login: 01760904340<br>bKash sudhu Paid e thake, ekhane na.</p><br>
-    <p><b>📱 WhatsApp:</b> 01760904340</p><p><b>Total Post:</b> <span id="totalCount">0</span> | <b>Total Friend:</b> <span id="totalFriend">0</span></p><br>
-    <input id="adminSearch" placeholder="🔍 Post khujo..." oninput="loadAdminList()">
-    <button class="btnLogin" onclick="loadAdminList()">🔄 Sob Post Reload</button><br><br>
-    <div id="adminList" style="color:#111"></div>
-    <h3 style="color:#fff;margin-top:12px">👥 Sob Friend / User</h3><br>
-    <div id="adminUserList" style="color:#111"></div>
-    <button class="btnGoogle" onclick="adminHide()">🔒 Control Bondho</button>
-  </div>
-  <div class="chatFloat" onclick="goChat()">চ্যাট 💬 (1)</div><div style="clear:both"></div>
-</div>
+<!-- ACCOUNT -->
+<div id="accTab" class="tab">
+<div class="card"><h3>👤 Account - Phone + 5 Okkhor Pass</h3><p class="small">1 Bar Login Hoile Abar Lagbe Na</p><input id="uPhone" placeholder="Phone - 01XXXXXXXXX"><input id="uPass" placeholder="Password - 5 okkhor - valuk" maxlength="5"><input id="uName" placeholder="Apnar Nam"><button class="btn" onclick="signupUser()">✅ Account Khulun</button><button class="btn" style="background:#fff;color:#00A651;border:1px solid #00A651;margin-top:6px" onclick="loginUser()">🔓 Login</button><button class="btn" style="background:#fff;color:red;border:1px solid #ddd;margin-top:6px" onclick="logoutUser()">🚪 Logout</button><label style="font-size:13px"><input type="checkbox" id="notiCheck" checked onchange="toggleNoti()"> 🔔 Notification On</label><div id="myPosts" style="margin-top:10px"></div><div id="myFriendsMini" style="margin-top:10px"></div></div>
 </div>
 
 <div class="bottom">
-  <div class="active" id="bHome" onclick="goHome()"><span>🏠</span>Home</div>
-  <div id="bBoard" onclick="goBoard()"><span>🇧🇩</span>Country<br>Board</div>
-  <div id="bPost" onclick="goPost()"><span>➕</span>Post</div>
-  <div id="bChat" onclick="goChat()"><span>💬</span>Chat</div>
-  <div id="bAcc" onclick="goAccount()"><span>👤</span>Account</div>
+<button class="active" onclick="showTab('home',this)"><span class="ic">🏠</span>Home</button>
+<button onclick="showTab('cobi',this)"><span class="ic">📷</span>Cobi<br>Bikri</button>
+<button onclick="showTab('post',this)"><span class="ic" style="font-size:32px">➕</span>Post</button>
+<button onclick="showTab('friends',this)"><span class="ic">👥</span>Friends<span class="noti-dot" id="friendDot">1</span></button>
+<button onclick="showTab('acc',this)"><span class="ic">👤</span>Account</button>
 </div>
 
 <script>
-// FIREBASE LAGANO ACHE
-const firebaseConfig={apiKey:"TOMAR_API_KEY_EKHANE",authDomain:"bhaluka-super-apps.firebaseapp.com",projectId:"bhaluka-super-apps",storageBucket:"bhaluka-super-apps.appspot.com",messagingSenderId:"TOMAR_SENDER_ID_EKHANE",appId:"TOMAR_APP_ID_EKHANE"};
+const firebaseConfig = { apiKey: "AIzaSyCnSavXfbefzU0Hyuuhh1zGjuI5DtidH7w", authDomain: "bhaluka-super-apps.firebaseapp.com", projectId: "bhaluka-super-apps", storageBucket: "bhaluka-super-apps.firebasestorage.app", messagingSenderId: "505498498587", appId: "1:505498498587:web:c736d423562febfe76eabe" };
 firebase.initializeApp(firebaseConfig);
-const db=firebase.firestore();
-const auth=firebase.auth();
-// *** TOMAR NUMBER ***
-const ADMIN_NUM="01760904340"; // TOMAR WhatsApp + Login - Tumi eita + 4 PIN diye khulba
-const BKASH="01910573181"; // *** SUDHU PAID E - ONNO KOTHAO SHOW KORBE NA ***
-
-const cats=[['All','🏠',''],['Hospital','🏥',''],['Jobs','💼',''],['Blood','🩸','red'],['Wholesale','🛒',''],['Retail','🛍️',''],['Car','🚗',''],['Home','🏠',''],['Restaurant','🍲',''],['Park','🌳',''],['Agriculture','🌾',''],['Paid','$','yellow']];
-let curCat='All',curTab='all',lastDoc=null,allLoaded=false,showAdminAll=false,selectedFriend=null,selectedFriendPhone='',chatPicData='';
-let currentUser=null;
-try{ currentUser=JSON.parse(localStorage.getItem('bhaluka_user')||localStorage.getItem('user')||'null'); }catch(e){ currentUser=null; }
-if(currentUser){ showMyPhone(); afterLogin(false); }
-function showMyPhone(){
-  if(currentUser){
-    document.getElementById('myPhoneBar').style.display='block';
-    document.getElementById('noLoginBar').style.display='none';
-    document.getElementById('myPhoneName').innerText=currentUser.name||'';
-    document.getElementById('myPhoneNum').innerText=currentUser.phone||'';
-    if(document.getElementById('pWhats')) document.getElementById('pWhats').value=currentUser.phone;
-    if(document.getElementById('pName')) document.getElementById('pName').value=currentUser.name;
-  } else {
-    document.getElementById('myPhoneBar').style.display='none';
-    document.getElementById('noLoginBar').style.display='block';
-  }
-}
-function saveLogin(user){ currentUser=user; localStorage.setItem('bhaluka_user',JSON.stringify(user)); localStorage.setItem('user',JSON.stringify(user)); showMyPhone(); }
-document.getElementById('cats').innerHTML=cats.map(c=>`<button class="cat ${c[2]} ${c[0]==='All'?'active':''}" onclick="setCat('${c[0]}',this)"><span>${c[1]}</span>${c[0]}</button>`).join('');
-function hideAll(){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));}
-function setBottom(id){document.querySelectorAll('.bottom div').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');}
-function goHome(){hideAll();document.getElementById('page-home').classList.add('active');setBottom('bHome');showMyPhone();loadPosts(true);loadPosts(false);}
-function goPost(){hideAll();document.getElementById('page-post').classList.add('active');setBottom('bPost');showMyPhone();}
-function goBoard(){hideAll();document.getElementById('page-board2').classList.add('active');setBottom('bBoard');loadBoard();}
-function goChat(){hideAll();document.getElementById('page-chat').classList.add('active');setBottom('bChat');loadFriends();loadAllChats();}
-function goAccount(){hideAll();document.getElementById('page-account').classList.add('active');setBottom('bAcc'); if(currentUser && currentUser.phone===ADMIN_NUM) loadAdminList();}
-function setCat(c,el){curCat=c;document.querySelectorAll('.cat').forEach(x=>x.classList.remove('active'));el.classList.add('active');loadPosts(true);loadPosts(false);}
-function setTab(t,el){curTab=t;document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));el.classList.add('active');if(t==='board'){goBoard();}else{loadPosts(true);loadPosts(false);}}
-function planChange(){const isPaid=document.getElementById('plan').value!=='free';document.getElementById('payBox').style.display=isPaid?'block':'none';}
-function aiFix(){let t=document.getElementById('desc').value.trim();if(!t)return alert('Age likho');document.getElementById('desc').value="✨ "+t.charAt(0).toUpperCase()+t.slice(1)+"\n\n📍 Bhaluka\n📞 Jogajog korun.";alert('AI diye sajano hoise!');}
-function previewMedia(input){const f=input.files[0];if(!f)return;const url=URL.createObjectURL(f);document.getElementById('preview').innerHTML=f.type.startsWith('video')?`<video src="${url}" controls style="width:100%;border-radius:10px"></video>`:`<img src="${url}" style="width:100%;border-radius:10px">`;}
-function isAdmin(){ return currentUser && currentUser.phone===ADMIN_NUM; }
-
-// *** LOGIN - SOBAR JONNO EK SYSTEM - NUMBER + 4 PIN ***
-// Tumi: 01760904340 + tomar 4 PIN diye khulba
-// Onnora: Tader number + tader 4 PIN diye khulbe
-// Keu tomar number diye khulte gele tomar PIN lagbe, PIN na mille dhukte parbe na
-async function doLogin(){
-  const num=document.getElementById('accNum').value.trim();
-  const pin=document.getElementById('accPin').value.trim();
-  const name=document.getElementById('accName').value.trim()||'User';
-  if(num.length<10||pin.length!==4) return alert('ফোন নম্বর + ৪ ডিজিট কোড দিন - Jemon: 01760904340 + 1234');
-  const snap=await db.collection('users').where('phone','==',num).get();
-  if(!snap.empty){
-    if(snap.docs[0].data().pin!==pin) return alert('PIN vul! Tomar nijer PIN dao. Onner number diye PIN na mille dhukba na.');
-    const user={phone:num,name:snap.docs[0].data().name||name,id:snap.docs[0].id}; saveLogin(user);
-  } else {
-    // Prothom bar - Notun account hoye jabe, 1 bar korlei hobe
-    const doc=await db.collection('users').add({phone:num,pin:pin,name:name,created:Date.now()}); const user={phone:num,name:name,id:doc.id}; saveLogin(user);
-  }
-  afterLogin(true); loadPosts(true); loadPosts(false);
-}
-async function paidLogin(){
-  const num=document.getElementById('paidNum').value.trim();
-  const pin=document.getElementById('paidPin').value.trim();
-  if(num.length<10||pin.length!==4) return alert('Phone + 4 PIN dao - Jemon: 018XX + 1234');
-  const snap=await db.collection('users').where('phone','==',num).get();
-  if(!snap.empty){ if(snap.docs[0].data().pin!==pin) return alert('PIN vul!'); const user={phone:num,name:snap.docs[0].data().name,id:snap.docs[0].id}; saveLogin(user); }
-  else{ const doc=await db.collection('users').add({phone:num,pin:pin,name:document.getElementById('pName').value||'User',created:Date.now()}); const user={phone:num,name:document.getElementById('pName').value||'User',id:doc.id}; saveLogin(user); }
-  document.getElementById('paidLoginMsg').innerText='✅ 1 Bar Login hoye gese - '+currentUser.name+' - Abar lagbe na';
-  alert('1 Bar Login hoye gese! Abar lagbe na.'); afterLogin(false);
-}
-async function googleLogin(){
-  try{ const provider=new firebase.auth.GoogleAuthProvider(); const res=await auth.signInWithPopup(provider); const displayName=res.user.displayName||'User'; const user={phone:'G-'+displayName.replace(/\s/g,''),name:displayName,id:'google'}; saveLogin(user); document.getElementById('accName').value=displayName; afterLogin(true); }catch(e){ alert('Google login cancel hoise'); }
-}
-function afterLogin(showAlert){
-  if(!currentUser) return;
-  document.getElementById('loginCard').classList.add('hidden');
-  document.getElementById('myControl').classList.remove('hidden');
-  document.getElementById('myNameShow').innerText=currentUser.name;
-  document.getElementById('myNumShow').innerText=currentUser.phone;
-  showMyPhone();
-  if(isAdmin()){ document.getElementById('adminControl').style.display='block'; loadAdminList(); if(showAlert) alert('Welcome Boss! Tomar Control khule gese - Tumi 01760904340 + 4 PIN diye khulso.'); }
-  else{ document.getElementById('adminControl').style.display='none'; if(showAlert) alert('Welcome '+currentUser.name+' - Login save hoye gese, abar lagbe na.'); }
-}
-function doLogout(){localStorage.removeItem('bhaluka_user');localStorage.removeItem('user');currentUser=null;auth.signOut();location.reload();}
-function adminHide(){showAdminAll=false;loadPosts(true);loadPosts(false);}
-async function loadAdminList(){
-  if(!isAdmin()){ document.getElementById('adminControl').style.display='none'; return; }
-  const search=(document.getElementById('adminSearch')?.value||'').toLowerCase();
-  const snap=await db.collection('posts').orderBy('createdAt','desc').limit(50).get();
-  let html='';
-  snap.forEach(doc=>{ const p=doc.data(); if(search && !((p.title||'')+(p.name||'')+(p.shopName||'')).toLowerCase().includes(search)) return; html+=`<div class="adminRow"><b>${p.title||''}</b><br><span class="small">👤 ${p.name||''} • 🏪 ${p.shopName||''} • 📱 ${p.whats||''} • ${p.plan||''} • ${p.status||''}</span><br><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" style="padding:8px;font-size:14px" onclick="approvePost('${doc.id}')">✅ Approve</button><button class="btnRed" style="margin:0" onclick="adminDeletePost('${doc.id}')">🗑️ Delete</button></div></div>`; });
-  document.getElementById('adminList').innerHTML=html||'Kono post nai';
-  document.getElementById('totalCount').innerText=snap.size;
-  const uSnap=await db.collection('users').limit(50).get();
-  let uHtml=''; uSnap.forEach(doc=>{ const u=doc.data(); if(u.phone===ADMIN_NUM) return; uHtml+=`<div class="adminRow"><b>👤 ${u.name||''}</b><br><span class="small">📱 ${u.phone||''}</span><br><button class="btnRed" style="margin:8px 0 0 0" onclick="adminDeleteUser('${doc.id}','${u.name}')">🗑️ User Delete</button></div>`; });
-  document.getElementById('adminUserList').innerHTML=uHtml||'Kono user nai';
-  document.getElementById('totalFriend').innerText=uSnap.size;
-}
-async function adminDeleteUser(id,name){ if(!isAdmin()) return alert('Sudhu tumi delete korte parba!'); if(!confirm(name+' ke delete korba?')) return; await db.collection('users').doc(id).delete(); alert('User delete hoye gese'); loadAdminList(); loadFriends(); }
-async function deletePost(id){
-  const doc=await db.collection('posts').doc(id).get(); if(!doc.exists) return; const p=doc.data();
-  const isOwner=currentUser && currentUser.phone===p.ownerPhone;
-  if(!isOwner && !isAdmin()) return alert('Eita tomar post na!');
-  if(!confirm('Delete korba? - '+p.title)) return;
-  await db.collection('posts').doc(id).delete();
-  const bSnap=await db.collection('desh_board').where('postId','==',id).get(); bSnap.forEach(d=>d.ref.delete());
-  const prSnap=await db.collection('products').where('postId','==',id).get(); prSnap.forEach(d=>d.ref.delete());
-  alert('Delete hoye gese!'); loadPosts(true); loadPosts(false); loadAdminList();
-}
-async function adminDeletePost(id){
-  if(!isAdmin()) return alert('Sudhu Admin delete korte parbe!');
-  if(!confirm('Tumi ki ei post ta delete korte chao?')) return;
-  await db.collection('posts').doc(id).delete();
-  const bSnap=await db.collection('desh_board').where('postId','==',id).get(); bSnap.forEach(d=>d.ref.delete());
-  const prSnap=await db.collection('products').where('postId','==',id).get(); prSnap.forEach(d=>d.ref.delete());
-  alert('Admin Delete hoye gese!'); loadAdminList(); loadPosts(true); loadPosts(false);
-}
-async function approvePost(id){
-  if(!isAdmin()) return alert('Sudhu Admin approve korte parbe');
-  await db.collection('posts').doc(id).update({status:'active'}); alert('Approve hoye gese!'); loadAdminList(); loadPosts(true); loadPosts(false);
-}
-async function doPost(){
-  const name=document.getElementById('pName').value.trim(), product=document.getElementById('title').value.trim(), shop=document.getElementById('shopName').value.trim(), desc=document.getElementById('desc').value.trim(), whats=document.getElementById('pWhats').value.trim(), board=document.getElementById('postBoard').value, photo=document.getElementById('photo').value.trim(), cat=document.getElementById('catSelect').value, plan=document.getElementById('plan').value, trx=document.getElementById('trx').value.trim();
-  if(!name||!product||!shop||!desc||!whats) return alert('1-6 sob fill koro');
-  if(whats===ADMIN_NUM && !currentUser){ /* Admin er number diye post - Tumi nije hole login kore koro */ }
-  let days=2,isPaid=false,price=0,planName='FREE - 2 Din',status='active';
-  if(plan!=='free'){
-    if(!currentUser) return alert('Paid er jonno 1 Bar Login koro - Nijer number + 4 PIN diye.');
-    if(plan==='paid7'){days=7;isPaid=true;price=100;planName='PAID 100Tk - 7 Din';status='pending_payment';if(!trx)return alert('bKash 01910573181 te taka pathay TrxID dao - bKash sudhu Paid e');}
-    if(plan==='paid30'){days=30;isPaid=true;price=300;planName='PAID 300Tk - 30 Din';status='pending_payment';if(!trx)return alert('bKash 01910573181 te taka pathay TrxID dao - bKash sudhu Paid e');}
-  }
-  const now=Date.now();
-  const ownerPhone=isPaid ? currentUser.phone : whats;
-  // BKASH SUDHU DATA TE THAKBE, POST E DEKHABE NA - SUDHU PAID BOX E DEKHABE
-  const data={board,name,shopName:shop,title:product,desc,photo,category:cat,plan:planName,isPaid,price,trx:trx||'',bkash:BKASH,createdAt:now,expireAt:now+days*24*60*60*1000,status:status,ownerPhone:ownerPhone,ownerName:name,whats:whats,phone:whats,time:now};
-  const docRef=await db.collection('posts').add(data);
-  await db.collection('desh_board').add({...data,postId:docRef.id});
-  await db.collection('products').add({...data,postId:docRef.id});
-  try{ const uSnap=await db.collection('users').where('phone','==',whats).get(); if(uSnap.empty) await db.collection('users').add({phone:whats,pin:'0000',name:name,created:now}); }catch(e){}
-  alert(isPaid?'Paid post joma hoise!':'Free Post hoye gese!'); goHome();
-}
-async function loadPosts(reset=false){
-  if(reset){document.getElementById('list').innerHTML='';lastDoc=null;allLoaded=false;}
-  if(allLoaded) return;
-  let q=db.collection('posts').orderBy('createdAt','desc').limit(20);
-  if(lastDoc) q=q.startAfter(lastDoc);
-  const snap=await q.get(); if(snap.empty){allLoaded=true;return;}
-  lastDoc=snap.docs[snap.docs.length-1]; const now=Date.now(); let html='',myHtml='',total=0;
-  snap.forEach(doc=>{
-    const p=doc.data(); total++;
-    const isExpired=now>(p.expireAt||9999999999999);
-    const isOwner=currentUser&&currentUser.phone===p.ownerPhone;
-    const isAdm=isAdmin();
-    if(p.status==='pending_payment'&&!isOwner&&!isAdm&&!showAdminAll) return;
-    if(isExpired&&!showAdminAll&&!isAdm) return;
-    if(curCat!=='All'&&p.category!==curCat) return;
-    if(curTab==='paid'&&!p.isPaid) return;
-    if(curTab==='all'&&p.isPaid) return;
-    const left=Math.max(0,Math.ceil(((p.expireAt||now)-now)/(24*60*60*1000)));
-    const canDelete=isOwner||isAdm;
-    const canApprove=isAdm&&p.status==='pending_payment';
-    // POST E BKASH DEKHABE NA - SUDHU PAID LIKHA THAKBE, BKASH SUDHU PAID BOX E
-    html+=`<div class="card"><div class="flex"><b>🏥 ${p.title}</b><span class="badge free">${p.category||''}</span></div><p style="margin:6px 0">👤 ${p.name||''} • 🏪 ${p.shopName||''} • 📍 ${p.board||''}</p><p>${p.desc||''}</p>${p.photo?`<img class="post-img" src="${p.photo}">`:''}<div class="flex"><span class="small">📱 WhatsApp: ${p.whats||p.phone||''} • ${isExpired?'Meyad Sesh':left+' din baki'}</span><button class="btn2" onclick="window.open('https://wa.me/88${p.whats||p.phone}')">WhatsApp</button></div><div style="margin-top:8px">${isExpired?`<span class="badge expired">Meyad Sesh</span>`:p.isPaid?`<span class="badge paid">${p.plan}</span>`:`<span class="badge free">FREE • ${left} din baki</span>`} ${p.status==='pending_payment'?`<span class="badge pending">⏳ Approve er Opekkhay</span>`:''}</div>${canApprove?`<button class="btn" style="margin-top:8px" onclick="approvePost('${doc.id}')">✅ Approve Korun</button>`:''}${canDelete?`<button class="btnRed" onclick="deletePost('${doc.id}')">🗑️ ${isAdm?'Delete - Admin Hisabe':'Delete - Amar Post'}</button>`:''}<button class="btn" style="margin-top:8px;background:#7c3aed" onclick="chatWithFriend('${p.name}','${p.whats}')">💬 Ei Friend ke Message Dao</button></div>`;
-    if(isOwner) myHtml+=`<div style="background:#f1f5f9;padding:10px;border-radius:10px;margin-bottom:8px"><b>${p.title}</b> - ${p.status} <button class="btnRed" style="float:right;width:auto;margin:0" onclick="deletePost('${doc.id}')">Delete</button></div>`;
-  });
-  document.getElementById('list').innerHTML+=html;
-  if(currentUser){document.getElementById('myList').innerHTML=myHtml||'Ekhono post nai';}
-  document.getElementById('totalCount').innerText=total;
-  showAds();
-}
-async function loadBoard(){
-  const sel=document.getElementById('district').value;
-  let q=db.collection('desh_board').orderBy('createdAt','desc').limit(20);
-  const snap=await q.get(); let html='';
-  snap.forEach(doc=>{ const p=doc.data(); if(sel&&p.board!==sel) return; html+=`<div class="card"><b>${p.title||''}</b><p>👤 ${p.name||''} • 🏪 ${p.shopName||''} • 📍 ${p.board||''}</p><p>${p.desc||''}</p><span class="small">📱 WhatsApp: ${p.whats||''}</span><br><button class="btn2" onclick="window.open('https://wa.me/88${p.whats}')">WhatsApp</button></div>`; });
-  document.getElementById('boardList').innerHTML=html||'Ekhono Desh Board e post nai';
-}
-async function loadFriends(){
-  const search=(document.getElementById('friendSearch')?.value||'').toLowerCase();
-  const uSnap=await db.collection('users').orderBy('created','desc').limit(50).get();
-  const pSnap=await db.collection('posts').orderBy('createdAt','desc').limit(50).get();
-  let map=new Map();
-  uSnap.forEach(doc=>{ const u=doc.data(); if(u.phone && u.name && u.phone!==ADMIN_NUM) map.set(u.phone,{name:u.name,phone:u.phone}); });
-  pSnap.forEach(doc=>{ const p=doc.data(); if(p.whats && p.name && p.whats!==ADMIN_NUM && !map.has(p.whats)) map.set(p.whats,{name:p.name,phone:p.whats}); });
-  if(!map.has(ADMIN_NUM)) map.set(ADMIN_NUM,{name:'Admin - Bhaluka',phone:ADMIN_NUM});
-  let html='';
-  map.forEach(f=>{
-    if(search && !((f.name||'')+(f.phone||'')).toLowerCase().includes(search)) return;
-    const initial=(f.name||'U').charAt(0).toUpperCase();
-    html+=`<div class="friendRow ${selectedFriendPhone===f.phone?'active':''}" onclick="chatWithFriend('${f.name}','${f.phone}')"><div class="avatar">${initial}</div><div style="flex:1"><b>${f.name}</b><br><span class="small">📱 ${f.phone} • 🟢 Online</span></div><button class="btn2">💬 Chat</button></div>`;
-  });
-  document.getElementById('friendList').innerHTML=html||'Ekhono kono friend nai.';
-  document.getElementById('friendCount').innerText=map.size;
-}
-function chatWithFriend(name,phone){ selectedFriend=name; selectedFriendPhone=phone; document.getElementById('chatWindow').style.display='block'; document.getElementById('chatWithName').innerText=name; document.getElementById('chatWithPhone').innerText=phone; loadFriends(); loadChats(); loadAllChats(); document.getElementById('chatWindow').scrollIntoView({behavior:'smooth'}); }
-function closeChat(){ document.getElementById('chatWindow').style.display='none'; selectedFriend=null; selectedFriendPhone=''; }
-function previewChatPic(input){ const f=input.files[0]; if(!f) return; const reader=new FileReader(); reader.onload=e=>{ chatPicData=e.target.result; document.getElementById('chatPicPreview').innerHTML=`<img src="${chatPicData}" style="width:100%;max-width:200px;border-radius:10px">`; }; reader.readAsDataURL(f); }
-async function loadChats(){
-  if(!selectedFriendPhone && !currentUser) return;
-  const snap=await db.collection('chats').orderBy('time','desc').limit(30).get();
-  let html=''; let arr=[]; snap.forEach(doc=>arr.push({id:doc.id,...doc.data()})); arr.reverse();
-  arr.forEach(c=>{
-    const isMe=currentUser && (c.from===currentUser.phone || c.name===currentUser.name);
-    const isRelevant=!selectedFriendPhone || c.to===selectedFriendPhone || c.from===selectedFriendPhone || c.to===currentUser?.phone || c.from===currentUser?.phone;
-    if(!isRelevant && selectedFriendPhone) return;
-    html+=`<div class="chatBubble ${isMe?'me':''}"><b>${c.name||''}</b><br>${c.msg||''}${c.pic?`<br><img class="chatImg" src="${c.pic}">`:''}${c.image?`<br><img class="chatImg" src="${c.image}">`:''}<br><span class="small">${new Date(c.time||Date.now()).toLocaleTimeString()}</span></div>`;
-  });
-  document.getElementById('chatList').innerHTML=html||'Ekhono message nai.';
-}
-async function loadAllChats(){
-  const snap=await db.collection('chats').orderBy('time','desc').limit(20).get();
-  let html=''; snap.forEach(doc=>{ const c=doc.data(); html+=`<div style="margin-bottom:8px"><b>${c.name||''} → ${c.to||''}:</b> ${c.msg||''} ${c.pic?`📸 Pic`:''}<br><span class="small">${new Date(c.time||Date.now()).toLocaleString()}</span></div>`; });
-  document.getElementById('allChats').innerHTML=html||'Ekhono chat nai.';
-}
-db.collection('chats').orderBy('time','desc').limit(20).onSnapshot(()=>{ if(document.getElementById('page-chat').classList.contains('active')){ loadChats(); loadAllChats(); } });
-async function sendChat(){
-  if(!currentUser){
-    const n=prompt('Tomar nam dao:'); if(!n) return;
-    const ph=prompt('Tomar WhatsApp number dao:'); if(!ph) return;
-    const user={phone:ph,name:n,id:'temp'}; saveLogin(user);
-  }
-  const msg=document.getElementById('chatInput').value.trim();
-  const to=selectedFriendPhone || 'Admin';
-  if(!msg && !chatPicData) return alert('Message ba Pic dao');
-  await db.collection('chats').add({email:'',msg:msg,msgText:msg,pic:chatPicData||'',image:chatPicData||'',name:currentUser.name,time:Date.now(),to:to,from:currentUser.phone});
-  document.getElementById('chatInput').value=''; document.getElementById('chatPic').value=''; document.getElementById('chatPicPreview').innerHTML=''; chatPicData='';
-  loadChats(); loadAllChats();
-}
-async function markOnline(){ if(!currentUser) return; await db.collection('online').doc(currentUser.phone).set({name:currentUser.name,phone:currentUser.phone,time:Date.now()}); await db.collection('presence').doc(currentUser.phone).set({name:currentUser.name,phone:currentUser.phone,time:Date.now(),online:true}); const snap=await db.collection('online').get(); document.getElementById('onlineCount').innerText=snap.size; }
-setInterval(markOnline,10000);
-let adCount=0;
-function showAds(){
-  const ads=[`<b>🛍️ Bhaluka Bazar - Notun Ponno!</b><br><span class="small">Kom dame valo ponno - Google Ad</span>`,`<b>🏥 Bhaluka Hospital</b><br><span class="small">Discount cholche - Google Ad</span>`,`<b>📱 Bhaluka Super Apps</b><br><span class="small">Admin WhatsApp: 01760904340</span>`];
-  document.querySelectorAll('.adBox').forEach(b=>{ if(!b.querySelector('ins')) b.innerHTML=ads[adCount%ads.length]+`<br><span class="small">Sponsored</span>`; });
-  try{ (adsbygoogle=window.adsbygoogle||[]).push({}); }catch(e){}
-  adCount++;
-}
-setInterval(()=>{showAds();document.getElementById('liveCount').innerText=Math.floor(100+Math.random()*200)+' jon dekhche';},5*60*1000);
-showAds(); showMyPhone(); loadPosts(); loadFriends(); loadAllChats(); markOnline();
+var db=firebase.firestore();
+db.enablePersistence().catch(()=>{});
+let currentUser=JSON.parse(localStorage.getItem('bhaluka_user')||'null');
+let selectedCat='';let lastDoc=null;let postLimit=20;
+function updateWelcome(){if(currentUser){document.getElementById('welcomeBox').innerHTML=`👋 Welcome ${currentUser.name} | 📱 ${currentUser.phone} | ✅ 1 Bar Login Hoise, Abar Lagbe Na`;}else{document.getElementById('welcomeBox').innerHTML=`👋 Welcome Guest | 🔓 Login korle post sarajibon thakbe`;}}
+updateWelcome();
+setInterval(()=>{document.getElementById('onlineCount').innerText=Math.floor(Math.random()*8)+2;document.getElementById('viewCount').innerText=Math.floor(Math.random()*300)+80;},5000);
+function showNoti(msg){if(document.getElementById('notiCheck') && !document.getElementById('notiCheck').checked) return;document.getElementById('notiText').innerText=msg;document.getElementById('notiBox').style.display='block';if('Notification' in window && Notification.permission==='granted'){new Notification('Bhaluka Super Apps',{body:msg});}setTimeout(()=>{document.getElementById('notiBox').style.display='none';},8000);}
+function toggleNoti(){if(document.getElementById('notiCheck').checked){if('Notification' in window){Notification.requestPermission();}showNoti('🔔 Notification On Hoye Gese');}}
+function saveOffline(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}}
+function getOffline(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
+function showTab(tab,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tab+'Tab').classList.add('active');document.querySelectorAll('.bottom button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(tab==='home'){loadPosts(true);loadBoard();}if(tab==='cobi')loadPhotos();if(tab==='acc'){loadMyPosts();loadFriendsMini();}if(tab==='friends'){loadFriends();loadChats();}}
+function setCat(cat,el){selectedCat=cat;document.querySelectorAll('.grid .cat').forEach(c=>c.classList.remove('active'));el.classList.add('active');loadPosts(true);}
+function copyBkashNum(){navigator.clipboard.writeText('01910573181');alert('✅ bKash Copy: 01910573181');}
+function showBkash(){let v=document.getElementById('pPackage').value;document.getElementById('bkashBox').style.display=(v==='free')?'none':'block';}
+function showCobiBkash(){let v=document.getElementById('cPackage').value;document.getElementById('cobiBkashBox').style.display=(v==='free')?'none':'block';}
+async function signupUser(){let phone=document.getElementById('uPhone').value.trim();let pass=document.getElementById('uPass').value.trim();let name=document.getElementById('uName').value.trim();if(phone.length<11){alert('Thik Phone din');return;}if(pass.length!==5){alert('Password thik 5 okkhor');return;}if(!name){alert('Nam din');return;}let check=await db.collection('users').where('phone','==',phone).get();if(!check.empty){alert('Ei number diye age account ache, Login korun');return;}await db.collection('users').add({phone,pass:btoa(pass+"bhaluka"),name,time:Date.now()});currentUser={name,phone};localStorage.setItem('bhaluka_user',JSON.stringify(currentUser));updateWelcome();showNoti('✅ Account hoye gese '+name);loadMyPosts();}
+async function loginUser(){let phone=document.getElementById('uPhone').value.trim();let pass=document.getElementById('uPass').value.trim();if(pass.length!==5){alert('5 okkhorer password din');return;}let snap=await db.collection('users').where('phone','==',phone).get();if(snap.empty){alert('Account nai, age Account Khulun');return;}let u=snap.docs[0].data();if(u.pass!==btoa(pass+"bhaluka")){alert('Password vul');return;}currentUser={name:u.name,phone:u.phone};localStorage.setItem('bhaluka_user',JSON.stringify(currentUser));updateWelcome();showNoti('✅ Login hoye gese - '+u.name);loadMyPosts();}
+function logoutUser(){localStorage.removeItem('bhaluka_user');currentUser=null;updateWelcome();alert('Logout hoye gese');}
+function fileToBase64(file,maxW,q){return new Promise((res)=>{if(!file){res('');return;}let r=new FileReader();r.onload=e=>{if(!maxW){res(e.target.result);return;}let img=new Image();img.onload=()=>{let c=document.createElement('canvas');let s=Math.min(1,maxW/img.width);c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',q||0.7));};img.src=e.target.result;};r.readAsDataURL(file);});}
+document.getElementById('pVideo').addEventListener('change',function(){let f=this.files[0];if(!f) return;let v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=()=>{URL.revokeObjectURL(v.src);let dur=v.duration;document.getElementById('videoInfo').innerText='🎥 Video: '+Math.floor(dur)+' sec - 2 Min er beshi hole hobe na';if(dur>120){alert('Video 2 Min er beshi');this.value='';}};v.src=URL.createObjectURL(f);});
+async function doPost(){let isLogin=currentUser?true:false;let userName=currentUser?currentUser.name:"Guest";let userPhone=document.getElementById('pPhone').value.trim()||(currentUser?currentUser.phone:"");let title=document.getElementById('pTitle').value.trim();let desc=document.getElementById('pDesc').value.trim();let price=document.getElementById('pPrice').value.trim();let cat=document.getElementById('pCat').value;let pkg=document.getElementById('pPackage').value;let trx=document.getElementById('pTrx')?document.getElementById('pTrx').value.trim():"";if(!title||!desc){alert('Title ar Details din');return;}if(!userPhone){alert('Mobile din');return;}let now=Date.now();let expireAt=0,isSponsor=false,isPaid=false;if(pkg==='free'){expireAt=now+(2*24*60*60*1000);}else if(pkg==='week'){if(!trx){alert('200 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(7*24*60*60*1000);isSponsor=true;isPaid=true;}else if(pkg==='month'){if(!trx){alert('500 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(30*24*60*60*1000);isSponsor=true;isPaid=true;}document.getElementById('postBtn').innerText='Upload hocche...';try{let img1=await fileToBase64(document.getElementById('pImg1').files[0],800,0.7);let img2=await fileToBase64(document.getElementById('pImg2').files[0],800,0.7);let img3=await fileToBase64(document.getElementById('pImg3').files[0],800,0.7);let images=[img1,img2,img3].filter(x=>x!=='');let vidData="";let vf=document.getElementById('pVideo').files[0];if(vf){let max=isLogin?8*1024*1024:3*1024*1024;if(vf.size>max){alert('Video boro');document.getElementById('postBtn').innerText='✅ Post Korun';return;}vidData=await fileToBase64(vf,0,0);}let postData={title,desc,price,cat,phone:userPhone,images:images,image:images[0]||'',video:vidData,userName,isLogin,pkg,trx,isSponsor,isPaid,time:now,expireAt:expireAt,status:'pending',searchText:(title+' '+desc+' '+cat+' ভালুকা Bhaluka').toLowerCase()};let drafts=JSON.parse(localStorage.getItem('my_drafts')||'[]');drafts.unshift(postData);localStorage.setItem('my_drafts',JSON.stringify(drafts));await db.collection('posts').add(postData);showNoti('✅ Post joma hoye gese! Admin approve korle dekhabe');document.getElementById('pTitle').value='';document.getElementById('pDesc').value='';document.getElementById('pPrice').value='';showDrafts();showTab('home',document.querySelector('.bottom button'));}catch(e){alert('Vul: '+e.message)}document.getElementById('postBtn').innerText='✅ Post Korun';}
+function showDrafts(){let drafts=JSON.parse(localStorage.getItem('my_drafts')||'[]');let h="";drafts.slice(0,5).forEach(d=>{h+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${d.title}</b> - ${d.pkg}<br><span class="small">${d.desc.substring(0,60)}</span></div>`;});document.getElementById('draftList').innerHTML=h||'Kono draft nai';}
+showDrafts();
+async function loadPosts(reset){if(reset){lastDoc=null;postLimit=20;document.getElementById('postList').innerHTML='<p style="text-align:center;padding:20px">Loading...</p>';}let q=document.getElementById('search').value.toLowerCase();let query=db.collection('posts').where('status','==','approved').orderBy('time','desc').limit(postLimit);if(lastDoc) query=query.startAfter(lastDoc);let snap=await query.get();if(snap.empty && reset){document.getElementById('postList').innerHTML='<p style="text-align:center;padding:20px">Kono post nai</p>';let old=localStorage.getItem('last_posts');if(old)document.getElementById('postList').innerHTML=old;return;}if(!snap.empty) lastDoc=snap.docs[snap.docs.length-1];let now=Date.now();let html=reset?"":"";if(!reset) html=document.getElementById('postList').innerHTML;snap.forEach(doc=>{let p=doc.data();if(p.expireAt && p.expireAt!==0 && now>p.expireAt) return;if(selectedCat && p.cat!==selectedCat) return;if(q && !(p.title+p.desc+p.cat).toLowerCase().includes(q)) return;let badge=p.isLogin?'✅ Login - Sob Somoy':'🆓 Free - 2 Din';if(p.isPaid) badge='👑 Paid - '+p.pkg;let spon=p.isSponsor?'<p style="background:#FACC15;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:bold">⭐ SPONSORED</p>':'';let imgs='';if(p.images && p.images.length){p.images.forEach(im=>{imgs+=`<img class="thumb" src="${im}">`;});}else if(p.image){imgs=`<img class="post-img" src="${p.image}">`;}html+=`<div class="card" style="${p.isSponsor?'border:2px solid #FACC15;background:#fffbeb':''}">${spon}<div class="topbar"><b>${p.title}</b><span class="badge">${p.cat||''}</span></div><p class="small">👤 ${p.userName||''} • 📞 ${p.phone||''}</p><p style="font-size:12px;background:#fef9c3;padding:4px;border-radius:6px;margin-top:5px">${badge} | Free 0 Taka 2 Din | Paid 200 Taka Soptaho, 500 Taka Mas</p><p style="margin-top:6px">${p.desc}</p>${p.price?`<h3 style="color:#00A651">৳ ${p.price}</h3>`:''}${imgs}${p.video?`<video class="post-video" src="${p.video}" controls></video>`:''}<div class="flex" style="margin-top:10px"><a href="tel:${p.phone}" style="flex:1;text-decoration:none"><button class="btn2" style="width:100%">📞 কল</button></a><a href="https://wa.me/88${p.phone}?text=${encodeURIComponent('Assalamualaikum, post ta dekhlam: '+p.title)}" target="_blank" style="flex:1;text-decoration:none"><button class="btn2" style="width:100%;background:#25D366">💬 WhatsApp</button></a></div></div>`;});document.getElementById('postList').innerHTML=html;localStorage.setItem('last_posts',html);}
+function loadMorePosts(){postLimit+=20;loadPosts(false);showNoti('⬇️ Aro post load hocche...');}
+async function sellPhoto(){if(!currentUser){alert('Age Login korun');showTab('acc',document.querySelectorAll('.bottom button')[4]);return;}let title=document.getElementById('cTitle').value.trim();let price=document.getElementById('cPrice').value.trim();let pkg=document.getElementById('cPackage').value;let trx=document.getElementById('cTrx')?document.getElementById('cTrx').value.trim():"";if(!title){alert('Cobir nam din');return;}let now=Date.now();let expireAt=0,isPaid=false,isSponsor=false;if(pkg==='free'){expireAt=now+(2*24*60*60*1000);}else if(pkg==='paid100'){if(!trx){alert('100 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(30*24*60*60*1000);isPaid=true;isSponsor=true;}let i1=await fileToBase64(document.getElementById('cImg1').files[0],800,0.7);let i2=await fileToBase64(document.getElementById('cImg2').files[0],800,0.7);let i3=await fileToBase64(document.getElementById('cImg3').files[0],800,0.7);let imgs=[i1,i2,i3].filter(x=>x!=='');if(imgs.length===0){alert('1 ta cobi din');return;}await db.collection('photos').add({title,price,images:imgs,image:imgs[0],phone:currentUser.phone,userName:currentUser.name,time:now,expireAt:expireAt,pkg:pkg,trx:trx,isPaid:isPaid,isSponsor:isSponsor,status:'pending'});showNoti('✅ Cobi joma hoye gese!');}
+async function loadPhotos(){let snap=await db.collection('photos').where('status','==','approved').orderBy('time','desc').limit(50).get();let now=Date.now();let html="";snap.forEach(doc=>{let p=doc.data();if(p.expireAt && p.expireAt!==0 && now>p.expireAt) return;let badge=p.isPaid?'👑 Paid Cobi - 30 Din':'🆓 Free Cobi - 2 Din';let imgs='';if(p.images){p.images.forEach(im=>{imgs+=`<img class="thumb" src="${im}">`;});}html+=`<div class="card photo-card"><div class="topbar"><b>${p.title}</b><span class="badge">৳ ${p.price}</span></div><p class="small">👤 ${p.userName} • 📞 ${p.phone}</p><p style="font-size:12px;background:#fef9c3;padding:4px;border-radius:6px;margin-top:5px">${badge}</p>${imgs}<a href="https://wa.me/88${p.phone}?text=${encodeURIComponent('Cobi ta kinte chai: '+p.title)}" target="_blank" style="text-decoration:none"><button class="btn" style="background:#25D366;margin-top:8px">💬 Kinte Chai - WhatsApp</button></a><button class="btn" style="background:#E2136E;margin-top:6px" onclick="copyBkashNum()">💸 bKash - 01910573181</button></div>`;});document.getElementById('photoList').innerHTML=html||'<p style="text-align:center;padding:20px">Kono cobi nai</p>';}
+async function loadMyPosts(){if(!currentUser){document.getElementById('myPosts').innerHTML='<p class="small">Login koren</p>';return;}let snap=await db.collection('posts').where('phone','==',currentUser.phone).orderBy('time','desc').limit(100).get();let html='<h4>Amar Post</h4>';snap.forEach(doc=>{let p=doc.data();html+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${p.title}</b> - ${p.status} - ${p.pkg}<br><span class="small">${p.desc}</span></div>`;});document.getElementById('myPosts').innerHTML=html;}
+async function addBoard(){let t=document.getElementById('bTitle').value.trim();let d=document.getElementById('bDesc').value.trim();if(!t||!d){alert('Title ar Details din');return;}let data={title:t,desc:d,time:Date.now()};let arr=getOffline('desh_board')||[];arr.unshift(data);saveOffline('desh_board',arr);await db.collection('desh_board').add(data);alert('✅ Board e notice gese');loadBoard();}
+async function loadBoard(){let offline=getOffline('desh_board');let html="";if(offline){offline.forEach(p=>{html+=`<div style="border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><b>${p.title}</b><p class="small">${p.desc}</p></div>`;});}if(html){document.getElementById('boardList').innerHTML=html+'<p class="small">📶 Offline - Ager Notice</p>';}try{let snap=await db.collection('desh_board').orderBy('time','desc').limit(30).get();let html2="";let arr=[];snap.forEach(doc=>{let p=doc.data();arr.push(p);html2+=`<div style="border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><b>${p.title}</b><p class="small">${p.desc}</p></div>`;});if(html2){document.getElementById('boardList').innerHTML=html2;saveOffline('desh_board',arr);}}catch(e){if(!html) document.getElementById('boardList').innerHTML='Net nai';}}
+async function addFriend(){if(!currentUser){alert('Age Login korun');showTab('acc',document.querySelectorAll('.bottom button')[4]);return;}let phone=document.getElementById('fPhone').value.trim();let name=document.getElementById('fName').value.trim();if(phone.length<11){alert('Thik Phone din');return;}if(phone===currentUser.phone){alert('Nijer ke friend banano jabe na');return;}let check=await db.collection('friends').where('myPhone','==',currentUser.phone).where('friendPhone','==',phone).get();if(!check.empty){alert('Ei bondhu agei add ache');return;}await db.collection('friends').add({myPhone:currentUser.phone,myName:currentUser.name,friendPhone:phone,friendName:name||phone,time:Date.now()});showNoti('✅ Friend Add hoye gese - '+name);document.getElementById('fPhone').value='';document.getElementById('fName').value='';loadFriends();}
+async function loadFriends(){if(!currentUser){document.getElementById('friendList').innerHTML='<p class="small">Login korle friend list dekhbe</p>';return;}let snap=await db.collection('friends').where('myPhone','==',currentUser.phone).orderBy('time','desc').get();document.getElementById('friendCount').innerText=snap.size;let html="";snap.forEach(doc=>{let f=doc.data();html+=`<div style="display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><div><b>👤 ${f.friendName}</b><br><span class="small">📞 ${f.friendPhone}</span></div><div style="display:flex;gap:6px"><a href="https://wa.me/88${f.friendPhone}" target="_blank"><button style="background:#25D366;color:#fff;border:none;padding:8px;border-radius:8px">💬 Chat</button></a><a href="tel:${f.friendPhone}"><button style="background:#00A651;color:#fff;border:none;padding:8px;border-radius:8px">📞 Call</button></a><button onclick="removeFriend('${doc.id}')" style="background:red;color:#fff;border:none;padding:8px;border-radius:8px">X</button></div></div>`;});document.getElementById('friendList').innerHTML=html||'<p class="small">Kono friend nai</p>';let all=await db.collection('users').orderBy('time','desc').limit(20).get();let html2="";all.forEach(doc=>{let u=doc.data();if(u.phone===currentUser.phone) return;html2+=`<div style="display:flex;justify-content:space-between;border:1px solid #eee;padding:8px;border-radius:10px;margin-top:6px"><span><b>${u.name}</b><br><span class="small">${u.phone}</span></span><button onclick="quickAddFriend('${u.phone}','${u.name}')" style="background:#00A651;color:#fff;border:none;padding:6px 12px;border-radius:8px">➕ Add</button></div>`;});document.getElementById('allUsersList').innerHTML=html2;}
+async function loadFriendsMini(){if(!currentUser) return;let snap=await db.collection('friends').where('myPhone','==',currentUser.phone).limit(5).get();let html='<h4>👥 Amar Friend - '+snap.size+' jon</h4>';snap.forEach(doc=>{let f=doc.data();html+=`<div style="border:1px solid #eee;padding:6px;border-radius:8px;margin-top:4px">👤 ${f.friendName} - ${f.friendPhone}</div>`;});document.getElementById('myFriendsMini').innerHTML=html;}
+async function quickAddFriend(phone,name){await db.collection('friends').add({myPhone:currentUser.phone,myName:currentUser.name,friendPhone:phone,friendName:name,time:Date.now()});showNoti('✅ Friend Add: '+name);loadFriends();}
+async function removeFriend(id){await db.collection('friends').doc(id).delete();alert('Friend delete');loadFriends();}
+function searchFriend(q){let items=document.querySelectorAll('#friendList > div');items.forEach(it=>{it.style.display=it.innerText.toLowerCase().includes(q.toLowerCase())?'flex':'none';});}
+function sendChat(){let m=document.getElementById('chatMsg').value.trim();if(!m){alert('Message likhun');return;}window.open('https://wa.me/8801910573181?text='+encodeURIComponent(m),'_blank');}
+async function loadChats(){if(!currentUser) return;try{let snap=await db.collection('chats').where('to','==',currentUser.phone).orderBy('time','desc').limit(20).get();let html="";snap.forEach(doc=>{let c=doc.data();html+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${c.name}</b><br>${c.msg}</div>`;});document.getElementById('chatList').innerHTML=html||'';}catch(e){}}
+db.collection('posts').where('status','==','approved').orderBy('time','desc').limit(1).onSnapshot(snap=>{snap.docChanges().forEach(ch=>{if(ch.type==='added' && !ch.doc.metadata.hasPendingWrites){let p=ch.doc.data();if(Date.now()-p.time < 60000){showNoti('🆕 Notun Post: '+p.title);}}});});
+loadPosts(true);loadBoard();
 </script>
 </body>
 </html>
