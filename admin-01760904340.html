@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin - Bhaluka Super Apps</title>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Hind Siliguri,Arial}
+body{background:#111;color:#fff;padding:10px;padding-bottom:50px}
+h2{text-align:center;padding:10px}
+.card{background:#fff;color:#000;padding:12px;border-radius:12px;margin:10px 0}
+input{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
+.btn{background:#00A651;color:#fff;border:none;padding:10px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer}
+.btn2{border:none;padding:8px 12px;border-radius:8px;cursor:pointer;color:#fff;font-weight:bold}
+.small{font-size:12px;color:#666}
+img{width:100%;border-radius:10px;margin-top:6px}
+.tabBtn{flex:1;border:none;padding:10px;background:#333;color:#fff;border-radius:8px;cursor:pointer}
+.tabBtn.active{background:#00A651}
+.tab{display:none}.tab.active{display:block}
+</style>
+</head>
+<body>
+<h2>🔐 Admin Panel - Bhaluka Super Apps</h2>
+<p style="text-align:center;font-size:13px">Sudhu Tumi - Admin: 01760904340</p>
+
+<div id="loginBox" class="card">
+<h3>Admin Login</h3>
+<p class="small">Admin Phone + Admin Pass - 2 tai 01760904340</p>
+<input id="aPhone" placeholder="Admin Phone - 01760904340">
+<input id="aPass" placeholder="Admin Pass - 01760904340">
+<button class="btn" onclick="adminLogin()">🔓 Admin Login</button>
+</div>
+
+<div id="dashBox" style="display:none">
+<div style="display:flex;gap:8px;margin:10px 0">
+<button class="tabBtn active" onclick="showAdminTab('pending',this)">⏳ Pending Post</button>
+<button class="tabBtn" onclick="showAdminTab('cobi',this)">📷 Cobi</button>
+<button class="tabBtn" onclick="showAdminTab('board',this)">🇧🇩 Board</button>
+<button class="tabBtn" onclick="showAdminTab('users',this)">👥 Users</button>
+<button class="tabBtn" onclick="showAdminTab('chat',this)">💬 Chat</button>
+</div>
+<div class="card" style="background:#fef9c3"><b>📊 Hisab:</b> <span id="stats">Loading...</span><br><span class="small">Pending Post: Approve korle Home e dekhabe | Paid Post: TrxID check kore Approve koro</span></div>
+<div id="pendingTab" class="tab active"><div id="pendingList"></div></div>
+<div id="cobiTab" class="tab"><div id="cobiList"></div></div>
+<div id="boardTab" class="tab"><div id="boardList"></div></div>
+<div id="usersTab" class="tab"><div id="usersList"></div></div>
+<div id="chatTab" class="tab"><div id="chatList"></div></div>
+<button class="btn" style="background:red;margin-top:10px" onclick="logoutAdmin()">🚪 Logout</button>
+</div>
+
+<script>
+const firebaseConfig = { apiKey: "AIzaSyCnSavXfbefzU0Hyuuhh1zGjuI5DtidH7w", authDomain: "bhaluka-super-apps.firebaseapp.com", projectId: "bhaluka-super-apps", storageBucket: "bhaluka-super-apps.firebasestorage.app", messagingSenderId: "505498498587", appId: "1:505498498587:web:c736d423562febfe76eabe" };
+firebase.initializeApp(firebaseConfig);
+var db=firebase.firestore();
+
+let isAdmin = localStorage.getItem('bhaluka_admin')==='yes';
+if(isAdmin){document.getElementById('loginBox').style.display='none';document.getElementById('dashBox').style.display='block';loadAll();}
+
+function adminLogin(){
+  let phone=document.getElementById('aPhone').value.trim();
+  let pass=document.getElementById('aPass').value.trim();
+  if(phone==='01760904340' && pass==='01760904340'){
+    localStorage.setItem('bhaluka_admin','yes');
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('dashBox').style.display='block';
+    alert('✅ Admin Login Hoye Gese');
+    loadAll();
+  } else {
+    alert('Vul Number / Password - Admin: 01760904340');
+  }
+}
+function logoutAdmin(){localStorage.removeItem('bhaluka_admin');location.reload();}
+function showAdminTab(tab,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(tab+'Tab').classList.add('active');
+  document.querySelectorAll('.tabBtn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  loadAll();
+}
+async function loadAll(){
+  let pSnap=await db.collection('posts').where('status','==','pending').get();
+  let cSnap=await db.collection('photos').where('status','==','pending').get();
+  let uSnap=await db.collection('users').get();
+  document.getElementById('stats').innerText=`Pending Post: ${pSnap.size} ta | Pending Cobi: ${cSnap.size} ta | Total User: ${uSnap.size} jon`;
+  let html="";
+  pSnap.forEach(doc=>{
+    let p=doc.data();
+    html+=`<div class="card"><b>${p.title}</b> - ${p.cat} - ৳ ${p.price||0}<br><span class="small">👤 ${p.userName} | 📞 ${p.phone} | Pkg: ${p.pkg} | Trx: ${p.trx||'Free'} | Paid: ${p.isPaid?'YES - Trx Check Koro':''}</span><p>${p.desc}</p>${p.image?`<img src="${p.image}">`:''}${p.images? p.images.map(im=>`<img src="${im}">`).join(''):''}${p.video?`<video src="${p.video}" controls style="width:100%"></video>`:''}<div style="display:flex;gap:8px;margin-top:8px"><button class="btn2" style="background:#00A651;flex:1" onclick="approvePost('${doc.id}')">✅ Approve</button><button class="btn2" style="background:red;flex:1" onclick="deletePost('${doc.id}')">❌ Delete</button></div></div>`;
+  });
+  document.getElementById('pendingList').innerHTML=html||'Kono pending post nai';
+  let html2="";
+  cSnap.forEach(doc=>{
+    let p=doc.data();
+    html2+=`<div class="card"><b>${p.title}</b> - ৳ ${p.price}<br><span class="small">👤 ${p.userName} | 📞 ${p.phone} | Pkg: ${p.pkg} | Trx: ${p.trx||'Free'}</span>${p.image?`<img src="${p.image}">`:''}<div style="display:flex;gap:8px;margin-top:8px"><button class="btn2" style="background:#00A651;flex:1" onclick="approveCobi('${doc.id}')">✅ Approve Cobi</button><button class="btn2" style="background:red;flex:1" onclick="deleteCobi('${doc.id}')">❌ Delete</button></div></div>`;
+  });
+  document.getElementById('cobiList').innerHTML=html2||'Kono pending cobi nai';
+  let bSnap=await db.collection('desh_board').orderBy('time','desc').limit(20).get();
+  let html3="";
+  bSnap.forEach(doc=>{let p=doc.data();html3+=`<div class="card"><b>${p.title}</b><p>${p.desc}</p><button class="btn2" style="background:red" onclick="deleteBoard('${doc.id}')">❌ Delete</button></div>`;});
+  document.getElementById('boardList').innerHTML=html3;
+  let html4="";
+  uSnap.forEach(doc=>{let u=doc.data();html4+=`<div class="card"><b>${u.name}</b><br><span class="small">📞 ${u.phone}</span></div>`;});
+  document.getElementById('usersList').innerHTML=html4;
+  let chSnap=await db.collection('chats').orderBy('time','desc').limit(30).get();
+  let html5="";
+  chSnap.forEach(doc=>{let c=doc.data();html5+=`<div class="card"><b>${c.name}</b> - ${c.email}<br>${c.msg}<br><span class="small">To: ${c.to}</span></div>`;});
+  document.getElementById('chatList').innerHTML=html5;
+}
+async function approvePost(id){await db.collection('posts').doc(id).update({status:'approved'});alert('✅ Post Approve Hoye Gese');loadAll();}
+async function deletePost(id){if(confirm('Delete korba?')){await db.collection('posts').doc(id).delete();loadAll();}}
+async function approveCobi(id){await db.collection('photos').doc(id).update({status:'approved'});alert('✅ Cobi Approve Hoye Gese');loadAll();}
+async function deleteCobi(id){if(confirm('Delete korba?')){await db.collection('photos').doc(id).delete();loadAll();}}
+async function deleteBoard(id){if(confirm('Delete korba?')){await db.collection('desh_board').doc(id).delete();loadAll();}}
+</script>
+</body>
+</html>
