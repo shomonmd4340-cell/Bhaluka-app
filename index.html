@@ -4,147 +4,268 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ভালুকার সুপার অ্যাপস - পণ্য বিক্রি, ছবি বিক্রি, গাড়ি, হাসপাতাল | Bhaluka Super App</title>
-<meta name="description" content="ভালুকা সুপার অ্যাপস - ভালুকায় পণ্য বিক্রি, ছবি বিক্রি, গাড়ি, হাসপাতাল, স্কুল, রেস্টুরেন্ট, হোলসেল বাজার, রক্ত, চাকরি। Free Post 2 Din, Paid 200 Taka Soptaho, 500 Taka Mas, Cobi 100 Taka">
+<title>Bhaluka Super Apps</title>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581301141695930" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;font-family:Hind Siliguri,Arial}
-body{background:#f1f5f9;padding-bottom:85px}
-.header{background:#00A651;color:#fff;padding:14px 10px 18px;text-align:center;border-bottom:3px dashed #fff;border-radius:0 0 18px 18px}
-.header h1{font-size:24px}.header p{font-size:15px;font-weight:bold;margin-top:4px}
-.livebar{background:#111;color:#fff;margin:10px;border-radius:25px;padding:10px 14px;display:flex;justify-content:space-between;font-weight:bold;font-size:15px}
-.live-dot{width:16px;height:16px;background:red;border-radius:50%;display:inline-block;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.3}}
-.welcome{background:#e6f9ed;border:2px solid #00A651;padding:12px;margin:0 10px;border-radius:12px;text-align:center;font-weight:bold;font-size:17px}
-.noti{background:#fff3cd;border:1px solid #facc15;padding:10px;margin:10px;border-radius:12px;font-size:13px;display:none}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:12px 10px}
-.cat{background:#00A651;color:#fff;border-radius:14px;padding:14px 4px;text-align:center;cursor:pointer;font-weight:bold;font-size:15px;min-height:78px;display:flex;flex-direction:column;justify-content:center}
-.cat span{font-size:26px}.cat.active{background:#fff;color:#00A651;border:3px solid #111}.cat.red{background:#E11D48}.cat.yellow{background:#FACC15;color:#000}
-.card{background:#fff;padding:12px;border-radius:12px;margin:10px;box-shadow:0 1px 4px #ddd}
-input,select,textarea{width:100%;padding:11px;margin:6px 0;border:1px solid #ddd;border-radius:10px}
-.btn{background:#00A651;color:#fff;border:none;padding:12px;border-radius:10px;width:100%;font-weight:bold;cursor:pointer}
-.btn2{background:#00A651;color:#fff;border:none;padding:9px;border-radius:10px;cursor:pointer}
-.badge{background:#dcfce7;padding:3px 8px;border-radius:20px;font-size:11px}
-.small{font-size:12px;color:#666}.post-img{width:100%;border-radius:10px;margin-top:8px}.post-video{width:100%;border-radius:10px;margin-top:8px}
-.flex{display:flex;gap:8px}.topbar{display:flex;justify-content:space-between}
-.tab{display:none}.tab.active{display:block}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:flex;z-index:99;padding:6px 0}
-.bottom button{flex:1;border:none;background:none;font-size:12px;font-weight:bold;cursor:pointer;color:#333;position:relative}
-.bottom button.active{color:#00A651}.bottom button .ic{font-size:26px;display:block}
-.noti-dot{position:absolute;top:2px;right:18px;background:red;color:#fff;font-size:10px;width:18px;height:18px;border-radius:50%;display:none;align-items:center;justify-content:center}
-.photo-card{border:2px solid #FACC15;background:#fffbeb}.thumb{width:32%;border-radius:8px;margin-top:6px}
+body{background:#f8fafc;padding-bottom:90px}
+header{background:linear-gradient(135deg,#00A651,#00d26a);color:#fff;padding:16px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 15px #00A65133}
+header h1{font-size:23px} header p{font-size:12px;line-height:1.6;opacity:.95}
+.menuBtn{position:absolute;left:12px;top:16px;background:#fff;color:#00A651;border:none;font-size:21px;width:42px;height:42px;border-radius:13px;cursor:pointer;font-weight:bold}
+.notifBtn{position:absolute;right:12px;top:16px;background:#fff;color:#00A651;border:none;font-size:20px;width:42px;height:42px;border-radius:13px;cursor:pointer}
+.notifDot{position:absolute;right:4px;top:4px;background:#ef4444;color:#fff;font-size:11px;min-width:20px;height:20px;border-radius:10px;display:none;align-items:center;justify-content:center;padding:0 5px;font-weight:bold}
+.offlineBar{display:none;background:#ef4444;color:#fff;text-align:center;padding:9px;font-weight:bold;font-size:13px}
+.offlineBar.show{display:block}
+.liveBar{background:#111;color:#fff;margin:14px;border-radius:28px;padding:12px 16px;display:flex;justify-content:space-between;font-weight:bold;font-size:13px}
+.welcome{background:#fff;border:1px solid #dcfce7;margin:0 14px 14px;padding:12px;border-radius:14px;font-weight:bold;font-size:15px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 8px #0001}
+.menuOverlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:#0008;z-index:200}
+.menuOverlay.open{display:block}
+.sideMenu{position:fixed;top:0;left:-285px;width:275px;height:100%;background:#fff;z-index:201;transition:.3s;overflow-y:auto}
+.sideMenu.open{left:0}
+.sideMenu .mHead{background:linear-gradient(135deg,#00A651,#00d26a);color:#fff;padding:20px}
+.sideMenu button{display:block;width:100%;text-align:left;border:none;background:#fff;padding:15px 18px;font-size:15px;font-weight:bold;cursor:pointer;border-bottom:1px solid #f1f5f9}
+.closeBtn{background:#fff;color:#00A651;border:none;padding:10px;border-radius:10px;font-weight:bold;cursor:pointer;margin-top:12px;width:100%}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:0 14px 14px}
+.cat{background:#fff;color:#111;border-radius:18px;padding:15px 4px;text-align:center;cursor:pointer;font-weight:bold;box-shadow:0 2px 8px #0001;border:1px solid #f1f5f9}
+.cat span{font-size:29px;display:block}
+.cat.activeCat{background:#00A651;color:#fff}
+.cat.blood{background:#fff;color:#e11d48}
+.cat.paid{background:#fef9c3;color:#111}
+.searchBar{padding:0 14px 14px}
+.searchBar input{width:100%;padding:13px 18px;border-radius:28px;border:1px solid #e2e8f0;outline:none;background:#fff}
+.card{background:#fff;margin:10px 14px;border-radius:20px;padding:15px;box-shadow:0 3px 12px #0001;border:1px solid #f1f5f9}
+.card img{width:100%;border-radius:14px;margin-top:10px}
+.card video{width:100%;border-radius:14px;margin-top:10px}
+.btn{background:linear-gradient(135deg,#00A651,#00c853);color:#fff;border:none;padding:13px;border-radius:13px;width:100%;font-weight:bold;cursor:pointer;margin-top:8px;font-size:15px}
+input,select,textarea{width:100%;padding:13px;margin:6px 0;border:1px solid #e2e8f0;border-radius:13px;outline:none;font-size:14px;background:#f8fafc}
+.small{font-size:12px;color:#64748b}
+.badge{background:#fef9c3;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.badgePaid{background:#dcfce7;padding:5px 10px;border-radius:20px;font-size:11px;font-weight:bold}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;border-top:1px solid #eee;z-index:99;box-shadow:0 -3px 15px #0001;overflow-x:auto}
+.bottom button{flex:1;min-width:62px;border:none;background:#fff;padding:9px 2px;font-size:11px;cursor:pointer;font-weight:bold;color:#94a3b8}
+.bottom button.active{color:#00A651}
+.bottom button span{font-size:25px;display:block}
+.page{display:none}.page.active{display:block}
+.pkgBox{display:flex;gap:8px}
+.pkg{flex:1;border:2px solid #e2e8f0;border-radius:14px;padding:13px;text-align:center;cursor:pointer;background:#f8fafc}
+.pkg.sel{border-color:#00A651;background:#f0fdf4}
+.chatBox{height:320px;overflow-y:auto;background:#f8fafc;padding:10px;border-radius:14px;border:1px solid #eee}
+.chatMsg{background:#fff;padding:10px 12px;border-radius:14px;margin:7px 0;max-width:85%;box-shadow:0 1px 3px #0001}
+.chatMsg.me{background:#dcfce7;margin-left:auto;text-align:right}
+.notifPop{display:none;position:fixed;top:68px;right:12px;width:295px;background:#fff;border-radius:16px;box-shadow:0 8px 25px #0003;z-index:300;padding:14px;max-height:380px;overflow-y:auto}
+.notifPop.open{display:block}
+.toast{position:fixed;top:68px;left:50%;transform:translateX(-50%);background:#111;color:#fff;padding:11px 18px;border-radius:25px;z-index:400;display:none;font-size:13px;font-weight:bold;max-width:90%;text-align:center}
+.toast.show{display:block}
+.friendRow{border:1px solid #f1f5f9;padding:12px;border-radius:14px;margin:7px 0;display:flex;justify-content:space-between;align-items:center;background:#fff}
+.googleAd{margin:12px 14px;text-align:center}
 </style>
 </head>
 <body>
-<div class="header"><h1>🇧🇩 Bhaluka Super Apps</h1><p>Everything about Valuka in one place<br>Ponno Becha-Kena O Seba Mulok Live Cholbe</p><div style="margin-top:10px;font-weight:bold">📱 Admin WhatsApp: 01760904340</div></div>
-<div class="livebar"><span><span class="live-dot"></span> LIVE - <span id="onlineCount">3</span> jon online</span><span><span id="viewCount">128</span> jon dekhche</span></div>
-<div class="welcome" id="welcomeBox">👋 Welcome Guest</div>
-<div class="noti" id="notiBox">🔔 <span id="notiText"></span> <button onclick="document.getElementById('notiBox').style.display='none'" style="float:right;border:none;background:none;font-weight:bold">X</button></div>
+
+<div class="toast" id="toast"></div>
+<div class="notifPop" id="notifPop"><h3>🔔 Notification</h3><div id="notifList"><div style="padding:8px;color:#888">Kono notification nai</div></div><button class="btn" onclick="closeNotif()">Bondho</button></div>
+
+<div class="menuOverlay" id="menuOverlay" onclick="closeMenu()"></div>
+<div class="sideMenu" id="sideMenu">
+<div class="mHead"><h2>🇧🇩 Bhaluka Super Apps</h2><p id="menuUser" style="margin-top:6px">👋 Login koro</p><button class="closeBtn" onclick="closeMenu()">✖ Bondho</button></div>
+<button onclick="goMenu('homePage')">🏠 Home</button>
+<button onclick="goMenu('boardPage')">🇧🇩 Desh Board</button>
+<button onclick="goMenu('postPage')">➕ Post Dao - Free / Paid</button>
+<button onclick="goMenu('cobiPage')">📷 Cobi Bikri</button>
+<button onclick="goMenu('chatPage')">💬 Chatting</button>
+<button onclick="goMenu('friendsPage')">👥 Friend List</button>
+<button onclick="goMenu('accPage')">👤 Account</button>
+</div>
+
+<header>
+<button class="menuBtn" onclick="openMenu()">☰</button>
+<h1>🇧🇩 Bhaluka Super Apps</h1><p>Everything about Valuka in one place<br>Ponno Becha-Kena O Seba Mulok Live Cholbe<br>📱 Admin: 01760904340</p>
+<button class="notifBtn" onclick="toggleNotif()">🔔<span class="notifDot" id="notifDot">1</span></button>
+</header>
+<div class="offlineBar" id="offlineBar">📵 Net Nai - Ager Save Kora Desh Board + Post Dekhacche</div>
+<div class="liveBar"><span>🔴 LIVE - <span id="onlineCount">5</span> jon online</span><span>👀 <span id="viewCount">196</span> jon dekhche</span><span id="liveStatus" style="color:#4ade80">● LIVE</span></div>
+<div class="welcome" id="welcomeBox"><span>👋 Welcome Sumon</span><span style="font-size:12px;color:#00A651">✅ Login Hoise</span></div>
+
+<!-- SUDU GOOGLE ADDS - 1 -->
+<div class="googleAd"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 
 <!-- HOME -->
-<div id="homeTab" class="tab active">
+<div id="homePage" class="page active">
 <div class="grid">
-<div class="cat active" onclick="setCat('',this)"><span>🏠</span>All</div>
-<div class="cat" onclick="setCat('🏥 হাসপাতাল',this)"><span>🏥</span>Hospital</div>
-<div class="cat" onclick="setCat('💼 চাকরি',this)"><span>💼</span>Jobs</div>
-<div class="cat red" onclick="setCat('🩸 রক্ত',this)"><span>🩸</span>Blood</div>
-<div class="cat" onclick="setCat('🛍️ হোলসেল বাজার',this)"><span>🛒</span>Wholesale</div>
-<div class="cat" onclick="setCat('🛒 পণ্য বিক্রি',this)"><span>🛍️</span>Retail</div>
-<div class="cat" onclick="setCat('🚗 গাড়ি',this)"><span>🚗</span>Car</div>
-<div class="cat" onclick="setCat('🏠 বাড়ি ভাড়া',this)"><span>🏠</span>Home</div>
-<div class="cat" onclick="setCat('🍽️ রেস্টুরেন্ট',this)"><span>🍲</span>Restaurant</div>
-<div class="cat" onclick="setCat('🅿️ পার্ক',this)"><span>🌳</span>Park</div>
-<div class="cat" onclick="setCat('🌾 ধান',this)"><span>🌾</span>Agriculture</div>
-<div class="cat yellow" onclick="setCat('📢 বাজার অ্যাড',this)"><span>$</span>Paid</div>
+<div class="cat activeCat" onclick="setCat('all',this)"><span>🏠</span>All</div>
+<div class="cat" onclick="setCat('hospital',this)"><span>🏥</span>Hospital</div>
+<div class="cat" onclick="setCat('chakri',this)"><span>💼</span>Jobs</div>
+<div class="cat blood" onclick="setCat('blood',this)"><span>🩸</span>Blood</div>
+<div class="cat" onclick="setCat('wholesale',this)"><span>🛒</span>Wholesale</div>
+<div class="cat" onclick="setCat('retail',this)"><span>🛍️</span>Retail</div>
+<div class="cat" onclick="setCat('gari',this)"><span>🚗</span>Car</div>
+<div class="cat" onclick="setCat('bari',this)"><span>🏠</span>Home</div>
+<div class="cat" onclick="setCat('restaurant',this)"><span>🍲</span>Restaurant</div>
+<div class="cat" onclick="setCat('park',this)"><span>🌳</span>Park</div>
+<div class="cat" onclick="setCat('jomi',this)"><span>🌾</span>Agriculture</div>
+<div class="cat paid" onclick="setCat('paid',this)"><span>💰</span>Paid</div>
 </div>
-<div class="card"><input id="search" placeholder="🔍 খুঁজুন - ভালুকা গাড়ি, হাসপাতাল, ছবি বিক্রি..." oninput="loadPosts(true)"><p class="small">Google e asbe: ভালুকা হাসপাতাল, ভালুকা গাড়ি, ভালুকা ছবি বিক্রি, ভালুকা বাজার অ্যাড</p></div>
-<div class="card" style="border:2px solid #00A651"><h3>🇧🇩 Desh Board - Country Board</h3><p class="small">Net na thakleo ager notice thakbe - Hariye jabe na</p><div id="boardList"></div><input id="bTitle" placeholder="Notice - ভালুকায় আগামীকাল বাজার বন্ধ"><textarea id="bDesc" placeholder="Details Bangla te likhun..."></textarea><button class="btn" onclick="addBoard()">✅ Notice Din</button></div>
-<div class="card" style="text-align:center"><p style="font-size:11px;color:#888">📢 বিজ্ঞাপন</p><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#fef9c3;padding:8px;border-radius:10px;margin-top:5px"><b>📢 Dokaner Add Din - Hajar Hajar Manush Dekhbe</b><br><span style="font-size:12px">Free 2 Din | 1 Soptaho 200 Taka | 1 Mas 500 Taka | Cobi 100 Taka | bKash: 01910573181</span></div></div>
+<div class="searchBar"><input id="searchInput" placeholder="🔍 Ki khujteso? Jomi, Bari, Chakri..." oninput="renderAll()"></div>
+<div class="card" style="background:linear-gradient(135deg,#fef9c3,#fef3c7)"><h3>🇧🇩 Desh Board</h3><p class="small" id="boardStatus">Net thakle notun, net na thakleo ager khobor dekhabe</p><div id="homeBoardList" style="margin-top:8px">Khobor astese...</div><button class="btn" style="background:linear-gradient(135deg,#f59e0b,#f97316)" onclick="showPage('boardPage')">📢 Sob Khobor Dekho →</button></div>
 <div id="postList"></div>
-<button class="btn" style="margin:10px;width:calc(100% - 20px)" onclick="loadMorePosts()">⬇️ Aro Post Dekhun - Hajar Hajar Post</button>
-<div class="card" style="text-align:center"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#e6f9ed;padding:8px;border-radius:10px;margin-top:5px"><b>🌿 ভালুকার সুপার অ্যাপস</b><br><span style="font-size:12px">WhatsApp: 01910573181 | bKash: 01910573181</span></div></div>
+<div class="googleAd"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+</div>
+
+<!-- POST - SUDU POST - FREE / PAID -->
+<div id="postPage" class="page">
+<div class="card">
+<h3>➕ Notun Post</h3><p class="small">Sudu Post Korbe - Free / Paid</p>
+<div id="pendingBox" style="display:none;background:#fef9c3;padding:10px;border-radius:12px;margin:6px 0"><b>⏳ Pending:</b> <span id="pendingCount">0</span> ta - Net asle auto jabe <button style="background:#00A651;color:#fff;border:none;padding:6px 12px;border-radius:8px;font-weight:bold" onclick="syncPending()">🔄 Pathao</button></div>
+<input id="pTitle" placeholder="Title - Ex: 5 Sotok Jomi Bikri Hobe">
+<textarea id="pDesc" placeholder="Bistarito likhun..." rows="3"></textarea>
+<input id="pPrice" placeholder="Dam - ৳" type="number">
+<select id="pCat"><option value="sell">🛒 Sell products</option><option value="jomi">🌾 Jomi</option><option value="bari">🏠 Bari</option><option value="chakri">💼 Chakri</option><option value="hospital">🏥 Hospital</option><option value="blood">🩸 Blood</option><option value="gari">🚗 Gari</option><option value="wholesale">🛒 Wholesale</option><option value="retail">🛍️ Retail</option><option value="restaurant">🍲 Restaurant</option><option value="park">🌳 Park</option></select>
+<input id="pMobile" placeholder="Mobile - 01XXXXXXXXX">
+<input id="pWhatsapp" placeholder="WhatsApp Number - 01XXXXXXXXX">
+<input id="pAddress" placeholder="📍 Thikana - Ex: Bhaluka Bazar">
+<label class="small"><b>Package - Sudu 2 ta:</b></label>
+<div class="pkgBox"><div class="pkg sel" onclick="selectPkg('free',this)"><b>🆓 FREE</b><br><span class="small">0 Taka - 2 Din<br>Sathe sathe Live<br>Video 3MB</span></div><div class="pkg" onclick="selectPkg('200',this)"><b>⭐ PAID</b><br><span class="small">200 Taka - Soptaho<br>500 Taka - Mas<br>Video 8MB</span></div></div>
+<div id="payBox" style="display:none;background:#fef9c3;padding:11px;border-radius:12px;margin-top:8px"><b>💰 bKash:</b> 01760904340 (Send Money)<br><span class="small">200 Taka = Soptaho, 500 Taka = Mas</span><input id="pTrx" placeholder="bKash TrxID"><select id="pPaidDays"><option value="200">200 Taka - 7 Din</option><option value="500">500 Taka - 30 Din Sponsor</option></select></div>
+<label class="small">🖼️ Pic 3 ta | 🎥 Video 2 Minute</label>
+<input type="file" id="pImg" accept="image/*" multiple onchange="previewPostImg(this)"><div id="pImgPrev"></div>
+<input type="file" id="pVideo" accept="video/*" onchange="checkVideo(this)"><div id="pVideoPrev"></div>
+<p class="small" id="videoInfo" style="color:#00A651;font-weight:bold"></p>
+<button class="btn" onclick="doPost()">🚀 Post Dao - Free / Paid</button>
+</div>
+<div class="googleAd"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
 </div>
 
 <!-- COBI -->
-<div id="cobiTab" class="tab">
-<div class="card photo-card"><h3>📷 Cobi Bazar - Alada System</h3><p class="small">Free Cobi 2 Din | Paid Cobi 100 Taka / Mas</p><input id="cTitle" placeholder="Cobir Nam - ভালুকার ধান ক্ষেত"><input id="cPrice" type="number" placeholder="Cobir Dam - 100"><select id="cPackage" onchange="showCobiBkash()"><option value="free">🆓 Cobi Free - 0 Taka - 2 Din</option><option value="paid100">📷 Cobi Paid - 100 Taka / Mas</option></select><div id="cobiBkashBox" style="display:none;background:#FDE8F0;padding:10px;border-radius:10px"><p style="color:#E2136E;font-weight:bold">💸 Cobi Paid - bKash: 01910573181</p><input id="cTrx" placeholder="bKash TrxID Din"><button onclick="copyBkashNum()" style="background:#E2136E;color:#fff;border:none;padding:8px;border-radius:8px;width:100%">📋 bKash Copy</button></div><p class="small">📷 Cobi - 3 ta porjonto</p><input type="file" id="cImg1" accept="image/*"><input type="file" id="cImg2" accept="image/*"><input type="file" id="cImg3" accept="image/*"><button class="btn" style="background:#eab308;color:#000" onclick="sellPhoto()">📷 Cobi Bikrir Jonno Din</button></div>
-<div class="card" style="text-align:center"><ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="1234567890" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script><div style="background:#fef9c3;padding:8px;border-radius:10px;margin-top:5px"><b>📷 Tomar Cobi Ekhane Add Dite Paro - 100 Taka / Mas</b></div></div>
-<div id="photoList"></div>
+<div id="cobiPage" class="page">
+<div class="card"><h3>📷 Cobi Bikri</h3><input id="cTitle" placeholder="Cobi Title"><input id="cPrice" placeholder="Dam - ৳" type="number"><input id="cWhatsapp" placeholder="WhatsApp Number"><input id="cAddress" placeholder="📍 Thikana"><div class="pkgBox"><div class="pkg sel" onclick="selectCobiPkg('free',this)"><b>🆓 FREE</b></div><div class="pkg" onclick="selectCobiPkg('100',this)"><b>⭐ PAID - 100 Taka</b></div></div><div id="cPayBox" style="display:none;background:#fef9c3;padding:10px;border-radius:10px"><b>bKash:</b> 01760904340<br><input id="cTrx" placeholder="TrxID"></div><label class="small">🖼️ Cobi Max 3 ta</label><input type="file" id="cImg" accept="image/*" multiple><button class="btn" onclick="sellPhoto()">📷 Cobi Post Koro</button></div>
+<div id="cobiList"></div>
 </div>
 
-<!-- POST -->
-<div id="postTab" class="tab">
-<div class="card"><h3>➕ Notun Post - Free / Paid</h3><p class="small">Free - 0 Taka - 2 Din | Paid - 200 Taka Soptaho, 500 Taka Mas - Sobar Upore<br>Post Hariye Jabe Na - Phone + Firebase 2 Jaygay Save</p><input id="pTitle" placeholder="Title Bangla te - ভালুকার দেশি মুরগি বিক্রি"><textarea id="pDesc" placeholder="Bistarito Bangla te likhun - Google e asbe..."></textarea><input id="pPrice" type="number" placeholder="Dam - ৳"><select id="pCat"><option>🛒 পণ্য বিক্রি</option><option>🏥 হাসপাতাল</option><option>💼 চাকরি</option><option>🩸 রক্ত</option><option>🛍️ হোলসেল বাজার</option><option>🚗 গাড়ি</option><option>🍽️ রেস্টুরেন্ট</option><option>🅿️ পার্ক</option><option>🌾 ধান</option><option>📢 বাজার অ্যাড</option><option>🏡 জমি-বাড়ি</option><option>❤️ অন্যান্য</option></select><input id="pPhone" placeholder="Mobile - 01XXXXXXXXX"><p class="small">🖼️ Pic 3 ta | 🎥 Video 2 Minute | Login 8MB, Free 3MB</p><input type="file" id="pImg1" accept="image/*"><input type="file" id="pImg2" accept="image/*"><input type="file" id="pImg3" accept="image/*"><input type="file" id="pVideo" accept="video/*"><p class="small" id="videoInfo"></p><div style="background:#fffbeb;padding:10px;border-radius:12px;border:1px solid #facc15"><h3>📢 Bazar Add</h3><select id="pPackage" onchange="showBkash()"><option value="free">🆓 Free Post - 0 Taka - 2 Din</option><option value="week">📢 Paid - 1 Soptaho - 200 Taka</option><option value="month">👑 Paid - 1 Mas - 500 Taka</option></select><div id="bkashBox" style="display:none;background:#FDE8F0;padding:10px;border-radius:10px;margin-top:8px"><p style="color:#E2136E;font-weight:bold">💸 Paid Post - bKash: 01910573181</p><input id="pTrx" placeholder="bKash TrxID Din"><button onclick="copyBkashNum()" style="background:#E2136E;color:#fff;border:none;padding:8px;border-radius:8px;width:100%">📋 bKash Copy - 01910573181</button></div></div><button class="btn" id="postBtn" onclick="doPost()">✅ Post Korun</button></div>
-<div class="card"><h4>📦 Amar Draft - Post Hariye Gele Ekhane Thakbe</h4><div id="draftList"></div></div>
+<!-- BOARD -->
+<div id="boardPage" class="page">
+<div class="card" style="background:linear-gradient(135deg,#fef9c3,#fef3c7)"><h3>🇧🇩 Desh Board - Khobor Dao</h3><input id="bTitle" placeholder="Khobor Title"><textarea id="bDesc" placeholder="Khobor Details..."></textarea><input id="bAddress" placeholder="📍 Thikana"><div class="pkgBox"><div class="pkg sel" onclick="selectBoardPkg('free',this)"><b>🆓 FREE</b></div><div class="pkg" onclick="selectBoardPkg('paid',this)"><b>💰 PAID - 100 Taka</b></div></div><div id="bPayBox" style="display:none;background:#fff;padding:10px;border-radius:10px;margin-top:6px"><b>bKash:</b> 01760904340<br><input id="bTrx" placeholder="TrxID"></div><button class="btn" style="background:linear-gradient(135deg,#f59e0b,#f97316)" onclick="postBoard()">📢 Board e Dao</button></div>
+<div id="boardList"></div>
 </div>
 
-<!-- FRIENDS -->
-<div id="friendsTab" class="tab">
-<div class="card"><h3>👥 Friend List</h3><p class="small">Phone diye bondhu add koro</p><input id="fPhone" placeholder="Bondhur Phone - 01XXXXXXXXX"><input id="fName" placeholder="Bondhur Nam"><button class="btn" onclick="addFriend()">➕ Friend Add Korun</button></div>
-<div class="card"><h4>📋 Amar Friend List - <span id="friendCount">0</span> jon</h4><input placeholder="🔍 Friend Khujun..." oninput="searchFriend(this.value)"><div id="friendList"></div></div>
-<div class="card"><h4>👥 Valukar Sob Manush</h4><div id="allUsersList"></div></div>
-<div class="card"><h3>💬 Chat</h3><input id="chatMsg" placeholder="Message likhun..."><button class="btn" style="background:#25D366" onclick="sendChat()">💬 WhatsApp e Pathan - 01910573181</button><div id="chatList" style="margin-top:10px"></div></div>
+<!-- CHATTING -->
+<div id="chatPage" class="page">
+<div class="card" style="border:2px solid #dcfce7"><h3>💬 Chatting - Live</h3><p class="small">Bhaluka'r sobai ekhane chat kore</p><button class="btn" style="margin:0 0 8px" onclick="showPage('friendsPage')">👥 Friend List Dekho</button><div class="chatBox" id="chatBox">Chat astese...</div><div style="display:flex;gap:8px"><input id="chatInput" placeholder="Message likho..." style="flex:1"><button style="background:#00A651;color:#fff;border:none;padding:12px 18px;border-radius:12px;font-weight:bold" onclick="sendChat()">➤</button></div></div>
+<div class="card"><h3>📩 Admin ke Help</h3><input id="helpName" placeholder="Tomar Nam"><textarea id="helpMsg" placeholder="Ki Help Lagbe?"></textarea><button class="btn" style="background:linear-gradient(135deg,#f59e0b,#f97316)" onclick="sendHelp()">📩 Admin ke Pathao</button></div>
 </div>
 
-<!-- ACCOUNT -->
-<div id="accTab" class="tab">
-<div class="card"><h3>👤 Account - Phone + 5 Okkhor Pass</h3><p class="small">1 Bar Login Hoile Abar Lagbe Na</p><input id="uPhone" placeholder="Phone - 01XXXXXXXXX"><input id="uPass" placeholder="Password - 5 okkhor - valuk" maxlength="5"><input id="uName" placeholder="Apnar Nam"><button class="btn" onclick="signupUser()">✅ Account Khulun</button><button class="btn" style="background:#fff;color:#00A651;border:1px solid #00A651;margin-top:6px" onclick="loginUser()">🔓 Login</button><button class="btn" style="background:#fff;color:red;border:1px solid #ddd;margin-top:6px" onclick="logoutUser()">🚪 Logout</button><label style="font-size:13px"><input type="checkbox" id="notiCheck" checked onchange="toggleNoti()"> 🔔 Notification On</label><div id="myPosts" style="margin-top:10px"></div><div id="myFriendsMini" style="margin-top:10px"></div></div>
+<!-- FRIEND LIST -->
+<div id="friendsPage" class="page">
+<div class="card"><h3>👥 Friend List</h3><p class="small">Chat korte <b>Chat</b> e chap dao</p><input id="friendSearch" placeholder="🔍 Friend khujo..." oninput="renderFriends()"><div id="friendsList"></div><button class="btn" onclick="showPage('chatPage')">💬 Chatting e Jao →</button></div>
+</div>
+
+<!-- ACCOUNT - PASSWORD LUKANO -->
+<div id="accPage" class="page">
+<div class="card" id="loginCard"><h3>🔐 Login - Safe</h3><p class="small">🔒 Tomar Password lukano thakbe, keu dekhte parbe na</p><input id="uName" placeholder="Tomar Nam"><input id="uPhone" placeholder="Phone - 01XXXXXXXXX"><input id="uPass" placeholder="Password - 5 Okkhor" maxlength="5"><button class="btn" onclick="doLogin()">🔓 Login</button></div>
+<div class="card" id="profileCard" style="display:none"><h3>👤 Amar Account</h3><p id="profileInfo"></p><button class="btn" style="background:#ef4444" onclick="doLogout()">🚪 Logout</button><h4 style="margin-top:12px">📝 Amar Post</h4><div id="myPostList"></div><div id="myPendingBox"></div></div>
 </div>
 
 <div class="bottom">
-<button class="active" onclick="showTab('home',this)"><span class="ic">🏠</span>Home</button>
-<button onclick="showTab('cobi',this)"><span class="ic">📷</span>Cobi<br>Bikri</button>
-<button onclick="showTab('post',this)"><span class="ic" style="font-size:32px">➕</span>Post</button>
-<button onclick="showTab('friends',this)"><span class="ic">👥</span>Friends<span class="noti-dot" id="friendDot">1</span></button>
-<button onclick="showTab('acc',this)"><span class="ic">👤</span>Account</button>
+<button class="active" onclick="showPage('homePage')"><span>🏠</span>Home</button>
+<button onclick="showPage('cobiPage')"><span>📷</span>Cobi</button>
+<button onclick="showPage('postPage')"><span>➕</span>Post</button>
+<button onclick="showPage('chatPage')"><span>💬</span>Chat</button>
+<button onclick="showPage('friendsPage')"><span>👥</span>Friends</button>
+<button onclick="showPage('accPage')"><span>👤</span>Account</button>
 </div>
 
 <script>
+// ===== FIREBASE - GOOGLE ER KHATA =====
 const firebaseConfig = { apiKey: "AIzaSyCnSavXfbefzU0Hyuuhh1zGjuI5DtidH7w", authDomain: "bhaluka-super-apps.firebaseapp.com", projectId: "bhaluka-super-apps", storageBucket: "bhaluka-super-apps.firebasestorage.app", messagingSenderId: "505498498587", appId: "1:505498498587:web:c736d423562febfe76eabe" };
 firebase.initializeApp(firebaseConfig);
 var db=firebase.firestore();
-db.enablePersistence().catch(()=>{});
-let currentUser=JSON.parse(localStorage.getItem('bhaluka_user')||'null');
-let selectedCat='';let lastDoc=null;let postLimit=20;
-function updateWelcome(){if(currentUser){document.getElementById('welcomeBox').innerHTML=`👋 Welcome ${currentUser.name} | 📱 ${currentUser.phone} | ✅ 1 Bar Login Hoise, Abar Lagbe Na`;}else{document.getElementById('welcomeBox').innerHTML=`👋 Welcome Guest | 🔓 Login korle post sarajibon thakbe`;}}
-updateWelcome();
-setInterval(()=>{document.getElementById('onlineCount').innerText=Math.floor(Math.random()*8)+2;document.getElementById('viewCount').innerText=Math.floor(Math.random()*300)+80;},5000);
-function showNoti(msg){if(document.getElementById('notiCheck') && !document.getElementById('notiCheck').checked) return;document.getElementById('notiText').innerText=msg;document.getElementById('notiBox').style.display='block';if('Notification' in window && Notification.permission==='granted'){new Notification('Bhaluka Super Apps',{body:msg});}setTimeout(()=>{document.getElementById('notiBox').style.display='none';},8000);}
-function toggleNoti(){if(document.getElementById('notiCheck').checked){if('Notification' in window){Notification.requestPermission();}showNoti('🔔 Notification On Hoye Gese');}}
-function saveOffline(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}}
-function getOffline(k){try{return JSON.parse(localStorage.getItem(k)||'null');}catch(e){return null;}}
-function showTab(tab,btn){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));document.getElementById(tab+'Tab').classList.add('active');document.querySelectorAll('.bottom button').forEach(b=>b.classList.remove('active'));if(btn)btn.classList.add('active');if(tab==='home'){loadPosts(true);loadBoard();}if(tab==='cobi')loadPhotos();if(tab==='acc'){loadMyPosts();loadFriendsMini();}if(tab==='friends'){loadFriends();loadChats();}}
-function setCat(cat,el){selectedCat=cat;document.querySelectorAll('.grid .cat').forEach(c=>c.classList.remove('active'));el.classList.add('active');loadPosts(true);}
-function copyBkashNum(){navigator.clipboard.writeText('01910573181');alert('✅ bKash Copy: 01910573181');}
-function showBkash(){let v=document.getElementById('pPackage').value;document.getElementById('bkashBox').style.display=(v==='free')?'none':'block';}
-function showCobiBkash(){let v=document.getElementById('cPackage').value;document.getElementById('cobiBkashBox').style.display=(v==='free')?'none':'block';}
-async function signupUser(){let phone=document.getElementById('uPhone').value.trim();let pass=document.getElementById('uPass').value.trim();let name=document.getElementById('uName').value.trim();if(phone.length<11){alert('Thik Phone din');return;}if(pass.length!==5){alert('Password thik 5 okkhor');return;}if(!name){alert('Nam din');return;}let check=await db.collection('users').where('phone','==',phone).get();if(!check.empty){alert('Ei number diye age account ache, Login korun');return;}await db.collection('users').add({phone,pass:btoa(pass+"bhaluka"),name,time:Date.now()});currentUser={name,phone};localStorage.setItem('bhaluka_user',JSON.stringify(currentUser));updateWelcome();showNoti('✅ Account hoye gese '+name);loadMyPosts();}
-async function loginUser(){let phone=document.getElementById('uPhone').value.trim();let pass=document.getElementById('uPass').value.trim();if(pass.length!==5){alert('5 okkhorer password din');return;}let snap=await db.collection('users').where('phone','==',phone).get();if(snap.empty){alert('Account nai, age Account Khulun');return;}let u=snap.docs[0].data();if(u.pass!==btoa(pass+"bhaluka")){alert('Password vul');return;}currentUser={name:u.name,phone:u.phone};localStorage.setItem('bhaluka_user',JSON.stringify(currentUser));updateWelcome();showNoti('✅ Login hoye gese - '+u.name);loadMyPosts();}
-function logoutUser(){localStorage.removeItem('bhaluka_user');currentUser=null;updateWelcome();alert('Logout hoye gese');}
-function fileToBase64(file,maxW,q){return new Promise((res)=>{if(!file){res('');return;}let r=new FileReader();r.onload=e=>{if(!maxW){res(e.target.result);return;}let img=new Image();img.onload=()=>{let c=document.createElement('canvas');let s=Math.min(1,maxW/img.width);c.width=img.width*s;c.height=img.height*s;c.getContext('2d').drawImage(img,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',q||0.7));};img.src=e.target.result;};r.readAsDataURL(file);});}
-document.getElementById('pVideo').addEventListener('change',function(){let f=this.files[0];if(!f) return;let v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=()=>{URL.revokeObjectURL(v.src);let dur=v.duration;document.getElementById('videoInfo').innerText='🎥 Video: '+Math.floor(dur)+' sec - 2 Min er beshi hole hobe na';if(dur>120){alert('Video 2 Min er beshi');this.value='';}};v.src=URL.createObjectURL(f);});
-async function doPost(){let isLogin=currentUser?true:false;let userName=currentUser?currentUser.name:"Guest";let userPhone=document.getElementById('pPhone').value.trim()||(currentUser?currentUser.phone:"");let title=document.getElementById('pTitle').value.trim();let desc=document.getElementById('pDesc').value.trim();let price=document.getElementById('pPrice').value.trim();let cat=document.getElementById('pCat').value;let pkg=document.getElementById('pPackage').value;let trx=document.getElementById('pTrx')?document.getElementById('pTrx').value.trim():"";if(!title||!desc){alert('Title ar Details din');return;}if(!userPhone){alert('Mobile din');return;}let now=Date.now();let expireAt=0,isSponsor=false,isPaid=false;if(pkg==='free'){expireAt=now+(2*24*60*60*1000);}else if(pkg==='week'){if(!trx){alert('200 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(7*24*60*60*1000);isSponsor=true;isPaid=true;}else if(pkg==='month'){if(!trx){alert('500 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(30*24*60*60*1000);isSponsor=true;isPaid=true;}document.getElementById('postBtn').innerText='Upload hocche...';try{let img1=await fileToBase64(document.getElementById('pImg1').files[0],800,0.7);let img2=await fileToBase64(document.getElementById('pImg2').files[0],800,0.7);let img3=await fileToBase64(document.getElementById('pImg3').files[0],800,0.7);let images=[img1,img2,img3].filter(x=>x!=='');let vidData="";let vf=document.getElementById('pVideo').files[0];if(vf){let max=isLogin?8*1024*1024:3*1024*1024;if(vf.size>max){alert('Video boro');document.getElementById('postBtn').innerText='✅ Post Korun';return;}vidData=await fileToBase64(vf,0,0);}let postData={title,desc,price,cat,phone:userPhone,images:images,image:images[0]||'',video:vidData,userName,isLogin,pkg,trx,isSponsor,isPaid,time:now,expireAt:expireAt,status:'pending',searchText:(title+' '+desc+' '+cat+' ভালুকা Bhaluka').toLowerCase()};let drafts=JSON.parse(localStorage.getItem('my_drafts')||'[]');drafts.unshift(postData);localStorage.setItem('my_drafts',JSON.stringify(drafts));await db.collection('posts').add(postData);showNoti('✅ Post joma hoye gese! Admin approve korle dekhabe');document.getElementById('pTitle').value='';document.getElementById('pDesc').value='';document.getElementById('pPrice').value='';showDrafts();showTab('home',document.querySelector('.bottom button'));}catch(e){alert('Vul: '+e.message)}document.getElementById('postBtn').innerText='✅ Post Korun';}
-function showDrafts(){let drafts=JSON.parse(localStorage.getItem('my_drafts')||'[]');let h="";drafts.slice(0,5).forEach(d=>{h+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${d.title}</b> - ${d.pkg}<br><span class="small">${d.desc.substring(0,60)}</span></div>`;});document.getElementById('draftList').innerHTML=h||'Kono draft nai';}
-showDrafts();
-async function loadPosts(reset){if(reset){lastDoc=null;postLimit=20;document.getElementById('postList').innerHTML='<p style="text-align:center;padding:20px">Loading...</p>';}let q=document.getElementById('search').value.toLowerCase();let query=db.collection('posts').where('status','==','approved').orderBy('time','desc').limit(postLimit);if(lastDoc) query=query.startAfter(lastDoc);let snap=await query.get();if(snap.empty && reset){document.getElementById('postList').innerHTML='<p style="text-align:center;padding:20px">Kono post nai</p>';let old=localStorage.getItem('last_posts');if(old)document.getElementById('postList').innerHTML=old;return;}if(!snap.empty) lastDoc=snap.docs[snap.docs.length-1];let now=Date.now();let html=reset?"":"";if(!reset) html=document.getElementById('postList').innerHTML;snap.forEach(doc=>{let p=doc.data();if(p.expireAt && p.expireAt!==0 && now>p.expireAt) return;if(selectedCat && p.cat!==selectedCat) return;if(q && !(p.title+p.desc+p.cat).toLowerCase().includes(q)) return;let badge=p.isLogin?'✅ Login - Sob Somoy':'🆓 Free - 2 Din';if(p.isPaid) badge='👑 Paid - '+p.pkg;let spon=p.isSponsor?'<p style="background:#FACC15;padding:4px 8px;border-radius:8px;font-size:12px;font-weight:bold">⭐ SPONSORED</p>':'';let imgs='';if(p.images && p.images.length){p.images.forEach(im=>{imgs+=`<img class="thumb" src="${im}">`;});}else if(p.image){imgs=`<img class="post-img" src="${p.image}">`;}html+=`<div class="card" style="${p.isSponsor?'border:2px solid #FACC15;background:#fffbeb':''}">${spon}<div class="topbar"><b>${p.title}</b><span class="badge">${p.cat||''}</span></div><p class="small">👤 ${p.userName||''} • 📞 ${p.phone||''}</p><p style="font-size:12px;background:#fef9c3;padding:4px;border-radius:6px;margin-top:5px">${badge} | Free 0 Taka 2 Din | Paid 200 Taka Soptaho, 500 Taka Mas</p><p style="margin-top:6px">${p.desc}</p>${p.price?`<h3 style="color:#00A651">৳ ${p.price}</h3>`:''}${imgs}${p.video?`<video class="post-video" src="${p.video}" controls></video>`:''}<div class="flex" style="margin-top:10px"><a href="tel:${p.phone}" style="flex:1;text-decoration:none"><button class="btn2" style="width:100%">📞 কল</button></a><a href="https://wa.me/88${p.phone}?text=${encodeURIComponent('Assalamualaikum, post ta dekhlam: '+p.title)}" target="_blank" style="flex:1;text-decoration:none"><button class="btn2" style="width:100%;background:#25D366">💬 WhatsApp</button></a></div></div>`;});document.getElementById('postList').innerHTML=html;localStorage.setItem('last_posts',html);}
-function loadMorePosts(){postLimit+=20;loadPosts(false);showNoti('⬇️ Aro post load hocche...');}
-async function sellPhoto(){if(!currentUser){alert('Age Login korun');showTab('acc',document.querySelectorAll('.bottom button')[4]);return;}let title=document.getElementById('cTitle').value.trim();let price=document.getElementById('cPrice').value.trim();let pkg=document.getElementById('cPackage').value;let trx=document.getElementById('cTrx')?document.getElementById('cTrx').value.trim():"";if(!title){alert('Cobir nam din');return;}let now=Date.now();let expireAt=0,isPaid=false,isSponsor=false;if(pkg==='free'){expireAt=now+(2*24*60*60*1000);}else if(pkg==='paid100'){if(!trx){alert('100 Taka bKash kore TrxID din - 01910573181');return;}expireAt=now+(30*24*60*60*1000);isPaid=true;isSponsor=true;}let i1=await fileToBase64(document.getElementById('cImg1').files[0],800,0.7);let i2=await fileToBase64(document.getElementById('cImg2').files[0],800,0.7);let i3=await fileToBase64(document.getElementById('cImg3').files[0],800,0.7);let imgs=[i1,i2,i3].filter(x=>x!=='');if(imgs.length===0){alert('1 ta cobi din');return;}await db.collection('photos').add({title,price,images:imgs,image:imgs[0],phone:currentUser.phone,userName:currentUser.name,time:now,expireAt:expireAt,pkg:pkg,trx:trx,isPaid:isPaid,isSponsor:isSponsor,status:'pending'});showNoti('✅ Cobi joma hoye gese!');}
-async function loadPhotos(){let snap=await db.collection('photos').where('status','==','approved').orderBy('time','desc').limit(50).get();let now=Date.now();let html="";snap.forEach(doc=>{let p=doc.data();if(p.expireAt && p.expireAt!==0 && now>p.expireAt) return;let badge=p.isPaid?'👑 Paid Cobi - 30 Din':'🆓 Free Cobi - 2 Din';let imgs='';if(p.images){p.images.forEach(im=>{imgs+=`<img class="thumb" src="${im}">`;});}html+=`<div class="card photo-card"><div class="topbar"><b>${p.title}</b><span class="badge">৳ ${p.price}</span></div><p class="small">👤 ${p.userName} • 📞 ${p.phone}</p><p style="font-size:12px;background:#fef9c3;padding:4px;border-radius:6px;margin-top:5px">${badge}</p>${imgs}<a href="https://wa.me/88${p.phone}?text=${encodeURIComponent('Cobi ta kinte chai: '+p.title)}" target="_blank" style="text-decoration:none"><button class="btn" style="background:#25D366;margin-top:8px">💬 Kinte Chai - WhatsApp</button></a><button class="btn" style="background:#E2136E;margin-top:6px" onclick="copyBkashNum()">💸 bKash - 01910573181</button></div>`;});document.getElementById('photoList').innerHTML=html||'<p style="text-align:center;padding:20px">Kono cobi nai</p>';}
-async function loadMyPosts(){if(!currentUser){document.getElementById('myPosts').innerHTML='<p class="small">Login koren</p>';return;}let snap=await db.collection('posts').where('phone','==',currentUser.phone).orderBy('time','desc').limit(100).get();let html='<h4>Amar Post</h4>';snap.forEach(doc=>{let p=doc.data();html+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${p.title}</b> - ${p.status} - ${p.pkg}<br><span class="small">${p.desc}</span></div>`;});document.getElementById('myPosts').innerHTML=html;}
-async function addBoard(){let t=document.getElementById('bTitle').value.trim();let d=document.getElementById('bDesc').value.trim();if(!t||!d){alert('Title ar Details din');return;}let data={title:t,desc:d,time:Date.now()};let arr=getOffline('desh_board')||[];arr.unshift(data);saveOffline('desh_board',arr);await db.collection('desh_board').add(data);alert('✅ Board e notice gese');loadBoard();}
-async function loadBoard(){let offline=getOffline('desh_board');let html="";if(offline){offline.forEach(p=>{html+=`<div style="border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><b>${p.title}</b><p class="small">${p.desc}</p></div>`;});}if(html){document.getElementById('boardList').innerHTML=html+'<p class="small">📶 Offline - Ager Notice</p>';}try{let snap=await db.collection('desh_board').orderBy('time','desc').limit(30).get();let html2="";let arr=[];snap.forEach(doc=>{let p=doc.data();arr.push(p);html2+=`<div style="border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><b>${p.title}</b><p class="small">${p.desc}</p></div>`;});if(html2){document.getElementById('boardList').innerHTML=html2;saveOffline('desh_board',arr);}}catch(e){if(!html) document.getElementById('boardList').innerHTML='Net nai';}}
-async function addFriend(){if(!currentUser){alert('Age Login korun');showTab('acc',document.querySelectorAll('.bottom button')[4]);return;}let phone=document.getElementById('fPhone').value.trim();let name=document.getElementById('fName').value.trim();if(phone.length<11){alert('Thik Phone din');return;}if(phone===currentUser.phone){alert('Nijer ke friend banano jabe na');return;}let check=await db.collection('friends').where('myPhone','==',currentUser.phone).where('friendPhone','==',phone).get();if(!check.empty){alert('Ei bondhu agei add ache');return;}await db.collection('friends').add({myPhone:currentUser.phone,myName:currentUser.name,friendPhone:phone,friendName:name||phone,time:Date.now()});showNoti('✅ Friend Add hoye gese - '+name);document.getElementById('fPhone').value='';document.getElementById('fName').value='';loadFriends();}
-async function loadFriends(){if(!currentUser){document.getElementById('friendList').innerHTML='<p class="small">Login korle friend list dekhbe</p>';return;}let snap=await db.collection('friends').where('myPhone','==',currentUser.phone).orderBy('time','desc').get();document.getElementById('friendCount').innerText=snap.size;let html="";snap.forEach(doc=>{let f=doc.data();html+=`<div style="display:flex;justify-content:space-between;align-items:center;border:1px solid #ddd;padding:10px;border-radius:10px;margin-top:8px"><div><b>👤 ${f.friendName}</b><br><span class="small">📞 ${f.friendPhone}</span></div><div style="display:flex;gap:6px"><a href="https://wa.me/88${f.friendPhone}" target="_blank"><button style="background:#25D366;color:#fff;border:none;padding:8px;border-radius:8px">💬 Chat</button></a><a href="tel:${f.friendPhone}"><button style="background:#00A651;color:#fff;border:none;padding:8px;border-radius:8px">📞 Call</button></a><button onclick="removeFriend('${doc.id}')" style="background:red;color:#fff;border:none;padding:8px;border-radius:8px">X</button></div></div>`;});document.getElementById('friendList').innerHTML=html||'<p class="small">Kono friend nai</p>';let all=await db.collection('users').orderBy('time','desc').limit(20).get();let html2="";all.forEach(doc=>{let u=doc.data();if(u.phone===currentUser.phone) return;html2+=`<div style="display:flex;justify-content:space-between;border:1px solid #eee;padding:8px;border-radius:10px;margin-top:6px"><span><b>${u.name}</b><br><span class="small">${u.phone}</span></span><button onclick="quickAddFriend('${u.phone}','${u.name}')" style="background:#00A651;color:#fff;border:none;padding:6px 12px;border-radius:8px">➕ Add</button></div>`;});document.getElementById('allUsersList').innerHTML=html2;}
-async function loadFriendsMini(){if(!currentUser) return;let snap=await db.collection('friends').where('myPhone','==',currentUser.phone).limit(5).get();let html='<h4>👥 Amar Friend - '+snap.size+' jon</h4>';snap.forEach(doc=>{let f=doc.data();html+=`<div style="border:1px solid #eee;padding:6px;border-radius:8px;margin-top:4px">👤 ${f.friendName} - ${f.friendPhone}</div>`;});document.getElementById('myFriendsMini').innerHTML=html;}
-async function quickAddFriend(phone,name){await db.collection('friends').add({myPhone:currentUser.phone,myName:currentUser.name,friendPhone:phone,friendName:name,time:Date.now()});showNoti('✅ Friend Add: '+name);loadFriends();}
-async function removeFriend(id){await db.collection('friends').doc(id).delete();alert('Friend delete');loadFriends();}
-function searchFriend(q){let items=document.querySelectorAll('#friendList > div');items.forEach(it=>{it.style.display=it.innerText.toLowerCase().includes(q.toLowerCase())?'flex':'none';});}
-function sendChat(){let m=document.getElementById('chatMsg').value.trim();if(!m){alert('Message likhun');return;}window.open('https://wa.me/8801910573181?text='+encodeURIComponent(m),'_blank');}
-async function loadChats(){if(!currentUser) return;try{let snap=await db.collection('chats').where('to','==',currentUser.phone).orderBy('time','desc').limit(20).get();let html="";snap.forEach(doc=>{let c=doc.data();html+=`<div style="border:1px solid #ddd;padding:8px;border-radius:10px;margin-top:6px"><b>${c.name}</b><br>${c.msg}</div>`;});document.getElementById('chatList').innerHTML=html||'';}catch(e){}}
-db.collection('posts').where('status','==','approved').orderBy('time','desc').limit(1).onSnapshot(snap=>{snap.docChanges().forEach(ch=>{if(ch.type==='added' && !ch.doc.metadata.hasPendingWrites){let p=ch.doc.data();if(Date.now()-p.time < 60000){showNoti('🆕 Notun Post: '+p.title);}}});});
-loadPosts(true);loadBoard();
+let currentUser = JSON.parse(localStorage.getItem('bhaluka_user')||'null');
+let currentCat='all'; let selectedPkg='free'; let selectedCobiPkg='free'; let selectedBoardPkg='free';
+let postImages=[]; let postVideoData='';
+let allPosts=[], allBoard=[], allChats=[], allUsers=[], allPhotos=[];
+let notifCount=0; let firstLoad=true;
+
+// ===== PASSWORD LUKANO - HACK HOBE NA =====
+async function hashPass(pass){
+  let enc = new TextEncoder().encode(pass + "Bhaluka-Secret-2026");
+  let buf = await crypto.subtle.digest('SHA-256', enc);
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+async function doLogin(){
+  let name=document.getElementById('uName').value.trim();
+  let phone=document.getElementById('uPhone').value.trim();
+  let pass=document.getElementById('uPass').value.trim();
+  if(!name||!phone||pass.length!==5){alert('Nam, Phone ar 5 Okkhor Pass dao');return;}
+  let hashed = await hashPass(pass);
+  let snap=await db.collection('users').where('phone','==',phone).get();
+  if(!snap.empty){
+    let u=snap.docs[0].data();
+    // Purono user der jonno - jodi ager pass thake
+    if(u.pass && u.pass!==pass && u.passHash!==hashed){alert('❌ Vul Password');return;}
+    if(u.passHash && u.passHash!==hashed){alert('❌ Vul Password');return;}
+    currentUser={name:u.name, phone:u.phone, passHash:u.passHash||hashed};
+  }else{
+    currentUser={name,phone,passHash:hashed,time:Date.now()};
+    await db.collection('users').add(currentUser);
+  }
+  localStorage.setItem('bhaluka_user', JSON.stringify({name:currentUser.name, phone:currentUser.phone}));
+  showToast('✅ Login Hoye Gese - '+name);
+  checkProfile(); fillPostPhone();
+}
+
+function showToast(msg){let t=document.getElementById('toast');t.innerText=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+function openMenu(){document.getElementById('sideMenu').classList.add('open');document.getElementById('menuOverlay').classList.add('open');}
+function closeMenu(){document.getElementById('sideMenu').classList.remove('open');document.getElementById('menuOverlay').classList.remove('open');}
+function goMenu(pageId){closeMenu();showPage(pageId);}
+function toggleNotif(){let p=document.getElementById('notifPop');p.classList.toggle('open');if(p.classList.contains('open')){document.getElementById('notifDot').style.display='none';notifCount=0;}}
+function closeNotif(){document.getElementById('notifPop').classList.remove('open');}
+function addNotif(text){let el=document.getElementById('notifList');el.innerHTML=`<div style="padding:9px;border-bottom:1px solid #eee"><b>${text}</b></div>`+el.innerHTML;notifCount++;let d=document.getElementById('notifDot');d.innerText=notifCount;d.style.display='flex';showToast(text);}
+function updateOnline(){let online=navigator.onLine;document.getElementById('offlineBar').classList.toggle('show',!online);document.getElementById('liveStatus').innerText=online?'● LIVE':'○ OFFLINE';document.getElementById('boardStatus').innerText=online?'✅ Net Ache - Notun Khobor Live':'📵 Net Nai - Ager Save Kora Desh Board Dekhacche';if(online){syncPending();}}
+window.addEventListener('online',()=>{updateOnline();showToast('✅ Net Ase');});
+window.addEventListener('offline',updateOnline);
+function getPending(){return JSON.parse(localStorage.getItem('pending_posts')||'[]');}
+function savePending(post){let arr=getPending();arr.push(post);localStorage.setItem('pending_posts',JSON.stringify(arr));updatePendingUI();}
+function updatePendingUI(){let arr=getPending();let box=document.getElementById('pendingBox');if(box){box.style.display=arr.length?'block':'none';document.getElementById('pendingCount').innerText=arr.length;}}
+async function syncPending(){let arr=getPending();if(!arr.length||!navigator.onLine)return;let still=[];for(let p of arr){try{await db.collection('posts').add(p);}catch(e){still.push(p);}}localStorage.setItem('pending_posts',JSON.stringify(still));updatePendingUI();if(!still.length)addNotif('✅ Pending Post Live!');}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');let map={homePage:0,cobiPage:1,postPage:2,chatPage:3,friendsPage:4,accPage:5};document.querySelectorAll('.bottom button').forEach((b,i)=>{b.classList.toggle('active', map[id]===i);});if(id==='homePage')renderAll();if(id==='boardPage')renderBoard();if(id==='chatPage')renderChat();if(id==='friendsPage')renderFriends();if(id==='accPage')checkProfile();window.scrollTo(0,0);}
+function setCat(cat,btn){currentCat=cat;document.querySelectorAll('.cat').forEach(c=>c.classList.remove('activeCat'));if(btn)btn.classList.add('activeCat');showPage('homePage');renderAll();}
+function selectPkg(pkg,el){selectedPkg=pkg;document.querySelectorAll('#postPage .pkg').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');document.getElementById('payBox').style.display=(pkg==='free')?'none':'block';}
+function selectCobiPkg(pkg,el){selectedCobiPkg=pkg;document.querySelectorAll('#cobiPage .pkg').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');document.getElementById('cPayBox').style.display=(pkg==='free')?'none':'block';}
+function selectBoardPkg(pkg,el){selectedBoardPkg=pkg;document.querySelectorAll('#boardPage .pkg').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');document.getElementById('bPayBox').style.display=(pkg==='free')?'none':'block';}
+function previewPostImg(inp){postImages=[];document.getElementById('pImgPrev').innerHTML='';if(inp.files.length>3){alert('Pic Max 3 ta!');inp.value='';return;}Array.from(inp.files).slice(0,3).forEach(f=>{let r=new FileReader();r.onload=e=>{postImages.push(e.target.result);document.getElementById('pImgPrev').innerHTML+=`<img src="${e.target.result}" style="width:80px;height:80px;object-fit:cover;display:inline-block;margin:4px;border-radius:10px">`};r.readAsDataURL(f);});}
+function checkVideo(inp){let f=inp.files[0];if(!f)return;let maxMB=(selectedPkg==='free')?3:8;if(f.size>maxMB*1024*1024){alert(`Video beshi boro! ${selectedPkg==='free'?'Free 3MB':'Paid 8MB'}`);inp.value='';postVideoData='';return;}let v=document.createElement('video');v.preload='metadata';v.onloadedmetadata=function(){window.URL.revokeObjectURL(v.src);let dur=v.duration;if(dur>120){alert('Video 2 Min er beshi!');inp.value='';postVideoData='';return;}document.getElementById('videoInfo').innerText=`✅ Video OK - ${Math.floor(dur)} Sec`;let r=new FileReader();r.onload=e=>{postVideoData=e.target.result;document.getElementById('pVideoPrev').innerHTML=`<video src="${postVideoData}" controls style="width:100%;border-radius:14px;margin-top:8px"></video>`};r.readAsDataURL(f);};v.src=URL.createObjectURL(f);}
+function fillPostPhone(){if(currentUser){let m=document.getElementById('pMobile');if(m && !m.value)m.value=currentUser.phone;let w=document.getElementById('pWhatsapp');if(w && !w.value)w.value=currentUser.phone;}}
+function checkProfile(){if(currentUser){document.getElementById('welcomeBox').innerHTML=`<span>👋 Welcome ${currentUser.name}</span><span style="font-size:12px;color:#00A651">✅ Login Hoise</span>`;document.getElementById('menuUser').innerHTML=`👋 ${currentUser.name} | ${currentUser.phone}`;document.getElementById('loginCard').style.display='none';document.getElementById('profileCard').style.display='block';document.getElementById('profileInfo').innerHTML=`<b>${currentUser.name}</b><br>📞 ${currentUser.phone}`;let h='';allPosts.filter(p=>p.phone===currentUser.phone).forEach(p=>{h+=`<div style="border:1px solid #eee;padding:9px;border-radius:10px;margin:6px 0"><b>${p.title}</b> - ${p.status==='approved'?'✅ Live':'⏳ Pending Paid'}</div>`});document.getElementById('myPostList').innerHTML=h||'Kono post nai';fillPostPhone();}else{document.getElementById('loginCard').style.display='block';document.getElementById('profileCard').style.display='none';}}
+function doLogout(){localStorage.removeItem('bhaluka_user');currentUser=null;location.reload();}
+async function doPost(){
+  if(!currentUser){alert('Age Login Koro');showPage('accPage');return;}
+  let title=document.getElementById('pTitle').value.trim();let desc=document.getElementById('pDesc').value.trim();let price=document.getElementById('pPrice').value.trim()||'0';let cat=document.getElementById('pCat').value;let mobile=document.getElementById('pMobile').value.trim()||currentUser.phone;let whatsapp=document.getElementById('pWhatsapp').value.trim()||mobile;let address=document.getElementById('pAddress').value.trim();let trx=document.getElementById('pTrx')?document.getElementById('pTrx').value.trim():'';let paidAmt=document.getElementById('pPaidDays')?document.getElementById('pPaidDays').value:'200';
+  if(!title||!desc){alert('Title ar Bistarito dao');return;}
+  if(!mobile||mobile.length<11){alert('Mobile dao');return;}
+  if(!address){alert('Thikana dao');return;}
+  let pkg=selectedPkg;let isPaid=pkg!=='free';if(isPaid && !trx){alert('Paid er jonno TrxID dao - 01760904340');return;}
+  if(isPaid) pkg=paidAmt;
+  let now=Date.now();let autoStatus=(selectedPkg==='free')?'approved':'pending';let expireAt=now+(paidAmt==='500'?30*24*60*60*1000:paidAmt==='200'?7*24*60*60*1000:2*24*60*60*1000);
+  let postData={title,desc,price,cat,phone:mobile,whatsapp:whatsapp,address:address,images:postImages,image:postImages[0]||'',video:postVideoData,userName:currentUser.name,pkg,trx,isSponsor:paidAmt==='500',isPaid,time:now,expireAt,status:autoStatus};
+  let localPosts=JSON.parse(localStorage.getItem('offline_posts')||'[]');localPosts.unshift(postData);localStorage.setItem('offline_posts',JSON.stringify(localPosts.slice(0,30)));
+  if(!navigator.onLine){savePending(postData);alert('📵 Net Nai - Post Phone e Save Hoye Gese!');showPage('homePage');renderAll();return;}
+  try{await db.collection('posts').add(postData);addNotif(autoStatus==='approved'?'✅ Post Live!':'✅ Paid Post Admin er Kache Gese');alert(autoStatus==='approved'?'✅ Post Live!':'✅ Post Joma! Admin Approve Korbe');}catch(e){savePending(postData);alert('Post Phone e Save Hoye Gese');}
+  document.getElementById('pTitle').value='';document.getElementById('pDesc').value='';document.getElementById('pPrice').value='';document.getElementById('pAddress').value='';postImages=[];postVideoData='';document.getElementById('pImgPrev').innerHTML='';document.getElementById('pVideoPrev').innerHTML='';showPage('homePage');
+}
+async function sellPhoto(){if(!currentUser){alert('Age Login Koro');return;}let title=document.getElementById('cTitle').value.trim();let price=document.getElementById('cPrice').value.trim()||'0';let whatsapp=document.getElementById('cWhatsapp').value.trim()||currentUser.phone;let address=document.getElementById('cAddress').value.trim();let trx=document.getElementById('cTrx')?document.getElementById('cTrx').value.trim():'';let files=document.getElementById('cImg').files;if(!title||files.length===0){alert('Title ar Cobi dao');return;}if(files.length>3){alert('Cobi Max 3 ta');return;}let pkg=selectedCobiPkg;let isPaid=pkg!=='free';if(isPaid && !trx){alert('Paid er jonno TrxID dao');return;}let imgs=[];for(let f of files){imgs.push(await new Promise(res=>{let r=new FileReader();r.onload=e=>res(e.target.result);r.readAsDataURL(f);}));}let now=Date.now();let s=(pkg==='free')?'approved':'pending';await db.collection('photos').add({title,price,whatsapp,address,images:imgs,image:imgs[0],phone:currentUser.phone,userName:currentUser.name,time:now,expireAt:now+7*24*60*60*1000,pkg,trx,isPaid,isSponsor:isPaid,status:s});alert(s==='approved'?'✅ Cobi Live!':'✅ Cobi Joma!');}
+function renderAll(){let search=document.getElementById('searchInput').value.toLowerCase();let basePosts=allPosts.length?allPosts:JSON.parse(localStorage.getItem('offline_posts')||'[]');let filtered=basePosts.filter(p=>p.status==='approved' || !p.status);if(currentCat==='paid')filtered=filtered.filter(p=>p.isPaid);else if(currentCat!=='all')filtered=filtered.filter(p=>p.cat===currentCat);if(search)filtered=filtered.filter(p=>(p.title+p.desc+(p.address||'')).toLowerCase().includes(search));let html='';filtered.forEach(p=>{let wa=p.whatsapp||p.phone;html+=`<div class="card"><span class="${p.isSponsor?'badgePaid':'badge'}">${p.isSponsor?'🔥 SPONSOR':p.pkg==='200'?'⭐ PAID':'🆓 FREE'}</span> <b>${p.title}</b> - ৳ ${p.price}<p class="small">👤 ${p.userName} | 📞 ${p.phone} | ${p.cat}</p><p>${p.desc}</p><p class="small" style="background:#f0fdf4;padding:8px;border-radius:10px">📍 <b>Thikana:</b> ${p.address||'Bhaluka'}<br>📱 ${p.phone} | 💬 ${wa}</p>${p.image?`<img src="${p.image}">`:''}${p.video?`<video src="${p.video}" controls></video>`:''}<div style="display:flex;gap:8px;margin-top:10px"><a href="tel:${p.phone}" style="flex:1;text-align:center;background:#00A651;color:#fff;padding:11px;border-radius:11px;text-decoration:none;font-weight:bold">📞 Call</a><a href="https://wa.me/88${wa}?text=${encodeURIComponent('Hi, '+p.title)}" target="_blank" style="flex:1;text-align:center;background:#25D366;color:#fff;padding:11px;border-radius:11px;text-decoration:none;font-weight:bold">💬 WhatsApp</a></div></div>`;});document.getElementById('postList').innerHTML=html||'<div class="card">Kono post nai</div>';let baseBoard=allBoard.length?allBoard:JSON.parse(localStorage.getItem('offline_board')||'[]');let bh='';baseBoard.slice(0,3).forEach(p=>{bh+=`<div style="border-bottom:1px solid #fde68a;padding:8px 0"><b>📢 ${p.title||''}</b><br><span class="small">${p.desc||''} - 👤 ${p.name||''}</span></div>`;});document.getElementById('homeBoardList').innerHTML=bh||'Kono khobor nai';let ch='';allPhotos.forEach(p=>{ch+=`<div class="card"><b>${p.title}</b> - ৳ ${p.price}<p class="small">👤 ${p.userName} | 💬 ${p.whatsapp||p.phone}</p>${p.image?`<img src="${p.image}">`:''}</div>`;});document.getElementById('cobiList').innerHTML=ch||'<div class="card">Kono cobi nai</div>';}
+function renderBoard(){let baseBoard=allBoard.length?allBoard:JSON.parse(localStorage.getItem('offline_board')||'[]');let html='';baseBoard.forEach(p=>{html+=`<div class="card"><b>📢 ${p.title||''}</b><p>${p.desc||''}</p><p class="small">👤 ${p.name||''} | 📍 ${p.address||''}</p></div>`;});document.getElementById('boardList').innerHTML=html||'<div class="card">Kono khobor nai</div>';}
+function renderFriends(){let search=document.getElementById('friendSearch')?document.getElementById('friendSearch').value.toLowerCase():'';let html='';allUsers.forEach(u=>{if(search && !u.name.toLowerCase().includes(search) && !u.phone.includes(search))return;html+=`<div class="friendRow"><div><b>👤 ${u.name}</b><br><span class="small">📞 ${u.phone} • <span style="color:green">● Online</span></span></div><div style="display:flex;gap:6px"><button style="background:#00A651;color:#fff;border:none;padding:9px 13px;border-radius:10px;font-weight:bold" onclick="chatWith('${u.name}')">💬 Chat</button><a href="https://wa.me/88${u.phone}" target="_blank" style="background:#25D366;color:#fff;padding:9px 13px;border-radius:10px;text-decoration:none;font-weight:bold">WhatsApp</a></div></div>`;});document.getElementById('friendsList').innerHTML=html||'Kono friend nai';}
+function chatWith(name){showPage('chatPage');document.getElementById('chatInput').value=`Hi ${name}, `;document.getElementById('chatInput').focus();}
+function renderChat(){let html='';allChats.slice(-40).forEach(c=>{let isMe=currentUser && c.phone===currentUser.phone;html+=`<div class="chatMsg ${isMe?'me':''}"><b>${c.name||'User'}</b><br>${c.msg||''}<br><span class="small">${new Date(c.time||Date.now()).toLocaleString('bn-BD')}</span></div>`;});document.getElementById('chatBox').innerHTML=html||'Kono chat nai - Tumi prothom chat koro!';document.getElementById('chatBox').scrollTop=document.getElementById('chatBox').scrollHeight;}
+async function sendChat(){if(!currentUser){alert('Age Login Koro');showPage('accPage');return;}let msg=document.getElementById('chatInput').value.trim();if(!msg)return;await db.collection('chats').add({name:currentUser.name,phone:currentUser.phone,msg:msg,time:Date.now()});document.getElementById('chatInput').value='';}
+async function sendHelp(){let name=document.getElementById('helpName').value.trim();let msg=document.getElementById('helpMsg').value.trim();if(!msg){alert('Message likho');return;}await db.collection('chats').add({name:name||'Guest',phone:currentUser?currentUser.phone:'Guest',msg:'[HELP] '+msg,time:Date.now()});alert('✅ Admin ke Message Gese');}
+async function postBoard(){if(!currentUser){alert('Age Login Koro');return;}let title=document.getElementById('bTitle').value.trim();let desc=document.getElementById('bDesc').value.trim();let address=document.getElementById('bAddress').value.trim();let trx=document.getElementById('bTrx')?document.getElementById('bTrx').value.trim():'';if(!title||!desc){alert('Title ar Details dao');return;}let pkg=selectedBoardPkg;if(pkg==='paid' && !trx){alert('Paid er jonno TrxID dao');return;}let s=(pkg==='free')?'approved':'pending';let boardData={title,desc,address,name:currentUser.name,phone:currentUser.phone,time:Date.now(),pkg,trx,status:s};let saved=JSON.parse(localStorage.getItem('offline_board')||'[]');saved.unshift(boardData);localStorage.setItem('offline_board',JSON.stringify(saved.slice(0,20)));if(!navigator.onLine){alert('📵 Net Nai - Khobor Save Hoye Gese');renderBoard();return;}await db.collection('desh_board').add(boardData);alert(s==='approved'?'✅ Khobor Live!':'✅ Khobor Joma!');document.getElementById('bTitle').value='';document.getElementById('bDesc').value='';}
+function startLive(){db.collection('posts').onSnapshot(snap=>{let arr=[];snap.forEach(d=>{arr.push(d.data());});arr.sort((a,b)=>(b.time||0)-(a.time||0));let isNew=!firstLoad && arr.length>allPosts.length;allPosts=arr;localStorage.setItem('offline_posts',JSON.stringify(arr.slice(0,30)));renderAll();checkProfile();if(isNew)addNotif('🔥 Notun Post - '+arr[0].title);},err=>{allPosts=JSON.parse(localStorage.getItem('offline_posts')||'[]');renderAll();});db.collection('desh_board').onSnapshot(snap=>{let arr=[];snap.forEach(d=>{let p=d.data();if(p.status==='pending')return;arr.push(p);});arr.sort((a,b)=>(b.time||0)-(a.time||0));let isNew=!firstLoad && arr.length>allBoard.length;allBoard=arr;localStorage.setItem('offline_board',JSON.stringify(arr.slice(0,20)));renderAll();renderBoard();if(isNew)addNotif('🇧🇩 Notun Khobor - '+arr[0].title);},err=>{allBoard=JSON.parse(localStorage.getItem('offline_board')||'[]');renderAll();});db.collection('chats').onSnapshot(snap=>{let arr=[];snap.forEach(d=>{arr.push(d.data());});arr.sort((a,b)=>(a.time||0)-(b.time||0));let isNew=!firstLoad && arr.length>allChats.length;allChats=arr;renderChat();if(isNew && !document.getElementById('chatPage').classList.contains('active'))addNotif('💬 Notun Chat - '+arr[arr.length-1].name);});db.collection('users').onSnapshot(snap=>{let arr=[];snap.forEach(d=>{arr.push(d.data());});allUsers=arr;renderFriends();});db.collection('photos').onSnapshot(snap=>{let arr=[];snap.forEach(d=>{let p=d.data();if(p.status!=='approved')return;arr.push(p);});arr.sort((a,b)=>(b.time||0)-(a.time||0));allPhotos=arr;renderAll();});setTimeout(()=>{firstLoad=false;},3000);}
+document.getElementById('onlineCount').innerText=5+Math.floor(Math.random()*8);
+document.getElementById('viewCount').innerText=190+Math.floor(Math.random()*20);
+updateOnline();checkProfile();fillPostPhone();updatePendingUI();startLive();
 </script>
 </body>
 </html>
