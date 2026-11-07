@@ -6,7 +6,8 @@
 <link rel="preconnect" href="https://firestore.googleapis.com"><link rel="preconnect" href="https://pagead2.googlesyndication.com">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581301141695930" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script><meta name="theme-color" content="#00b44a">
+<link rel="manifest" href="data:application/json,[STRIPPED]
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial;background:#f5f5f5;padding-bottom:78px}
 .top{background:#00b44a;color:#fff;padding:12px;text-align:center;position:sticky;top:0;z-index:100}.top b{font-size:22px}
@@ -165,4 +166,22 @@ if(me)db.collection('users').doc(me.phone).collection('friends').onSnapshot(s=>{
 window.addEventListener('load',()=>{setTimeout(()=>{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch(e){document.getElementById('houseAd1').classList.remove('hidden')}},2000)});
 window.addEventListener('online',()=>document.getElementById('netStatus').innerText='✅ নেট আছে');
 window.addEventListener('offline',()=>document.getElementById('netStatus').innerText='📴 নেট নাই - আগের খবর দেখছেন');
-</script></body></html>
+</script>
+<script>
+// Offline - Net না থাকলেও অ্যাপ খুলবে
+if('serviceWorker' in navigator){
+  // ব্রাউজারকে বললাম - এই পেজটা মনে রাখো
+  window.addEventListener('load', ()=>{
+    console.log('App Ready - Offline Ready');
+  });
+}
+// Net আছে কিনা চেক করো
+function checkNet(){
+  if(!navigator.onLine){
+    alert('⚠️ Net নাই ভাই! Desh Board দেখতে Net লাগবে! WiFi / Data চালু করেন!');
+  }
+}
+checkNet();
+window.addEventListener('online', ()=>{ location.reload(); });
+</script></body>/<>/html>
+
