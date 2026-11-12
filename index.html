@@ -4,12 +4,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ভালুকা সুপার অ্যাপ - Offline Facebook Style</title>
+<title>ভালুকা সুপার অ্যাপ</title>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8581301141695930" crossorigin="anonymous"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:sans-serif}
-body{background:#eef2f0;padding-bottom:160px}
+body{background:#eef2f0;padding-bottom:110px}
 .top{background:#00a86b;color:#fff;padding:10px 12px;border-radius:0 0 22px 22px}
 .topRow{display:flex;justify-content:space-between;align-items:center}
 .topRow button{background:#fff;border:none;padding:7px 10px;border-radius:20px;font-weight:700}
@@ -37,12 +38,15 @@ body{background:#eef2f0;padding-bottom:160px}
 input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;margin:6px 0;outline:none}
 .btn{background:#00a86b;color:#fff;border:none;padding:12px;width:100%;border-radius:10px;font-weight:800;margin-top:6px}
 .btn2{background:#111}.btnYellow{background:#facc15;color:#111}
-.bottomNav{position:fixed;bottom:62px;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:9px 0;border-top:2px solid #00a86b;z-index:99;text-align:center;font-size:11px}
+.bottomNav{position:fixed;bottom:40px;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:9px 0;border-top:2px solid #00a86b;z-index:99;text-align:center;font-size:11px}
 .bottomNav b{display:block;font-size:13px}
-.installBar{position:fixed;bottom:108px;left:12px;right:12px;background:#111;color:#fff;border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;z-index:98;font-size:13px}
+.installBar{position:fixed;bottom:86px;left:12px;right:12px;background:#111;color:#fff;border-radius:12px;padding:8px 12px;display:flex;justify-content:space-between;align-items:center;z-index:98;font-size:13px}
 .installBar button{background:#00a86b;color:#fff;border:none;padding:7px 12px;border-radius:20px;font-weight:800}
-.banner-ad{position:fixed;bottom:0;left:0;right:0;background:#00a86b;color:#fff;z-index:100;height:62px;display:flex;justify-content:space-between;align-items:center;padding:0 10px}
-.banner-ad button{background:#fff;color:#00a86b;border:none;padding:7px 12px;border-radius:20px;font-weight:800}
+/* NICHE BANNER - CHOTO - 40px - FAKA NA */
+.banner-ad{position:fixed;bottom:0;left:0;right:0;background:#00a86b;color:#fff;z-index:100;height:40px;min-height:40px;max-height:40px;overflow:hidden;display:flex;align-items:center;padding:0 8px;font-size:12px}
+.banner-ad button{background:#fff;color:#00a86b;border:none;padding:5px 10px;border-radius:20px;font-weight:800;font-size:12px;white-space:nowrap}
+#googleBottom{width:100%;height:40px;overflow:hidden}
+#fallbackBottom{width:100%;height:40px;display:flex;justify-content:space-between;align-items:center;gap:8px}
 .modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:200;padding:15px}
 .modalBox{background:#fff;width:100%;max-width:420px;padding:18px;border-radius:16px;max-height:92vh;overflow:auto}
 .profileImg{width:90px;height:90px;border-radius:50%;object-fit:cover;background:#ddd;border:3px solid #00a86b}
@@ -60,6 +64,13 @@ input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;ma
 .deshStats{display:flex;justify-content:space-around;margin-top:8px}
 .deshStats div{background:#eef2f0;padding:8px;border-radius:10px;flex:1;margin:0 3px}
 .deshStats b{display:block;color:#00a86b;font-size:16px}
+.liveBox{background:#ffe4e6;border:2px solid #e11d48;border-radius:14px;margin:12px;padding:12px;text-align:center}
+/* VITORE SUDHU 1 TA ADD - FAKA THAKBE NA */
+.one-ad{background:#facc15;margin:12px;border-radius:12px;overflow:hidden;border:2px solid #00a86b;padding:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.one-ad b{font-size:14px}
+.one-ad small{font-size:12px;color:#444}
+.one-ad button{background:#111;color:#fff;border:none;padding:8px 14px;border-radius:20px;font-weight:800;white-space:nowrap}
+.qrBoxInMenu{background:#f5f5f5;padding:12px;border-radius:12px;text-align:center;margin-top:10px}
 </style>
 </head>
 <body>
@@ -70,161 +81,133 @@ input,select{width:100%;padding:11px;border:1px solid #ddd;border-radius:10px;ma
 <div class="searchBox"><span>🛒</span><input id="mainSearch" placeholder="পণ্য খুঁজুন - ধান, গরু, জমি, গাড়ি, ছবি..."><button onclick="doSearch()">পণ্য খুঁজুন</button></div>
 <div class="netBar"><span id="netStatus">🟢 Net: অনলাইন</span><span>⚡ Fast</span><span>🔒 Secure</span></div>
 </div>
-<div class="deshBoard"><h3>🇧🇩 দেশ বোর্ড - সারা বাংলাদেশ</h3><p id="deshSub">ভালুকা সহ সারা দেশের পোস্ট - Net না থাকলেও আগেরটা দেখবে</p><div class="deshStats"><div><b id="countTotal">০</b><span>মোট পোস্ট</span></div><div><b id="countValuka">০</b><span>ভালুকা</span></div><div><b id="countFree">০</b><span>🆓 Free</span></div><div><b id="countCobi">০</b><span>📸 ছবি</span></div></div><button class="btn" onclick="openModal('boardModal')">সারা দেশের বোর্ড দেখো →</button></div>
-<div class="section" style="border:2px solid #00a86b;background:#f0fdf4">
-<h3>🆓 FREE POST - একদম ফ্রি - ২ দিন থাকবে</h3>
-<button class="btn" onclick="openModal('postModal');setPostTypeFree()">🆓 ফ্রি পোস্ট দাও</button>
-<button class="btn btn2" onclick="showOnlyFree()">🆓 শুধু ফ্রি পোস্ট দেখো →</button>
-<div id="freeListHome"></div>
+
+<div class="deshBoard"><h3>🇧🇩 দেশ বোর্ড - সারা বাংলাদেশ</h3><p id="deshSub">ভালুকা সহ সারা দেশের পোস্ট</p><div class="deshStats"><div><b id="countTotal">০</b><span>মোট পোস্ট</span></div><div><b id="countValuka">০</b><span>ভালুকা</span></div><div><b id="countFree">০</b><span>🆓 Free</span></div><div><b id="countCobi">০</b><span>📸 ছবি</span></div></div><button class="btn" onclick="openModal('boardModal')">সারা দেশের বোর্ড দেখো →</button></div>
+<div class="liveBox" id="liveBox"><h3><span class="liveDot"></span> 🔴 LIVE</h3><p id="livePostText">এখন কোনো লাইভ নাই</p><div id="liveList"></div><button class="btn" style="background:#e11d48" onclick="openModal('liveModal')">🔴 Live শুরু করো</button><button class="btn btn2" onclick="openModal('postModal')">+ পোস্ট দাও</button></div>
+<div class="section" style="border:2px solid #00a86b;background:#f0fdf4"><h3>🆓 FREE POST - একদম ফ্রি - ২ দিন থাকবে</h3><button class="btn" onclick="openModal('postModal');setPostTypeFree()">🆓 ফ্রি পোস্ট দাও</button><button class="btn btn2" onclick="showOnlyFree()">🆓 শুধু ফ্রি পোস্ট দেখো →</button><div id="freeListHome"></div></div>
+<div class="section" style="border:2px solid #facc15;background:#fefce8"><h3>📸 ছবি বিক্রি</h3><button class="btn btnYellow" onclick="openModal('postModal');setPostTypeCobi()">📸 ছবি বিক্রির পোস্ট দাও</button><button class="btn btn2" onclick="filterCat('Cobi')">📸 শুধু ছবি দেখো →</button><div class="cobiGrid" id="cobiListHome"></div></div>
+
+<!-- VITORE SUDHU 1 BAR ADD ASBE - EITAI EK MATRO ADD - FAKA NA -->
+<div id="onlyOneAd">
+<div class="one-ad" id="houseOneAd">
+<div><b>🔥 ভালুকা Paid Promotion</b><br><small>তোমার দোকানের অ্যাড এখানে - সারাদিন<br>bKash: 01910573181</small></div>
+<button onclick="openModal('postModal')">Paid Post →</button>
 </div>
-<div class="section" style="border:2px solid #facc15;background:#fefce8">
-<h3>📸 ছবি বিক্রি - তোমার তোলা ছবি বিক্রি করো</h3>
-<button class="btn btnYellow" onclick="openModal('postModal');setPostTypeCobi()">📸 ছবি বিক্রির পোস্ট দাও</button>
-<button class="btn btn2" onclick="filterCat('Cobi')">📸 শুধু ছবি দেখো →</button>
-<div class="cobiGrid" id="cobiListHome"></div>
+<div id="googleOneAd" style="display:none;background:#fff;margin:12px;border-radius:12px;padding:6px;border:2px solid #facc15;text-align:center">
+<small style="color:#999">Advertisement</small>
+<ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-8581301141695930" data-ad-slot="8581301141695930" data-ad-format="auto" data-full-width-responsive="true"></ins>
+<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
 </div>
-<div class="section" style="border:2px solid #e11d48"><h3><span class="liveDot"></span> 🔴 LIVE - লাইভ ভিডিও</h3><p id="livePostText">এখন কোনো লাইভ নাই</p><button class="btn" style="background:#e11d48" onclick="openModal('liveModal')">🔴 Live শুরু করো</button><button class="btn btn2" onclick="openModal('postModal')">+ পোস্ট দাও</button></div>
-<div class="hero"><h2>🛒 কেনা-বেচা<br>সবকিছু এক জায়গায়</h2><p>🆓 Free Post + 📸 Chobi Bikri + ⚡ Offline Facebook Style</p><button class="btn" style="background:#fff;color:#00a86b" onclick="openModal('postModal')">+ পোস্ট দিন - ছবি / ভিডিও সহ</button></div>
-<div class="grid">
-<div class="cat white" onclick="filterCat('All')">🏠<br>সব</div><div class="cat" onclick="filterCat('Hospital')">🏥<br>হাসপাতাল</div><div class="cat" onclick="filterCat('School')">🏫<br>স্কুল</div><div class="cat red" onclick="filterCat('Blood')">🩸<br>রক্ত</div>
-<div class="cat" onclick="filterCat('Paikari')">🛒<br>পাইকারি</div><div class="cat" onclick="filterCat('Ponno')">🛍️<br>পণ্য</div><div class="cat" onclick="filterCat('Restaurant')">🍔<br>রেস্টুরেন্ট</div><div class="cat" onclick="filterCat('Park')">🌳<br>পার্ক</div>
-<div class="cat" onclick="filterCat('Gari')">🚗<br>গাড়ি</div><div class="cat white" onclick="filterCat('Basa Vara')">🏠<br>বাসা ভাড়া</div><div class="cat" onclick="filterCat('Krishi')">🌾<br>কৃষি</div><div class="cat yellow" onclick="filterCat('Cobi')">📸<br>ছবি বিক্রি</div>
 </div>
-<div class="filter"><button class="active" onclick="setPaid('all',this)">সব</button><button onclick="setPaid('free',this)">🆓 ফ্রি - ২ দিন</button><button onclick="setPaid('paid',this)">💲 Paid</button><button onclick="filterCat('Cobi')">📸 ছবি বিক্রি</button><button onclick="openModal('jomiModal')">📐 জমি মাপা</button><button onclick="openModal('krishiModal')">🌾 কৃষি সমস্যা</button><button onclick="openModal('friendModal')">👥 Friend List</button><button onclick="openModal('notiModal')">🔔 Notification</button></div>
-<div class="section" style="border:2px solid #00a86b"><h3>🌾 কৃষি সমস্যা - ফসলের রোগ?</h3><input type="file" accept="image/*" onchange="checkFosol(event)"><div id="fosolPreviewHome"></div><p id="fosolResHome" style="font-weight:700;color:#e11d48"></p><button class="btn" onclick="openModal('krishiModal')">🌾 কৃষি সেবা খুলো</button></div>
+
+<div class="hero"><h2>🛒 কেনা-বেচা<br>সবকিছু এক জায়গায়</h2><p>🆓 Free Post + 📸 Chobi Bikri + 🔴 Live + ⚡ Offline</p><button class="btn" style="background:#fff;color:#00a86b" onclick="openModal('postModal')">+ পোস্ট দিন</button></div>
+<div class="grid"><div class="cat white" onclick="filterCat('All')">🏠<br>সব</div><div class="cat" onclick="filterCat('Hospital')">🏥<br>হাসপাতাল</div><div class="cat" onclick="filterCat('School')">🏫<br>স্কুল</div><div class="cat red" onclick="filterCat('Blood')">🩸<br>রক্ত</div><div class="cat" onclick="filterCat('Paikari')">🛒<br>পাইকারি</div><div class="cat" onclick="filterCat('Ponno')">🛍️<br>পণ্য</div><div class="cat" onclick="filterCat('Restaurant')">🍔<br>রেস্টুরেন্ট</div><div class="cat" onclick="filterCat('Park')">🌳<br>পার্ক</div><div class="cat" onclick="filterCat('Gari')">🚗<br>গাড়ি</div><div class="cat white" onclick="filterCat('Basa Vara')">🏠<br>বাসা ভাড়া</div><div class="cat" onclick="filterCat('Krishi')">🌾<br>কৃষি</div><div class="cat yellow" onclick="filterCat('Cobi')">📸<br>ছবি বিক্রি</div></div>
+<div class="filter"><button class="active" onclick="setPaid('all',this)">সব</button><button onclick="setPaid('free',this)">🆓 ফ্রি</button><button onclick="setPaid('paid',this)">💲 Paid</button><button onclick="filterCat('Cobi')">📸 ছবি বিক্রি</button><button onclick="openModal('jomiModal')">📐 জমি মাপা</button><button onclick="openModal('krishiModal')">🌾 কৃষি সমস্যা</button><button onclick="openModal('friendModal')">👥 Friend List</button><button onclick="openModal('notiModal')">🔔 Notification</button></div>
+<div class="section" style="border:2px solid #00a86b"><h3>🌾 কৃষি সমস্যা</h3><input type="file" accept="image/*" onchange="checkFosol(event)"><div id="fosolPreviewHome"></div><p id="fosolResHome" style="font-weight:700;color:#e11d48"></p><button class="btn" onclick="openModal('krishiModal')">🌾 কৃষি সেবা খুলো</button></div>
 <div class="section"><h3>📐 জমি মাপার হিসাব</h3><input id="jomiLenHome" type="number" placeholder="লম্বা (ফুট)"><input id="jomiWidHome" type="number" placeholder="চওড়া (ফুট)"><button class="btn" onclick="calcJomiHome()">📐 হিসাব করো</button><p id="jomiResHome" style="font-weight:700"></p></div>
-<div class="section"><h3>👥 Friend List - <span id="friendCount">০</span> জন</h3><div id="friendListHome"><p>এখনো কোনো Friend নাই</p></div><button class="btn" onclick="openModal('friendModal')">সব Friend দেখো</button></div>
+<div class="section"><h3>👥 Friend List - <span id="friendCount">০</span> জন</h3><div id="friendListHome"></div><button class="btn" onclick="openModal('friendModal')">সব Friend দেখো</button></div>
 <div class="section"><h3>🔔 Notifications</h3><p>Nice job! তোমার Reel ২০০ Plays হইছে।</p><button class="btn" onclick="openModal('notiModal')">সব Notification দেখো →</button></div>
 <div id="postList"><p style="text-align:center;padding:20px">⚡ Load হইতেছে...</p></div>
 <button class="btn" style="margin:10px 12px;width:calc(100% - 24px)" onclick="loadMorePosts()">আরো পোস্ট দেখো → ⚡</button>
-<div class="section"><h3>💲 Paid - ৭ দিন ১০০ টাকা | ১ মাস ৩০০ টাকা</h3><p>bKash: <b>01910573181</b></p><button class="btn" onclick="buyPaid()">Paid কিনো</button><p style="font-size:13px;color:#666">ফ্রি পোস্ট ২ দিন পর অটো ডিলিট। ছবি বিক্রি ফ্রিতেও দেওয়া যাবে!</p></div>
+<div class="section"><h3>💲 Paid - ৭ দিন ১০০ টাকা | ১ মাস ৩০০ টাকা</h3><p>bKash: <b>01910573181</b></p><button class="btn" onclick="buyPaid()">Paid কিনো</button></div>
 <div class="section"><h3>📞 যোগাযোগ</h3><p>bKash: <b>01910573181</b> | WhatsApp: <b>01760904340</b></p></div>
 <div class="installBar"><span>📲 ভালুকা অ্যাপ Install করো - ফ্রি</span><button onclick="installApp()">Install</button><span onclick="this.parentElement.style.display='none'">✕</span></div>
-<div class="bottomNav">
-<div onclick="history.back()">⬅<b>ফিরে যাও</b></div><div onclick="location.reload()">🏠<b>হোম</b></div><div onclick="filterCat('Cobi')">📸<b>ছবি</b></div><div onclick="openModal('postModal')">➕<b>পোস্ট</b></div><div onclick="openModal('notiModal')">🔔<b>Notification</b></div><div onclick="openModal('profileModal')">👤<b>অ্যাকাউন্ট</b></div>
+<div class="bottomNav"><div onclick="history.back()">⬅<b>ফিরে যাও</b></div><div onclick="location.reload()">🏠<b>হোম</b></div><div onclick="filterCat('Cobi')">📸<b>ছবি</b></div><div onclick="openModal('postModal')">➕<b>পোস্ট</b></div><div onclick="openModal('notiModal')">🔔<b>Notification</b></div><div onclick="openModal('profileModal')">👤<b>অ্যাকাউন্ট</b></div></div>
+
+<!-- NICHE BANNER - CHOTO 40px -->
+<div class="banner-ad" id="bottomBanner">
+<div id="googleBottom" style="display:none;width:100%"><ins class="adsbygoogle" style="display:block;width:100%;height:40px" data-ad-client="ca-pub-8581301141695930" data-ad-slot="8581301141695930" data-ad-format="auto" data-full-width-responsive="true"></ins><script>(adsbygoogle = window.adsbygoogle || []).push({});</script></div>
+<div id="fallbackBottom"><div><b>🔥 ভালুকা Paid Promotion</b> - <small>01910573181</small></div><button onclick="openModal('postModal')">Paid Post</button></div>
 </div>
-<div class="banner-ad"><div style="font-size:13px"><b>🔥 ভালুকা Paid Promotion</b><br><small>তোমার দোকানের অ্যাড এখানে - 01910573181</small></div><button onclick="openModal('postModal')">Paid Post</button></div>
-<div id="notiModal" class="modal"><div class="modalBox"><h3>🔔 Notifications</h3><div id="notiList"><div class="notiItem">Nice job. Your reel reached 200 plays. - 8m</div><div class="notiItem">You're on a streak with Awlad Rubel! - 10m</div></div><button class="btn btn2" onclick="closeModal('notiModal')">বন্ধ</button></div></div>
-<div id="menuModal" class="modal"><div class="modalBox"><h3>⋮ মেনু</h3><button class="btn" onclick="closeModal('menuModal');openModal('rulesModal')">📜 নিয়ম ও Privacy</button><button class="btn" onclick="closeModal('menuModal');filterCat('Cobi')">📸 ছবি বিক্রি</button><button class="btn" onclick="closeModal('menuModal');showOnlyFree()">🆓 ফ্রি পোস্ট</button><button class="btn" onclick="closeModal('menuModal');openModal('friendModal')">👥 Friend List</button><button class="btn" onclick="closeModal('menuModal');openModal('notiModal')">🔔 Notification</button><button class="btn" onclick="clearCacheSpeed()">⚡ Cache Clear</button><button class="btn btn2" onclick="closeModal('menuModal')">বন্ধ</button></div></div>
+
+<div id="menuModal" class="modal"><div class="modalBox"><h3>⋮ মেনু</h3>
+<div class="qrBoxInMenu"><h3>✨ Share করো - Block হবে না ✨</h3><p style="font-size:13px">Link লিখে পাঠাইলে IMO Block করে। QR Chobi পাঠাও।</p><img id="qrImg" src="" style="width:180px;height:180px;margin:10px 0;background:#fff;padding:8px;border-radius:10px"><p id="qrText" style="font-weight:700;font-size:13px">QR Load হইতেছে...</p><button class="btn" onclick="makeQR()">✨ QR বানাও</button><button class="btn" style="background:#facc15;color:#111" onclick="copyBrokenLink()">📋 ভাঙা Link Copy করো - Block হবে না</button><button class="btn" style="background:#1877f2" onclick="shareFacebook()">📘 Facebook এ Share করো</button><p id="brokenLinkShow" style="font-size:12px;margin-top:8px;word-break:break-all"></p><p style="font-size:12px;color:#666">👉 QR এর Screenshot নিয়ে IMO তে Chobi হিসেবে পাঠাও।</p></div>
+<button class="btn" onclick="closeModal('menuModal');openModal('rulesModal')">📜 নিয়ম</button><button class="btn" onclick="closeModal('menuModal');filterCat('Cobi')">📸 ছবি বিক্রি</button><button class="btn btn2" onclick="closeModal('menuModal')">বন্ধ</button></div></div>
+<div id="notiModal" class="modal"><div class="modalBox"><h3>🔔 Notifications</h3><div id="notiList"><div class="notiItem">Nice job. Your reel reached 200 plays. - 8m</div></div><button class="btn btn2" onclick="closeModal('notiModal')">বন্ধ</button></div></div>
 <div id="profileModal" class="modal"><div class="modalBox"><h3>👤 আমার অ্যাকাউন্ট</h3><center><img id="profPic" class="profileImg" src="https://via.placeholder.com/90"><br><input type="file" accept="image/*" onchange="loadPic(event)"></center><input id="loginNum" placeholder="লগইন নাম্বার"><input id="loginPass" type="password" maxlength="8" placeholder="পাসওয়ার্ড ৫-৮ সংখ্যা"><input id="loginAge" type="number" placeholder="বয়স - ১৮ এর নিচে Allow না"><button class="btn" onclick="loginUser()">লগইন</button><p id="loginMsg" style="color:green"></p><button class="btn btn2" onclick="closeModal('profileModal')">বন্ধ</button></div></div>
-<div id="postModal" class="modal"><div class="modalBox"><h3>📝 নতুন পোস্ট</h3><input id="pTitle" placeholder="কি বিক্রি করবা? - ছবি হলে ছবির নাম লিখো"><select id="pCat"><option>Paikari</option><option>Ponno</option><option selected>Cobi</option><option>Hospital</option><option>School</option><option>Restaurant</option><option>Park</option><option>Gari</option><option>Basa Vara</option><option>Krishi</option><option>Blood</option></select><input id="pPrice" placeholder="দাম - ছবির দাম কত?"><input id="pPlace" placeholder="এলাকা"><input id="pPhone" placeholder="WhatsApp নাম্বার"><label>📸 ছবি + 🎥 ভিডিও</label><input type="file" accept="image/*,video/*" onchange="previewFiles(event)"><div id="preview"></div><select id="pType"><option value="free">🆓 ফ্রি - ২ দিন - টাকা লাগবে না</option><option value="paid">💲 Paid - ৭ দিন ১০০ / ১ মাস ৩০০</option></select><button class="btn" id="postBtn" onclick="addPost()">পোস্ট করো</button><button class="btn btn2" onclick="closeModal('postModal')">বন্ধ</button></div></div>
-<div id="liveModal" class="modal"><div class="modalBox"><h3>📹 Live Video</h3><p>এখানে শুধু Live লিখা থাকবে</p><button class="btn" style="background:#e11d48" onclick="startLive()">🔴 Live শুরু করো</button><video id="liveVideo" width="100%" style="background:#000;border-radius:10px;margin-top:10px" autoplay muted playsinline></video><button class="btn btn2" onclick="stopLive()">Live বন্ধ</button><button class="btn btn2" onclick="closeModal('liveModal')">বন্ধ</button></div></div>
-<div id="krishiModal" class="modal"><div class="modalBox"><h3>🌾 কৃষি সমস্যা</h3><input type="file" accept="image/*" onchange="checkFosol2(event)"><div id="fosolPreview"></div><p id="fosolRes" style="font-weight:700;color:#e11d48"></p><button class="btn" onclick="window.open('https://wa.me/8801760904340?text=কৃষি সমস্যা')">কৃষি অফিসারকে WhatsApp করো</button><button class="btn btn2" onclick="closeModal('krishiModal')">বন্ধ</button></div></div>
+<div id="postModal" class="modal"><div class="modalBox"><h3>📝 নতুন পোস্ট</h3><input id="pTitle" placeholder="কি বিক্রি করবা?"><select id="pCat"><option>Paikari</option><option>Ponno</option><option selected>Cobi</option><option>Hospital</option><option>School</option><option>Restaurant</option><option>Park</option><option>Gari</option><option>Basa Vara</option><option>Krishi</option><option>Blood</option></select><input id="pPrice" placeholder="দাম"><input id="pPlace" placeholder="এলাকা"><input id="pPhone" placeholder="WhatsApp নাম্বার"><label>📸 ছবি + 🎥 ভিডিও</label><input type="file" accept="image/*,video/*" onchange="previewFiles(event)"><div id="preview"></div><select id="pType"><option value="free">🆓 ফ্রি - ২ দিন</option><option value="paid">💲 Paid - ৭ দিন ১০০ / ১ মাস ৩০০</option></select><button class="btn" id="postBtn" onclick="addPost()">পোস্ট করো</button><button class="btn btn2" onclick="closeModal('postModal')">বন্ধ</button></div></div>
+<div id="liveModal" class="modal"><div class="modalBox"><h3>📹 Live Video - সবাই দেখবে</h3><input id="liveTitle" placeholder="Live er Title"><input id="liveLink" placeholder="YouTube / Facebook Live Link thakle dao"><button class="btn" style="background:#e11d48" onclick="startLive()">🔴 Live শুরু করো - সবাইকে জানাও</button><video id="liveVideo" width="100%" style="background:#000;border-radius:10px;margin-top:10px" autoplay muted playsinline></video><p id="liveShareText" style="font-size:13px;color:#666"></p><button class="btn btn2" onclick="stopLive()">Live বন্ধ</button><button class="btn btn2" onclick="closeModal('liveModal')">বন্ধ</button></div></div>
+<div id="krishiModal" class="modal"><div class="modalBox"><h3>🌾 কৃষি সমস্যা</h3><input type="file" accept="image/*" onchange="checkFosol2(event)"><div id="fosolPreview"></div><p id="fosolRes" style="font-weight:700;color:#e11d48"></p><button class="btn" onclick="window.open('https://wa.me/8801760904340?text=কৃষি সমস্যা')">WhatsApp করো</button><button class="btn btn2" onclick="closeModal('krishiModal')">বন্ধ</button></div></div>
 <div id="jomiModal" class="modal"><div class="modalBox"><h3>📐 জমি মাপা</h3><input id="jomiLen" type="number" placeholder="লম্বা (ফুট)"><input id="jomiWid" type="number" placeholder="চওড়া (ফুট)"><button class="btn" onclick="calcJomi()">হিসাব করো</button><p id="jomiRes" style="font-weight:700"></p><button class="btn btn2" onclick="closeModal('jomiModal')">বন্ধ</button></div></div>
 <div id="friendModal" class="modal"><div class="modalBox"><h3>👥 Friend List</h3><p>Friend: <b id="friendCount2">০</b> জন</p><div id="friendListBox"></div><input id="friendSearch" placeholder="Friend খুঁজুন"><button class="btn" onclick="searchFriend()">Friend খুঁজুন</button><button class="btn btn2" onclick="closeModal('friendModal')">বন্ধ</button></div></div>
-<div id="rulesModal" class="modal"><div class="modalBox"><h3>📜 নিয়ম</h3><p>১. ১৮ এর নিচে Allow না।<br>২. নিজের পোস্ট ছাড়া Edit/Delete হবে না।<br>৩. পাসওয়ার্ড কাউকে দিবা না।</p><button class="btn btn2" onclick="closeModal('rulesModal')">বন্ধ</button></div></div>
+<div id="rulesModal" class="modal"><div class="modalBox"><h3>📜 নিয়ম</h3><p>১. ১৮ এর নিচে Allow না।<br>২. নিজের পোস্ট ছাড়া Edit/Delete হবে না।</p><button class="btn btn2" onclick="closeModal('rulesModal')">বন্ধ</button></div></div>
 <div id="boardModal" class="modal"><div class="modalBox"><h3>🇧🇩 দেশ বোর্ড</h3><p>ভালুকা: <span id="bValuka">০</span><br>ময়মনসিংহ: ৪৫<br>ঢাকা: ১২০</p><p id="boardOffline" style="color:#00a86b;font-weight:700"></p><button class="btn btn2" onclick="closeModal('boardModal')">বন্ধ</button></div></div>
-<div id="chatModal" class="modal"><div class="modalBox"><h3>💬 চ্যাট</h3><div id="chatBox" style="height:120px;background:#f5f5f5;padding:8px;overflow:auto"></div><input id="chatInput" placeholder="মেসেজ..."><button class="btn" onclick="sendChat()">পাঠাও</button><button class="btn btn2" onclick="closeModal('chatModal')">বন্ধ</button></div></div>
+
 <script>
-const DEFAULT_POSTS=[
-{id:'1',title:'হাঁসের ডিম বিক্রি - পাইকারি',cat:'Paikari',price:'২০০ টাকা',place:'পারাগাঁও',user:'shomonmd4340',phone:'01760904340',type:'paid',media:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=60',mediaType:'img',created:Date.now()},
-{id:'2',title:'ধান ক্ষেতের সুন্দর ছবি বিক্রি',cat:'Cobi',price:'৩০০ টাকা',place:'ভালুকা',user:'rahim123',phone:'01910573181',type:'free',media:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=60',mediaType:'img',created:Date.now()},
-{id:'3',title:'পাহাড়ের ছবি বিক্রি - ফ্রি পোস্ট',cat:'Cobi',price:'৫০০ টাকা',place:'ভালুকা',user:'karim',phone:'01760904340',type:'free',media:'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400&q=60',mediaType:'img',created:Date.now()},
-{id:'4',title:'বাসা ভাড়া - ২ রুম - ফ্রি',cat:'Basa Vara',price:'৬০০০ টাকা',place:'ভালুকা পৌরসভা',user:'rahim123',phone:'01910573181',type:'free',media:'',mediaType:'',created:Date.now()}
-];
-function clean(s){return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').slice(0,200);}
-function showToast(m){let t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',2500);}
-function openModal(id){document.getElementById(id).style.display='flex';}
+const DEFAULT_POSTS=[{id:'1',title:'হাঁসের ডিম বিক্রি - পাইকারি',cat:'Paikari',price:'২০০ টাকা',place:'পারাগাঁও',user:'shomonmd4340',phone:'01760904340',type:'paid',media:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&q=60',mediaType:'img',created:Date.now()},{id:'2',title:'ধান ক্ষেতের সুন্দর ছবি বিক্রি',cat:'Cobi',price:'৩০০ টাকা',place:'ভালুকা',user:'rahim123',phone:'01910573181',type:'free',media:'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=400&q=60',mediaType:'img',created:Date.now()}];
+function clean(s){return String(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;').slice(0,300);}
+function showToast(m){let t=document.getElementById('toast');t.innerText=m;t.style.display='block';setTimeout(()=>t.style.display='none',3000);}
+function openModal(id){document.getElementById(id).style.display='flex';if(id=='menuModal')makeQR();}
 function closeModal(id){document.getElementById(id).style.display='none';}
 function setPostTypeFree(){document.getElementById('pType').value='free';showToast('🆓 ফ্রি সিলেক্ট হইছে');}
-function setPostTypeCobi(){document.getElementById('pCat').value='Cobi';document.getElementById('pType').value='free';showToast('📸 ছবি বিক্রি সিলেক্ট হইছে');}
-function showOnlyFree(){curFilter='All';curPaid='free';renderPosts();document.getElementById('postList').scrollIntoView();showToast('🆓 শুধু ফ্রি পোস্ট');}
-function clearCacheSpeed(){localStorage.removeItem('cachedPosts');showToast('Cache Clear');location.reload();}
-let allPosts=[];
+function setPostTypeCobi(){document.getElementById('pCat').value='Cobi';document.getElementById('pType').value='free';showToast('📸 ছবি বিক্রি');}
+function showOnlyFree(){curFilter='All';curPaid='free';renderPosts();document.getElementById('postList').scrollIntoView();}
+let allPosts=[];let livePosts=[];
 let myPhone=localStorage.getItem('myPhone')||'';
-let likes=JSON.parse(localStorage.getItem('likes')||'{}');
-let comments=JSON.parse(localStorage.getItem('comments')||'{}');
-let friends=JSON.parse(localStorage.getItem('friends')||'[]');
+let likes=JSON.parse(localStorage.getItem('likes')||'{}');let comments=JSON.parse(localStorage.getItem('comments')||'{}');let friends=JSON.parse(localStorage.getItem('friends')||'[]');
 let showLimit=10,curFilter='All',curPaid='all',curQ='';
-try{
-  let cached=JSON.parse(localStorage.getItem('cachedPosts')||'[]');
-  let mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');
-  if(mySaved.length||cached.length){ allPosts=[...mySaved,...cached.filter(p=>!mySaved.find(m=>m.id==p.id))]; }
-  else{ allPosts=DEFAULT_POSTS; }
-}catch(e){ allPosts=DEFAULT_POSTS; }
-function updateDeshBoard(){
-  document.getElementById('countTotal').innerText=allPosts.length;
-  document.getElementById('countValuka').innerText=allPosts.length;
-  document.getElementById('bValuka').innerText=allPosts.length;
-  document.getElementById('countFree').innerText=allPosts.filter(p=>p.type=='free').length;
-  document.getElementById('countCobi').innerText=allPosts.filter(p=>p.cat=='Cobi').length;
-  document.getElementById('livePostText').innerText='🔴 Live চলতেছে: '+(allPosts[0]?allPosts[0].title:'কোনো লাইভ নাই');
-  document.getElementById('boardOffline').innerText=navigator.onLine?'🟢 Online - নতুন পোস্ট আসতেছে':'🟡 Offline - আগের পোস্ট দেখতেছো (Facebook এর মতো)';
-  document.getElementById('deshSub').innerText=navigator.onLine?'ভালুকা সহ সারা দেশের পোস্ট':'🟡 Net নাই - আগের পোস্ট দেখতেছো, Net আসলে নতুন আসবে';
-}
-function saveAll(){
-  try{localStorage.setItem('cachedPosts',JSON.stringify(allPosts.slice(0,30)));}catch(e){}
-  try{localStorage.setItem('likes',JSON.stringify(likes));localStorage.setItem('comments',JSON.stringify(comments));localStorage.setItem('friends',JSON.stringify(friends));}catch(e){}
-}
-function renderFreeAndCobi(){
-  let frees=allPosts.filter(p=>p.type=='free').slice(0,3);
-  document.getElementById('freeListHome').innerHTML=frees.map(p=>`<div class="freeBox">🆓 <b>${clean(p.title)}</b> - 💰 ${clean(p.price)} - 📍 ${clean(p.place)} <button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">WhatsApp</button></div>`).join('')||'<p>এখনো ফ্রি পোস্ট নাই</p>';
-  let cobis=allPosts.filter(p=>p.cat=='Cobi').slice(0,4);
-  document.getElementById('cobiListHome').innerHTML=cobis.map(p=>`<div class="cobiCard">${p.media?`<img src="${p.media}" loading="lazy">`:''}<div><b>📸 ${clean(p.title)}</b><br><b>💰 ${clean(p.price)}</b><br><small>${p.type=='free'?'🆓 Free Post':'💲 Paid'}</small><br><button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">কিনতে চাই 💬</button></div></div>`).join('')||'<p>এখনো ছবি নাই - তুমি প্রথম ছবি দাও</p>';
-}
-function renderPosts(){
-  let list=allPosts.filter(p=>(curFilter=='All'||p.cat==curFilter)&&(curPaid=='all'||(curPaid=='free'?p.type=='free':p.type!='free'))&&(!curQ||p.title.toLowerCase().includes(curQ.toLowerCase())));
-  list.sort((a,b)=>(a.type=='free'?1:0)-(b.type=='free'?1:0));
-  let show=list.slice(0,showLimit);
-  document.getElementById('postList').innerHTML=show.map(p=>`<div class="card">${p.media?(p.mediaType=='video'?`<video src="${p.media}" controls preload="none"></video>`:`<img src="${p.media}" loading="lazy">`):''}<div class="cardInfo"><span class="${p.type=='free'?'badgeFree':'badgePaid'}">${p.type=='free'?'🆓 ফ্রি - ২ দিন':'💲 Paid'}</span> ${p.cat=='Cobi'?'<span class="badgePaid">📸 ছবি বিক্রি</span>':''} <b>⭐ ${clean(p.title)}</b><div class="meta">📍 ${clean(p.place)} • 👤 ${clean(p.user)} • 📂 ${clean(p.cat)}</div><b>💰 ${clean(p.price)}</b><br><small>📱 WhatsApp: ${clean(p.phone)}</small> <button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">WhatsApp 💬</button><div style="margin-top:8px"><button class="likeBtn" onclick="doLike('${p.id}')">❤️ Like (${likes[p.id]||0})</button><button class="likeBtn" onclick="toggleComment('${p.id}')">💬 Comment (${(comments[p.id]||[]).length})</button><button class="likeBtn" onclick="addFriend('${clean(p.user)}','${clean(p.phone)}')">+ Friend Add</button><button class="likeBtn" onclick="deletePost('${p.id}')">🗑️ Delete</button></div><div id="cmt-${p.id}" style="display:none" class="commentBox"><div>${(comments[p.id]||[]).map(c=>`<div>👤 ${clean(c)}</div>`).join('')}</div><input id="cmtIn-${p.id}" placeholder="কমেন্ট লিখো..."><button class="btn" onclick="addComment('${p.id}')">কমেন্ট পাঠাও</button></div></div></div>`).join('')||'<p style="text-align:center;padding:20px">কোনো পোস্ট নাই</p>';
-}
+try{let cached=JSON.parse(localStorage.getItem('cachedPosts')||'[]');let mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');if(mySaved.length||cached.length){allPosts=[...mySaved,...cached.filter(p=>!mySaved.find(m=>m.id==p.id))];}else{allPosts=DEFAULT_POSTS;}}catch(e){allPosts=DEFAULT_POSTS;}
+function updateDeshBoard(){document.getElementById('countTotal').innerText=allPosts.length;document.getElementById('countValuka').innerText=allPosts.length;document.getElementById('bValuka').innerText=allPosts.length;document.getElementById('countFree').innerText=allPosts.filter(p=>p.type=='free').length;document.getElementById('countCobi').innerText=allPosts.filter(p=>p.cat=='Cobi').length;document.getElementById('boardOffline').innerText=navigator.onLine?'🟢 Online':'🟡 Offline';renderLiveList();}
+function saveAll(){try{localStorage.setItem('cachedPosts',JSON.stringify(allPosts.slice(0,30)));localStorage.setItem('livePosts',JSON.stringify(livePosts.slice(0,5)));}catch(e){}try{localStorage.setItem('likes',JSON.stringify(likes));localStorage.setItem('comments',JSON.stringify(comments));localStorage.setItem('friends',JSON.stringify(friends));}catch(e){}}
+function renderLiveList(){let actives=livePosts.filter(l=>l.active);if(actives.length==0){document.getElementById('livePostText').innerText='এখন কোনো লাইভ নাই';document.getElementById('liveList').innerHTML='';return;}document.getElementById('livePostText').innerText='🔴 '+actives.length+' টা Live চলতেছে';document.getElementById('liveList').innerHTML=actives.map(l=>`<div style="background:#fff;padding:10px;border-radius:10px;margin:6px 0"><b>🔴 LIVE: ${clean(l.title)}</b><br><small>👤 ${clean(l.user)}</small><br>${l.link?`<button class="btn" style="background:#e11d48" onclick="window.open('${l.link}','_blank')">🔴 Live দেখো →</button>`:`<button class="waBtn" onclick="window.open('https://wa.me/88${l.phone}')">WhatsApp e Live চাও</button>`}</div>`).join('');}
+function renderFreeAndCobi(){let frees=allPosts.filter(p=>p.type=='free').slice(0,3);document.getElementById('freeListHome').innerHTML=frees.map(p=>`<div class="freeBox">🆓 <b>${clean(p.title)}</b> - 💰 ${clean(p.price)} <button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">WhatsApp</button></div>`).join('')||'<p>এখনো ফ্রি পোস্ট নাই</p>';let cobis=allPosts.filter(p=>p.cat=='Cobi').slice(0,4);document.getElementById('cobiListHome').innerHTML=cobis.map(p=>`<div class="cobiCard">${p.media?`<img src="${p.media}" loading="lazy">`:''}<div><b>📸 ${clean(p.title)}</b><br><b>💰 ${clean(p.price)}</b><br><button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">কিনতে চাই 💬</button></div></div>`).join('')||'<p>এখনো ছবি নাই</p>';}
+function renderPosts(){let list=allPosts.filter(p=>(curFilter=='All'||p.cat==curFilter)&&(curPaid=='all'||(curPaid=='free'?p.type=='free':p.type!='free'))&&(!curQ||p.title.toLowerCase().includes(curQ.toLowerCase())));let show=list.slice(0,showLimit);document.getElementById('postList').innerHTML=show.map(p=>`<div class="card">${p.media?(p.mediaType=='video'?`<video src="${p.media}" controls preload="none"></video>`:`<img src="${p.media}" loading="lazy">`):''}<div class="cardInfo"><span class="${p.type=='free'?'badgeFree':'badgePaid'}">${p.type=='free'?'🆓 ফ্রি':'💲 Paid'}</span> <b>⭐ ${clean(p.title)}</b><div class="meta">📍 ${clean(p.place)} • 👤 ${clean(p.user)} • 📂 ${clean(p.cat)}</div><b>💰 ${clean(p.price)}</b><br><button class="waBtn" onclick="window.open('https://wa.me/88${p.phone}')">WhatsApp 💬</button><div style="margin-top:8px"><button class="likeBtn" onclick="doLike('${p.id}')">❤️ Like (${likes[p.id]||0})</button><button class="likeBtn" onclick="toggleComment('${p.id}')">💬 Comment (${(comments[p.id]||[]).length})</button><button class="likeBtn" onclick="addFriend('${clean(p.user)}','${clean(p.phone)}')">+ Friend Add</button><button class="likeBtn" onclick="deletePost('${p.id}')">🗑️ Delete</button></div><div id="cmt-${p.id}" style="display:none" class="commentBox"><div>${(comments[p.id]||[]).map(c=>`<div>👤 ${clean(c)}</div>`).join('')}</div><input id="cmtIn-${p.id}" placeholder="কমেন্ট লিখো..."><button class="btn" onclick="addComment('${p.id}')">কমেন্ট পাঠাও</button></div></div></div>`).join('')||'<p style="text-align:center;padding:20px">কোনো পোস্ট নাই</p>';}
 function renderFriends(){document.getElementById('friendCount').innerText=friends.length;document.getElementById('friendCount2').innerText=friends.length;let h=friends.map(f=>`<div class="friendItem"><span>👤 ${clean(f.user)}<br><small>${clean(f.phone)}</small></span><button onclick="window.open('https://wa.me/88${f.phone}')">WhatsApp</button> <button onclick="removeFriend('${f.user}')">Remove</button></div>`).join('')||'<p>কোনো Friend নাই</p>';document.getElementById('friendListHome').innerHTML=h;document.getElementById('friendListBox').innerHTML=h;}
-updateDeshBoard();renderPosts();renderFreeAndCobi();renderFriends();
-document.getElementById('profPic').src=localStorage.getItem('myPic')||'https://via.placeholder.com/90';
-const firebaseConfig={apiKey:"AIzaSyCnSavXfbefzU0Hyuuhh1zGjuI5DtidH7w",authDomain:"bhaluka-super-apps.firebaseapp.com",projectId:"bhaluka-super-apps",storageBucket:"bhaluka-super-apps.firebasestorage.app",messagingSenderId:"505498498587",appId:"1:505498498587:web:c736d423562febfe76eabe"};
-let db=null;
-try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();db.enablePersistence({synchronizeTabs:true}).catch(()=>{});}catch(e){db=null;}
-if(db){
-  db.collection('posts').orderBy('created','desc').limit(30).onSnapshot(snap=>{
-    let fromNet=[];snap.forEach(d=>{let x=d.data();x.id=d.id;fromNet.push(x);});
-    if(fromNet.length>0){
-      let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}
-      allPosts=[...mySaved,...fromNet.filter(p=>!mySaved.find(m=>m.id==p.id))];
-      saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();
+updateDeshBoard();renderPosts();renderFreeAndCobi();renderFriends();document.getElementById('profPic').src=localStorage.getItem('myPic')||'https://via.placeholder.com/90';
+function getMyLink(){return window.location.href.split('?')[0];}
+function makeQR(){let link=getMyLink();let img=document.getElementById('qrImg');if(!img)return;img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&data='+encodeURIComponent(link);document.getElementById('qrText').innerText='Camera diye Scan করো - ভালুকা App খুলবে ✨';}
+function copyBrokenLink(){let link=getMyLink();let broken=link.replaceAll('.',' . ').replaceAll('/',' / ').replaceAll('https:','https :');document.getElementById('brokenLinkShow').innerText='Copy kore pathao: '+broken;navigator.clipboard.writeText(broken).then(()=>{showToast('✅ ভাঙা Link Copy হইছে - Block hobe na ✨');});}
+function shareFacebook(){let link=getMyLink();window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(link),'_blank');}
+setTimeout(makeQR,1000);
+// 1 TA ADD - GOOGLE ASLE GOOGLE, NA ASLE NIJER ADD - 2 TA EK SATHE NA, FAKA O NA
+function fixOneAd(){
+  setTimeout(()=>{
+    let gIns=document.querySelector('#googleOneAd ins');
+    let gBox=document.getElementById('googleOneAd');
+    let hBox=document.getElementById('houseOneAd');
+    if(gIns && gIns.offsetHeight>10 && gIns.innerHTML.trim()!==''){
+      gBox.style.display='block'; hBox.style.display='none';
+    } else {
+      gBox.style.display='none'; hBox.style.display='flex';
     }
-  },()=>{});
+    let bIns=document.querySelector('#googleBottom ins');
+    let gb=document.getElementById('googleBottom');
+    let fb=document.getElementById('fallbackBottom');
+    if(bIns && bIns.offsetHeight>10 && bIns.innerHTML.trim()!==''){
+      gb.style.display='block'; fb.style.display='none';
+    } else {
+      gb.style.display='none'; fb.style.display='flex';
+    }
+  },3500);
 }
-let tempMedia='',tempType='';
-function previewFiles(e){let f=e.target.files[0];if(!f)return;if(f.type.startsWith('video')){let r=new FileReader();r.onload=()=>{tempMedia=r.result;tempType='video';document.getElementById('preview').innerHTML='🎥 ভিডিও রেডি';};r.readAsDataURL(f);return;}let img=new Image();let url=URL.createObjectURL(f);img.onload=()=>{let c=document.createElement('canvas');let w=img.width>800?800:img.width;let h=img.height*(w/img.width);c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);tempMedia=c.toDataURL('image/jpeg',0.7);tempType='img';document.getElementById('preview').innerHTML=`<img src="${tempMedia}" style="width:80px;height:80px;object-fit:cover">`;showToast('⚡ ছবি Compress হইছে');};img.src=url;}
-async function addPost(){
-  let t=clean(document.getElementById('pTitle').value);
-  if(!t) return showToast('নাম লিখো - খালি পোস্ট হবে না');
-  document.getElementById('postBtn').innerText='পোস্ট হইতেছে...';
-  let newPost={id:'local_'+Date.now(),title:t,cat:document.getElementById('pCat').value,price:clean(document.getElementById('pPrice').value)||'দাম আলোচনা',place:clean(document.getElementById('pPlace').value)||'ভালুকা',user:myPhone||'Guest',phone:clean(document.getElementById('pPhone').value)||myPhone||'01760904340',type:document.getElementById('pType').value=='free'?'free':'paid',media:tempMedia,mediaType:tempType,created:Date.now()};
-  allPosts.unshift(newPost);
-  let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}
-  mySaved.unshift(newPost);
-  try{localStorage.setItem('myPosts',JSON.stringify(mySaved.slice(0,30)));}catch(e){}
-  saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();
-  if(db){ try{await db.collection('posts').add(newPost);showToast('✅ পোস্ট হইছে!');}catch(e){showToast('✅ পোস্ট হইছে! Net আসলে সবাই দেখবে');} }
-  else{ showToast('✅ পোস্ট হইছে!'); }
-  document.getElementById('postBtn').innerText='পোস্ট করো';
-  closeModal('postModal');tempMedia='';document.getElementById('pTitle').value='';document.getElementById('preview').innerHTML='';
-}
-function deletePost(id){if(!confirm('ডিলিট করবা?'))return;allPosts=allPosts.filter(p=>p.id!=id);let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}mySaved=mySaved.filter(p=>p.id!=id);try{localStorage.setItem('myPosts',JSON.stringify(mySaved));}catch(e){}if(db){db.collection('posts').doc(id).delete().catch(()=>{});}saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();showToast('ডিলিট হইছে');}
-function doLike(id){likes[id]=(likes[id]||0)+1;saveAll();renderPosts();showToast('Like হইছে ❤️');}
+fixOneAd();
+const firebaseConfig={apiKey:"AIzaSyCnSavXfbefzU0Hyuuhh1zGjuI5DtidH7w",authDomain:"bhaluka-super-apps.firebaseapp.com",projectId:"bhaluka-super-apps",storageBucket:"bhaluka-super-apps.firebasestorage.app",messagingSenderId:"505498498587",appId:"1:505498498587:web:c736d423562febfe76eabe"};
+let db=null;try{firebase.initializeApp(firebaseConfig);db=firebase.firestore();db.settings({cacheSizeBytes: firebase.firestore.CACHE_SIZE_UNLIMITED});db.enablePersistence({synchronizeTabs:true}).catch(()=>{});}catch(e){db=null;}
+if(db){db.collection('posts').orderBy('created','desc').limit(30).onSnapshot(snap=>{let fromNet=[];snap.forEach(d=>{let x=d.data();x.id=d.id;fromNet.push(x);});if(fromNet.length>0){let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}allPosts=[...mySaved,...fromNet.filter(p=>!mySaved.find(m=>m.id==p.id))];saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();}},()=>{});db.collection('lives').where('active','==',true).onSnapshot(snap=>{let arr=[];snap.forEach(d=>{let x=d.data();x.docId=d.id;arr.push(x);});if(arr.length>0){livePosts=arr;saveAll();updateDeshBoard();}},()=>{});}
+let tempMedia='',tempType='';function previewFiles(e){let f=e.target.files[0];if(!f)return;if(f.type.startsWith('video')){let r=new FileReader();r.onload=()=>{tempMedia=r.result;tempType='video';document.getElementById('preview').innerHTML='🎥 ভিডিও রেডি';};r.readAsDataURL(f);return;}let img=new Image();let url=URL.createObjectURL(f);img.onload=()=>{let c=document.createElement('canvas');let w=img.width>800?800:img.width;let h=img.height*(w/img.width);c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);tempMedia=c.toDataURL('image/jpeg',0.65);tempType='img';document.getElementById('preview').innerHTML=`<img src="${tempMedia}" style="width:80px;height:80px;object-fit:cover">`;};img.src=url;}
+async function addPost(){let t=clean(document.getElementById('pTitle').value);if(!t)return showToast('নাম লিখো');document.getElementById('postBtn').innerText='পোস্ট হইতেছে...';let newPost={id:'local_'+Date.now(),title:t,cat:document.getElementById('pCat').value,price:clean(document.getElementById('pPrice').value)||'দাম আলোচনা',place:clean(document.getElementById('pPlace').value)||'ভালুকা',user:myPhone||'Guest',phone:clean(document.getElementById('pPhone').value)||myPhone||'01760904340',type:document.getElementById('pType').value=='free'?'free':'paid',media:tempMedia,mediaType:tempType,created:Date.now()};allPosts.unshift(newPost);let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}mySaved.unshift(newPost);try{localStorage.setItem('myPosts',JSON.stringify(mySaved.slice(0,30)));}catch(e){}saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();if(db){try{await db.collection('posts').add(newPost);showToast('✅ পোস্ট হইছে!');}catch(e){showToast('✅ পোস্ট হইছে! Net আসলে সবাই দেখবে');}}document.getElementById('postBtn').innerText='পোস্ট করো';closeModal('postModal');tempMedia='';document.getElementById('pTitle').value='';document.getElementById('preview').innerHTML='';}
+function deletePost(id){if(!confirm('ডিলিট করবা?'))return;allPosts=allPosts.filter(p=>p.id!=id);let mySaved=[];try{mySaved=JSON.parse(localStorage.getItem('myPosts')||'[]');}catch(e){}mySaved=mySaved.filter(p=>p.id!=id);try{localStorage.setItem('myPosts',JSON.stringify(mySaved));}catch(e){}if(db){db.collection('posts').doc(id).delete().catch(()=>{});}saveAll();updateDeshBoard();renderPosts();renderFreeAndCobi();}
+function doLike(id){likes[id]=(likes[id]||0)+1;saveAll();renderPosts();}
 function toggleComment(id){let el=document.getElementById('cmt-'+id);el.style.display=el.style.display=='none'?'block':'none';}
-function addComment(id){let v=clean(document.getElementById('cmtIn-'+id).value);if(!v)return;comments[id]=comments[id]||[];comments[id].push(v);saveAll();renderPosts();showToast('কমেন্ট হইছে');}
-function addFriend(u,ph){if(friends.find(f=>f.user==u))return showToast('আগেই Friend আছে');friends.push({user:u,phone:ph});saveAll();renderFriends();showToast(u+' কে Friend Add হইছে');}
+function addComment(id){let v=clean(document.getElementById('cmtIn-'+id).value);if(!v)return;comments[id]=comments[id]||[];comments[id].push(v);saveAll();renderPosts();}
+function addFriend(u,ph){if(friends.find(f=>f.user==u))return showToast('আগেই Friend আছে');friends.push({user:u,phone:ph});saveAll();renderFriends();}
 function removeFriend(u){friends=friends.filter(f=>f.user!=u);saveAll();renderFriends();}
 function searchFriend(){let q=clean(document.getElementById('friendSearch').value);if(!q)return showToast('নাম লিখো');showToast(q+' কে খুঁজতেছি...');}
 function loadMorePosts(){showLimit+=10;renderPosts();}
 function filterCat(c){curFilter=c;curPaid='all';renderPosts();document.getElementById('postList').scrollIntoView();}
 function setPaid(v,el){document.querySelectorAll('.filter button').forEach(b=>b.classList.remove('active'));if(el)el.classList.add('active');curPaid=v;renderPosts();}
-let _st;function doSearch(){clearTimeout(_st);_st=setTimeout(()=>{curQ=document.getElementById('mainSearch').value.toLowerCase();renderPosts();showToast('পণ্য খোঁজা হইছে ⚡');},300);}
+let _st;function doSearch(){clearTimeout(_st);_st=setTimeout(()=>{curQ=document.getElementById('mainSearch').value.toLowerCase();renderPosts();},300);}
 function doGoogleSearch(){let q=document.getElementById('googleSearch').value;if(!q)return showToast('কিছু লিখো');window.open('https://www.google.com/search?q='+encodeURIComponent(q+' ভালুকা'));}
-async function loginUser(){let n=clean(document.getElementById('loginNum').value);let pw=document.getElementById('loginPass').value;let age=+document.getElementById('loginAge').value;if(age<18)return showToast('১৮ এর নিচে Allow না!');if(n.length<11)return showToast('সঠিক নাম্বার দাও');if(pw.length<5||pw.length>8)return showToast('পাসওয়ার্ড ৫-৮ সংখ্যার হতে হবে');localStorage.setItem('myPhone',n);myPhone=n;document.getElementById('loginMsg').innerText='লগইন হইছে! '+n;showToast('লগইন সফল');closeModal('profileModal');renderPosts();}
+async function loginUser(){let n=clean(document.getElementById('loginNum').value);let pw=document.getElementById('loginPass').value;let age=+document.getElementById('loginAge').value;if(age<18)return showToast('১৮ এর নিচে Allow না!');if(n.length<11)return showToast('সঠিক নাম্বার দাও');if(pw.length<5||pw.length>8)return showToast('পাসওয়ার্ড ৫-৮ সংখ্যার হতে হবে');localStorage.setItem('myPhone',n);myPhone=n;document.getElementById('loginMsg').innerText='লগইন হইছে! '+n;showToast('লগইন সফল');closeModal('profileModal');}
 function loadPic(e){let r=new FileReader();r.onload=()=>{document.getElementById('profPic').src=r.result;localStorage.setItem('myPic',r.result);};r.readAsDataURL(e.target.files[0]);}
-function calcJomi(){let l=+document.getElementById('jomiLen').value,w=+document.getElementById('jomiWid').value;document.getElementById('jomiRes').innerHTML=`মোট: ${l*w} বর্গফুট = ${((l*w)/435.6).toFixed(2)} শতাংশ = ${((l*w)/43560).toFixed(4)} একর`;}
-function calcJomiHome(){let l=+document.getElementById('jomiLenHome').value,w=+document.getElementById('jomiWidHome').value;if(!l||!w)return showToast('লম্বা আর চওড়া দাও');document.getElementById('jomiResHome').innerHTML=`✅ মোট: ${l*w} বর্গফুট = ${((l*w)/435.6).toFixed(2)} শতাংশ = ${((l*w)/43560).toFixed(4)} একর`;}
-let liveStream=null;
-async function startLive(){try{liveStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});document.getElementById('liveVideo').srcObject=liveStream;document.getElementById('livePostText').innerText='🔴 Live চলতেছে';showToast('Live শুরু হইছে');}catch(e){showToast('ক্যামেরা অনুমতি দাও');}}
-function stopLive(){if(liveStream)liveStream.getTracks().forEach(t=>t.stop());showToast('Live বন্ধ');}
-function checkFosol(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{document.getElementById('fosolPreviewHome').innerHTML=`<img src="${r.result}" loading="lazy" style="width:100%;height:150px;object-fit:cover;border-radius:10px">`;document.getElementById('fosolResHome').innerText='🤖 পাতায় হলুদ দাগ - পোকার আক্রমণ হতে পারে। নিম তেল স্প্রে করো।';};r.readAsDataURL(f);}
-function checkFosol2(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{document.getElementById('fosolPreview').innerHTML=`<img src="${r.result}" loading="lazy" style="width:100%;height:150px;object-fit:cover">`;document.getElementById('fosolRes').innerText='🤖 পাতায় হলুদ দাগ - পোকার আক্রমণ হতে পারে। নিম তেল স্প্রে করো।';};r.readAsDataURL(f);}
+function calcJomi(){let l=+document.getElementById('jomiLen').value,w=+document.getElementById('jomiWid').value;document.getElementById('jomiRes').innerHTML=`মোট: ${l*w} বর্গফুট = ${((l*w)/435.6).toFixed(2)} শতাংশ`;}
+function calcJomiHome(){let l=+document.getElementById('jomiLenHome').value,w=+document.getElementById('jomiWidHome').value;if(!l||!w)return showToast('লম্বা আর চওড়া দাও');document.getElementById('jomiResHome').innerHTML=`✅ মোট: ${l*w} বর্গফুট = ${((l*w)/435.6).toFixed(2)} শতাংশ`;}
+let liveStream=null;let myLiveDocId=null;async function startLive(){let title=clean(document.getElementById('liveTitle').value)||'ভালুকা Live';let link=clean(document.getElementById('liveLink').value);let liveObj={title:title,link:link,user:myPhone||'Guest',phone:myPhone||'01760904340',active:true,created:Date.now()};livePosts=[liveObj,...livePosts.filter(l=>l.user!=liveObj.user)];saveAll();updateDeshBoard();if(db){try{let doc=await db.collection('lives').add(liveObj);myLiveDocId=doc.id;showToast('🔴 Live শুরু হইছে - সবাই দেখতেছে!');}catch(e){showToast('🔴 Live শুরু হইছে');}}try{liveStream=await navigator.mediaDevices.getUserMedia({video:true,audio:true});document.getElementById('liveVideo').srcObject=liveStream;}catch(e){showToast('Camera Allow dao');}}
+async function stopLive(){if(liveStream)liveStream.getTracks().forEach(t=>t.stop());livePosts=livePosts.map(l=>({...l,active:false}));saveAll();updateDeshBoard();if(db && myLiveDocId){try{await db.collection('lives').doc(myLiveDocId).update({active:false});}catch(e){}}showToast('Live বন্ধ');closeModal('liveModal');}
+function checkFosol(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{document.getElementById('fosolPreviewHome').innerHTML=`<img src="${r.result}" style="width:100%;height:150px;object-fit:cover;border-radius:10px">`;document.getElementById('fosolResHome').innerText='🤖 পাতায় হলুদ দাগ - নিম তেল স্প্রে করো।';};r.readAsDataURL(f);}
+function checkFosol2(e){let f=e.target.files[0];if(!f)return;let r=new FileReader();r.onload=()=>{document.getElementById('fosolPreview').innerHTML=`<img src="${r.result}" style="width:100%;height:150px;object-fit:cover">`;document.getElementById('fosolRes').innerText='🤖 পাতায় হলুদ দাগ - নিম তেল স্প্রে করো।';};r.readAsDataURL(f);}
 function buyPaid(){showToast('bKash 01910573181 এ ১০০ / ৩০০ টাকা পাঠাও');window.open('https://wa.me/8801760904340?text=Paid Package কিনতে চাই');}
-function sendChat(){let v=clean(document.getElementById('chatInput').value);if(!v)return;document.getElementById('chatBox').innerHTML+=`<div><b>তুমি:</b> ${v}</div>`;document.getElementById('chatInput').value='';}
-function checkNet(){if(navigator.onLine){document.getElementById('netStatus').innerText='🟢 Net: অনলাইন';}else{document.getElementById('netStatus').innerText='🟡 Net: Offline - আগের পোস্ট দেখতেছো';}updateDeshBoard();}
+function checkNet(){if(navigator.onLine){document.getElementById('netStatus').innerText='🟢 Net: অনলাইন';}else{document.getElementById('netStatus').innerText='🟡 Net: Offline';}updateDeshBoard();}
 window.addEventListener('online',checkNet);window.addEventListener('offline',checkNet);checkNet();
 document.getElementById('mainSearch').addEventListener('keyup',e=>{if(e.key=='Enter')doSearch();});
 document.getElementById('googleSearch').addEventListener('keyup',e=>{if(e.key=='Enter')doGoogleSearch();});
